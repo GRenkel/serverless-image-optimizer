@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Upload, Card, Input } from 'antd';
-import Papa from 'papaparse';
-import axios from 'axios';
+import { UploadCard } from '../components/UploadCard';
+import { SearchBar } from '../components/SearchBar';
+import { UserList } from '../components/UserList';
 
-const { Search } = Input;
 
 const Home = ({ uploadCSV, searchUsers }) => {
+
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     handleSearch('')
-  },[])
+  }, [])
 
   const handleFileUpload = async ({ file }) => {
     const formData = new FormData();
@@ -34,22 +34,11 @@ const Home = ({ uploadCSV, searchUsers }) => {
 
   return (
     <div>
-      <Upload customRequest={handleFileUpload} showUploadList={false}>
-        <button>Upload CSV</button>
-      </Upload>
+      <UploadCard handleFileUpload={handleFileUpload} />
       <br />
-      <Search placeholder="Search" onSearch={handleSearch} />
+      <SearchBar handleSearch={handleSearch}/>
       <br />
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {filteredData.map((row, index) => (
-          <Card key={row.id} style={{ width: 300, margin: '10px' }}>
-            <p>Name: {row.name}</p>
-            <p>City: {row.city}</p>
-            <p>Country: {row.country}</p>
-            <p>Favorite Sport: {row.favorite_sport}</p>
-          </Card>
-        ))}
-      </div>
+      <UserList userData={filteredData}/>
     </div>
   );
 };
