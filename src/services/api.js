@@ -12,25 +12,32 @@ const paths = {
   users: 'api/users'
 };
 
-(
-  () => {
-    let sessionIdentifier = localStorage.getItem('session-id');
-    if (!sessionIdentifier) {
-      const sessionId = uuidv4();
-      localStorage.setItem('session-id', sessionId);
-      sessionIdentifier = sessionId
-    }
-    axiosInstance.interceptors.request.use(config => {
-      config.headers = {
-        ...config.headers,
-        session_id: sessionIdentifier,
-      };
-      return config;
-    }, error => {
-      return Promise.reject(error);
-    });
+export function configureApiInterceptors() {
+  let sessionIdentifier = localStorage.getItem('session-id');
+  if (!sessionIdentifier) {
+    const sessionId = uuidv4();
+    localStorage.setItem('session-id', sessionId);
+    sessionIdentifier = sessionId;
   }
-)()
+
+  axiosInstance.interceptors.request.use(config => {
+    config.headers = {
+      ...config.headers,
+      session_id: sessionIdentifier,
+    };
+    return config;
+  }, error => {
+    return Promise.reject(error);
+  });
+}
+
+configureApiInterceptors();
+
+function handleApiError(err) {
+  const { data: { uiMessage, error } } = err.response;
+  console.error('API - ERROR:', error);
+  throw {uiMessage}
+}
 
 export async function uploadCSV(formData) {
   try {
@@ -42,9 +49,7 @@ export async function uploadCSV(formData) {
 
     return response.data;
   } catch (err) {
-    const { data: { uiMessage, error } } = err.response
-    console.error('API - ERROR:', error)
-    throw {uiMessage};
+   handleApiError(err)
   }
 };
 
@@ -53,8 +58,6 @@ export async function searchUsers(query) {
     const response = await axiosInstance.get(`${paths.users}`, { params: { q: query } });
     return response.data;
   } catch (err) {
-    const { data: { uiMessage, error } } = err.response
-    console.error('API - ERROR:', error)
-    throw {uiMessage};
+   handleApiError(err)
   }
 }
