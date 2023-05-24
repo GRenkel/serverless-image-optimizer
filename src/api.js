@@ -6,7 +6,7 @@ const paths = {
   users: 'api/users'
 }
 
-export async function uploadCSV (formData) {
+export async function uploadCSV(formData) {
   try {
     const response = await axios.post(`${BASE_URL}${paths.files}`, formData, {
       headers: {
@@ -20,9 +20,9 @@ export async function uploadCSV (formData) {
   }
 };
 
-export async function searchUsers(params) {
+export async function searchUsers(query) {
   try {
-    const response = await axios.get(`${BASE_URL}${paths.users}`, params);
+    const response = await axios.get(`${BASE_URL}${paths.users}`, { params: { q: query}});
     return response.data;
   } catch (error) {
     throw new Error('API request failed');
