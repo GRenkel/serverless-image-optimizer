@@ -13,6 +13,11 @@ const Home = ({ uploadCSV, searchUsers }) => {
     handleSearch('')
   }, [])
 
+  const handleHideLoading = () => {
+    const loadingDelay = 750
+    setTimeout(() => setIsLoading(false), loadingDelay)
+  }
+
   const handleFileUpload = async ({ file, onSuccess, onError }) => {
     setIsLoading(true)
     try {
@@ -22,10 +27,10 @@ const Home = ({ uploadCSV, searchUsers }) => {
       setUsersList(current => [...current, ...response]);
       onSuccess()
     } catch (error) {
-      onError({ message: error.uiMessage || error.message })
+      onError({ message: error.message || error.message })
       console.error('Error uploading CSV:', error);
-    }finally{
-      setIsLoading(false)
+    } finally {
+      handleHideLoading()
     }
   };
 
@@ -37,19 +42,19 @@ const Home = ({ uploadCSV, searchUsers }) => {
     } catch (error) {
       message.error(error.uiMessage || error.message)
     } finally {
-      setIsLoading(false)
+      handleHideLoading()
     }
   };
 
   return (
-    <div style={{  display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center'}}>
-      <div style={{flex: 1, width: '100%', maxWidth: '600px'}}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center' }}>
+      <div style={{ flex: 1, width: '100%', maxWidth: '600px' }}>
         <UploadCard isLoading={isLoading} handleFileUpload={handleFileUpload} />
       </div>
-      <div style={{flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px'}}>
+      <div style={{ flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px' }}>
         <SearchBar isLoading={isLoading} handleSearch={handleSearch} />
       </div>
-      <div style={{ flex: 3, overflow: 'auto'}}>
+      <div style={{ flex: 3, overflow: 'auto' }}>
         <UserList isLoading={isLoading} userData={usersList} />
       </div>
     </div>
