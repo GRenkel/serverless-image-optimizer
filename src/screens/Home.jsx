@@ -7,43 +7,50 @@ import { message } from 'antd';
 const Home = ({ uploadCSV, searchUsers }) => {
 
   const [usersList, setUsersList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     handleSearch('')
   }, [])
 
   const handleFileUpload = async ({ file, onSuccess, onError }) => {
-    const formData = new FormData();
-    formData.append('file', file);
+    setIsLoading(true)
     try {
+      const formData = new FormData();
+      formData.append('file', file);
       const response = await uploadCSV(formData);
       setUsersList(current => [...current, ...response]);
       onSuccess()
     } catch (error) {
       onError({ message: error.uiMessage || error.message })
       console.error('Error uploading CSV:', error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
   const handleSearch = async (value) => {
+    setIsLoading(true)
     try {
       const response = await searchUsers(value);
       setUsersList(response);
     } catch (error) {
       message.error(error.uiMessage || error.message)
+    } finally {
+      setIsLoading(false)
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10}}>
-      <div style={{flex: 1}}>
-        <UploadCard handleFileUpload={handleFileUpload} />
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center'}}>
+      <div style={{flex: 1, width: '100%', maxWidth: '600px'}}>
+        <UploadCard isLoading={isLoading} handleFileUpload={handleFileUpload} />
       </div>
-      <div style={{flex: 1, maxHeight: '35px'}}>
-        <SearchBar handleSearch={handleSearch} />
+      <div style={{flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px'}}>
+        <SearchBar isLoading={isLoading} handleSearch={handleSearch} />
       </div>
       <div style={{ flex: 3, overflow: 'auto'}}>
-        <UserList userData={usersList} />
+        <UserList isLoading={isLoading} userData={usersList} />
       </div>
     </div>
   );

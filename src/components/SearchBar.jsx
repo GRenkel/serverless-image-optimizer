@@ -2,8 +2,8 @@ import { Input } from 'antd';
 
 const { Search } = Input;
 
-export function SearchBar({ handleSearch }) {
+export function SearchBar({ handleSearch, isLoading }) {
   return (
-    <Search placeholder="Search" onSearch={handleSearch} />
+    <Search loading={isLoading} placeholder="Search" onSearch={handleSearch} />
   )
 }
