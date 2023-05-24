@@ -41,8 +41,10 @@ export async function uploadCSV(formData) {
     });
 
     return response.data;
-  } catch (error) {
-    throw new Error('API request failed');
+  } catch (err) {
+    const { data: { uiMessage, error } } = err.response
+    console.error('API - ERROR:', error)
+    throw {uiMessage};
   }
 };
 
@@ -50,7 +52,9 @@ export async function searchUsers(query) {
   try {
     const response = await axiosInstance.get(`${paths.users}`, { params: { q: query } });
     return response.data;
-  } catch (error) {
-    throw new Error('API request failed');
+  } catch (err) {
+    const { data: { uiMessage, error } } = err.response
+    console.error('API - ERROR:', error)
+    throw {uiMessage};
   }
 }
