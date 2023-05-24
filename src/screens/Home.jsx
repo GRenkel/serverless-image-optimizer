@@ -12,7 +12,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
     handleSearch('')
   }, [])
 
-  const handleFileUpload = async ({ file, onSuccess, onError}) => {
+  const handleFileUpload = async ({ file, onSuccess, onError }) => {
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -20,7 +20,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
       setUsersList(current => [...current, ...response]);
       onSuccess()
     } catch (error) {
-      onError({ message: error.uiMessage || error.message})
+      onError({ message: error.uiMessage || error.message })
       console.error('Error uploading CSV:', error);
     }
   };
@@ -35,12 +35,16 @@ const Home = ({ uploadCSV, searchUsers }) => {
   };
 
   return (
-    <div>
-      <UploadCard handleFileUpload={handleFileUpload} />
-      <br />
-      <SearchBar handleSearch={handleSearch} />
-      <br />
-      <UserList userData={usersList} />
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10}}>
+      <div style={{flex: 1}}>
+        <UploadCard handleFileUpload={handleFileUpload} />
+      </div>
+      <div style={{flex: 1, maxHeight: '35px'}}>
+        <SearchBar handleSearch={handleSearch} />
+      </div>
+      <div style={{ flex: 3, overflow: 'auto'}}>
+        <UserList userData={usersList} />
+      </div>
     </div>
   );
 };
