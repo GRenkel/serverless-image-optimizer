@@ -1,0 +1,9 @@
+{
+  "upload": {
+    "instruction": "Clique ou arraste seu CSV aqui para envia-lo!",
+    "hint": "Abaixo estão listados os dados dos CSVs importados. Use a barra de pesquisa para filtrar-los."
+  },
+  "search": {
+    "description": "Pesquisar"
+  }
+}

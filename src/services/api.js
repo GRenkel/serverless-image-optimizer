@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+
 const BASE_URL = 'http://localhost:5050/'
+
 const paths = {
   files: 'api/files',
   users: 'api/users'
@@ -20,7 +22,6 @@ export function configureApiAxiosInstance() {
       'session_id': sessionIdentifier
     }
   });
-
   return axiosInstance;
 }
 

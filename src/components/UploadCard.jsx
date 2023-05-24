@@ -1,8 +1,9 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import { translate } from "../locales/i18n";
 const { Dragger } = Upload;
 
-export function UploadCard({isLoading, handleFileUpload }) {
+export function UploadCard({ isLoading, handleFileUpload }) {
 
   function handleUploadStatus(info) {
     const { status } = info.file;
@@ -21,9 +22,9 @@ export function UploadCard({isLoading, handleFileUpload }) {
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text">Click or drag your csv file to this area to upload</p>
+      <p className="ant-upload-text">{translate('upload.instruction')}</p>
       <p className="ant-upload-hint">
-        Listed below are all your imported data. Use the search bar for searches.
+        {translate('upload.hint')}
       </p>
     </Dragger>
 

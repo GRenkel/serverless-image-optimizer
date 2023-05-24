@@ -1,0 +1,9 @@
+{
+  "upload": {
+    "instruction": "Click or drag your csv file to this area to upload!",
+    "hint": "Listed below are all your imported data. Use the search bar for searches."
+  },
+  "search": {
+    "description": "Search"
+  }
+}
