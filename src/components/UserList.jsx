@@ -1,4 +1,4 @@
-import { Avatar, Card, Skeleton, Upload } from "antd";
+import { Avatar, Card, Skeleton } from "antd";
 import { UserOutlined, EnvironmentTwoTone, HeartTwoTone } from '@ant-design/icons';
 
 export function UserList({ userData, isLoading }) {

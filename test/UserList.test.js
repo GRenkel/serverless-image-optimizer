@@ -22,6 +22,12 @@ describe('UserList - Suit Test', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
+
+  test('Should render a skeleton list if is loading', () => { 
+    render(<UserList userData={[]} isLoading={true}/>);
+    const cardMocks = screen.getAllByTestId('card-mock');
+    expect(cardMocks).toHaveLength(10);
+  })
   
   test('renders user cards', () => {
     const userData = [
@@ -29,7 +35,7 @@ describe('UserList - Suit Test', () => {
       { id: 2, name: 'Jane Smith', city: 'London', country: 'UK', favorite_sport: 'Football' },
     ];
 
-    render(<UserList userData={userData} />);
+    render(<UserList userData={userData} isLoading={false}/>);
 
     const cardMocks = screen.getAllByTestId('card-mock');
     expect(cardMocks).toHaveLength(userData.length);
@@ -39,7 +45,7 @@ describe('UserList - Suit Test', () => {
 
     const userNames = screen.getAllByTestId('span-name');
     expect(userNames).toHaveLength(userData.length);
-    
+
     expect(userNames[0].textContent).toBe(userData[0].name)
     expect(userNames[1].textContent).toBe(userData[1].name)
 
