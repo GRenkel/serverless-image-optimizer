@@ -1,9 +1,9 @@
 import React from 'react';
-import { uploadCSV } from './api';
+import { searchUsers, uploadCSV } from './api';
 import Home from './Home';
 
 const App = () => {
-  return <Home uploadCSV={uploadCSV} />;
+  return <Home uploadCSV={uploadCSV} searchUsers={searchUsers}/>;
 };
 
 export default App;

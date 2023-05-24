@@ -1,8 +1,14 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:5050/api/files'
-export const uploadCSV = async (formData) => {
+const BASE_URL = 'http://localhost:5050/'
+
+const paths = {
+  files: 'api/files',
+  users: 'api/users'
+}
+
+export async function uploadCSV (formData) {
   try {
-    const response = await axios.post(BASE_URL, formData, {
+    const response = await axios.post(`${BASE_URL}${paths.files}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -13,3 +19,12 @@ export const uploadCSV = async (formData) => {
     throw new Error('API request failed');
   }
 };
+
+export async function searchUsers(params) {
+  try {
+    const response = await axios.get(`${BASE_URL}${paths.users}`, params);
+    return response.data;
+  } catch (error) {
+    throw new Error('API request failed');
+  }
+}
