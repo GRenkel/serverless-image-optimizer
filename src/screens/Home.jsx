@@ -42,7 +42,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
   };
 
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center'}}>
+    <div style={{  display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center'}}>
       <div style={{flex: 1, width: '100%', maxWidth: '600px'}}>
         <UploadCard isLoading={isLoading} handleFileUpload={handleFileUpload} />
       </div>
