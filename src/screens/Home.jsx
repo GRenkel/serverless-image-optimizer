@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { UploadCard } from '../components/UploadCard';
 import { SearchBar } from '../components/SearchBar';
 import { UserList } from '../components/UserList';
-
+import { message } from 'antd';
 
 const Home = ({ uploadCSV, searchUsers }) => {
 
-  const [filteredData, setFilteredData] = useState([]);
+  const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
     handleSearch('')
@@ -17,7 +17,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
     formData.append('file', file);
     try {
       const response = await uploadCSV(formData);
-      setFilteredData(current => [...current, ...response]);
+      setUsersList(current => [...current, ...response]);
       onSuccess()
     } catch (error) {
       onError({ message: error.uiMessage || error.message})
@@ -28,9 +28,9 @@ const Home = ({ uploadCSV, searchUsers }) => {
   const handleSearch = async (value) => {
     try {
       const response = await searchUsers(value);
-      setFilteredData(response);
+      setUsersList(response);
     } catch (error) {
-      console.error('Error searching users:', error);
+      message.error(error.uiMessage || error.message)
     }
   };
 
@@ -40,7 +40,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
       <br />
       <SearchBar handleSearch={handleSearch} />
       <br />
-      <UserList userData={filteredData} />
+      <UserList userData={usersList} />
     </div>
   );
 };
