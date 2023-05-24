@@ -1,6 +1,7 @@
-import { message } from "antd";
-import Dragger from "antd/es/upload/Dragger";
+import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+const { Dragger } = Upload;
+
 export function UploadCard({isLoading, handleFileUpload }) {
 
   function handleUploadStatus(info) {
@@ -16,7 +17,7 @@ export function UploadCard({isLoading, handleFileUpload }) {
     }
   }
   return (
-    <Dragger disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
+    <Dragger data-testid="file-input" disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
