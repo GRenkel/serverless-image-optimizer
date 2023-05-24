@@ -12,13 +12,15 @@ const Home = ({ uploadCSV, searchUsers }) => {
     handleSearch('')
   }, [])
 
-  const handleFileUpload = async ({ file }) => {
+  const handleFileUpload = async ({ file, onSuccess, onError}) => {
     const formData = new FormData();
     formData.append('file', file);
     try {
       const response = await uploadCSV(formData);
-      setFilteredData(response);
+      setFilteredData(current => [...current, ...response]);
+      onSuccess()
     } catch (error) {
+      onError({ message: error.uiMessage || error.message})
       console.error('Error uploading CSV:', error);
     }
   };
@@ -36,9 +38,9 @@ const Home = ({ uploadCSV, searchUsers }) => {
     <div>
       <UploadCard handleFileUpload={handleFileUpload} />
       <br />
-      <SearchBar handleSearch={handleSearch}/>
+      <SearchBar handleSearch={handleSearch} />
       <br />
-      <UserList userData={filteredData}/>
+      <UserList userData={filteredData} />
     </div>
   );
 };
