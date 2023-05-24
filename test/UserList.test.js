@@ -18,7 +18,11 @@ jest.mock('antd', () => {
   };
 });
 
-describe('UserList', () => {
+describe('UserList - Suit Test', () => {
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+  
   test('renders user cards', () => {
     const userData = [
       { id: 1, name: 'John Doe', city: 'New York', country: 'USA', favorite_sport: 'Basketball' },

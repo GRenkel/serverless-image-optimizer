@@ -27,7 +27,12 @@ jest.mock('antd', () => {
   };
 });
 
-describe('UploadCard', () => {
+describe('UploadCard  - Suit Test', () => {
+  
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   test('renders Dragger component', () => {
     render(<UploadCard isLoading={false} handleFileUpload={() => { }} />);
     const dragAndDrop = screen.getByTestId('drag-and-drop');

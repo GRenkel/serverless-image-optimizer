@@ -22,7 +22,7 @@ jest.mock('antd', () => {
   };
 });
 
-describe('SearchBar', () => {
+describe('SearchBar  - Suit Test', () => {
   
   afterAll(() => {
     jest.restoreAllMocks();
