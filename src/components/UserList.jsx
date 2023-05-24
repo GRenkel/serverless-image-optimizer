@@ -1,9 +1,24 @@
-import { Avatar, Card, Upload } from "antd";
+import { Avatar, Card, Skeleton, Upload } from "antd";
 import { UserOutlined, EnvironmentTwoTone, HeartTwoTone } from '@ant-design/icons';
 
-const { Meta } = Card;
-
-export function UserList({ userData }) {
+export function UserList({ userData, isLoading }) {
+  
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {[...Array(10)].map((_, index) => (
+          <Card
+            hoverable
+            style={{ width: 250, margin: '10px' }}
+            key={index}
+          >
+            <Skeleton.Avatar active shape="circle" size="large" />
+            <Skeleton paragraph={{ rows: 2 }} />
+          </Card>
+        ))}
+      </div>
+    );
+  }
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
       {userData.map((row) => (
