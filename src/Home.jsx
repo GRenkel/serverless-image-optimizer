@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Upload, Card, Input } from 'antd';
 import Papa from 'papaparse';
 import axios from 'axios';
@@ -6,9 +6,13 @@ import axios from 'axios';
 const { Search } = Input;
 
 const Home = ({ uploadCSV, searchUsers }) => {
-  const [filteredData, setFilteredData] = useState([]); 
+  const [filteredData, setFilteredData] = useState([]);
 
-  const handleFileUpload = async ({file}) => {
+  useEffect(() => {
+    handleSearch('')
+  },[])
+
+  const handleFileUpload = async ({ file }) => {
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -38,7 +42,7 @@ const Home = ({ uploadCSV, searchUsers }) => {
       <br />
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {filteredData.map((row, index) => (
-          <Card key={index} style={{ width: 300, margin: '10px' }}>
+          <Card key={row.id} style={{ width: 300, margin: '10px' }}>
             <p>Name: {row.name}</p>
             <p>City: {row.city}</p>
             <p>Country: {row.country}</p>
