@@ -1,7 +1,8 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/i18n";
-import { upload } from '@testing-library/user-event/dist/upload';
+const MAXIMUM_FILE_SIZE = 2 //2MB
+
 const { Dragger } = Upload;
 
 export function UploadCard({ isLoading, handleFileUpload }) {
@@ -19,7 +20,7 @@ export function UploadCard({ isLoading, handleFileUpload }) {
     }
   }
   function validateSize(file) {
-    const isLt2M = file.size / 1024 / 1024 < 5;
+    const isLt2M = file.size / 1024 / 1024 < MAXIMUM_FILE_SIZE;
     if (!isLt2M) {
       message.error(translate('upload.file-too-large'));
     }

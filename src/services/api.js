@@ -2,7 +2,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 const BASE_URL = 'http://localhost:5050/'
-
+const AXIOS_TIMEOUT = 15000
 const paths = {
   files: 'api/files',
   users: 'api/users'
@@ -17,7 +17,7 @@ export function configureApiAxiosInstance() {
   }
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    timeout: 30000,
+    timeout: AXIOS_TIMEOUT,
     headers: {
       'session_id': sessionIdentifier
     }
