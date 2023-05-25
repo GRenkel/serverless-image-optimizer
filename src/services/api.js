@@ -30,13 +30,12 @@ const axiosInstance = configureApiAxiosInstance();
 
 export function handleApiError(err) {
   let customError = new Error(translate('api.error'))
-  if (err.response) {
+  if (err.response && err.response?.data?.uiMessage) {
     const { data: { uiMessage, error } } = err.response;
     console.error('API - ERROR:', error);
     customError = new Error(uiMessage)
   }
   throw customError
-
 }
 
 export async function uploadCSV(formData) {
