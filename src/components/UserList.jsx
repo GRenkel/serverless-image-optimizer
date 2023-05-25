@@ -1,8 +1,9 @@
-import { Avatar, Card, Skeleton } from "antd";
+import { Avatar, Card, Empty, Skeleton } from "antd";
 import { UserOutlined, EnvironmentTwoTone, HeartTwoTone } from '@ant-design/icons';
+import { translate } from '../locales/translator'
 
 export function UserList({ userData, isLoading }) {
-  
+
   if (isLoading) {
     return (
       <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -19,6 +20,11 @@ export function UserList({ userData, isLoading }) {
       </div>
     );
   }
+
+  if (userData.length === 0) {
+    return <Empty description={translate('usersList.empty')} />
+  }
+
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
       {userData.map((row) => (

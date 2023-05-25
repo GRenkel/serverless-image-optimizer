@@ -9,6 +9,9 @@
   "search": {
     "description": "Search"
   },
+  "usersList":{
+    "empty": "Users not found :("
+  },
   "home": {
     "tip": "A maximum number of 50 users will be shown! Use the search bar to improve your results."
   },

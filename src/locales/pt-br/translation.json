@@ -12,6 +12,9 @@
   "home": {
     "tip": "Um número máximo de 50 usuários será mostrado! Utilize a barra de consulta para melhorar seus resultados."
   },
+  "usersList":{
+    "empty": "Nenhum usuário foi encontrado :("
+  },
   "api": {
     "error": "Um erro inesperado aconteceu em nossos servidores! Por favor, tente novamente em breve"
   }
