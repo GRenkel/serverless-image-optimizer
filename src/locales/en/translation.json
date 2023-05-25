@@ -11,5 +11,8 @@
   },
   "home": {
     "tip": "A maximum number of 50 users will be shown! Use the search bar to improve your results."
+  },
+  "api": {
+    "error": "An unexpected error happened on our side! Please, try again in a few."
   }
 }
