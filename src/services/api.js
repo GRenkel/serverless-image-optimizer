@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { translate } from '../locales/translator';
 
 const BASE_URL = 'http://localhost:5050/'
-const AXIOS_TIMEOUT = 1000
+const AXIOS_TIMEOUT = 20000
 const paths = {
   files: 'api/files',
   users: 'api/users'
