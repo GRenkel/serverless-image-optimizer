@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { UploadCard } from '../components/UploadCard';
 import { SearchBar } from '../components/SearchBar';
 import { UserList } from '../components/UserList';
-import { message } from 'antd';
+import { FloatButton, message } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { translate } from '../locales/i18n';
 
 const Home = ({ uploadCSV, searchUsers }) => {
 
@@ -57,6 +59,14 @@ const Home = ({ uploadCSV, searchUsers }) => {
       <div style={{ flex: 3, overflow: 'auto' }}>
         <UserList isLoading={isLoading} userData={usersList} />
       </div>
+      <FloatButton
+        icon={<QuestionCircleOutlined />}
+        type="primary"
+        tooltip={translate('home.tip')}
+        style={{
+          right: 24,
+        }}
+      />
     </div>
   );
 };

@@ -8,5 +8,8 @@
   },
   "search": {
     "description": "Search"
+  },
+  "home": {
+    "tip": "A maximum number of 50 users will be shown! Use the query bar to improve your results."
   }
 }

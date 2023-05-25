@@ -8,5 +8,8 @@
   },
   "search": {
     "description": "Pesquisar"
+  },
+  "home": {
+    "tip": "Um número máximo de 50 usuários será mostrado! Utilize a barra de consulta para melhorar seus resultados."
   }
 }
