@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { UserList } from '../src/components/UserList';
+import { translate } from '../src/locales/translator';
 
 jest.mock('antd', () => {
   const originalAntd = jest.requireActual('antd');
@@ -9,10 +10,16 @@ jest.mock('antd', () => {
       {children}
     </div>
   ))
+  const emptyMock = jest.fn().mockImplementation(({description, children})=>(
+    <div data-testid="empty-mock" title={description}>
+      {children}
+    </div>
+  ))
   const avatarMock = jest.fn().mockImplementation(() => <div data-testid="avatar-mock" />)
   return {
     ...originalAntd,
     Card: cardMock,
+    Empty: emptyMock,
     Avatar: avatarMock
   };
 });
@@ -24,8 +31,14 @@ describe('UserList - Suit Test', () => {
 
   test('Should render a skeleton list if is loading', () => { 
     render(<UserList userData={[]} isLoading={true}/>);
-    const cardMocks = screen.getAllByTestId('card-mock');
-    expect(cardMocks).toHaveLength(10);
+    const skeletonCardMocks = screen.getAllByTestId('card-mock');
+    expect(skeletonCardMocks).toHaveLength(10);
+  })
+  test('Should render a empty component if the are no user data to be shown', () => { 
+    render(<UserList userData={[]} isLoading={false}/>);
+    const emptyList = screen.getAllByTestId('empty-mock');
+    expect(emptyList).toHaveLength(1);
+    expect(emptyList[0]).toHaveAttribute('title', translate('usersList.empty'));
   })
 
   test('renders user cards', () => {
