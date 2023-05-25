@@ -10,11 +10,11 @@ export function UserList({ userData, isLoading }) {
         {[...Array(10)].map((_, index) => (
           <Card
             hoverable
-            style={{ width: 250, margin: '10px' }}
+            style={{ width: 250, height: 150, margin: '10px' }}
             key={index}
           >
             <Skeleton.Avatar active shape="circle" size="large" />
-            <Skeleton paragraph={{ rows: 2 }} />
+            <Skeleton paragraph={{ rows: 1 }} />
           </Card>
         ))}
       </div>
