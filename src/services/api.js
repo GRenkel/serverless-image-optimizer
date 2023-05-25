@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { translate } from '../locales/translator';
 
 const BASE_URL = 'http://localhost:5050/'
-const AXIOS_TIMEOUT = 15000
+const AXIOS_TIMEOUT = 1000
 const paths = {
   files: 'api/files',
   users: 'api/users'
@@ -28,9 +29,14 @@ export function configureApiAxiosInstance() {
 const axiosInstance = configureApiAxiosInstance();
 
 export function handleApiError(err) {
-  const { data: { uiMessage, error } } = err.response;
-  console.error('API - ERROR:', error);
-  throw new Error(uiMessage)
+  let customError = new Error(translate('api.error'))
+  if (err.response) {
+    const { data: { uiMessage, error } } = err.response;
+    console.error('API - ERROR:', error);
+    customError = new Error(uiMessage)
+  }
+  throw customError
+
 }
 
 export async function uploadCSV(formData) {
@@ -43,7 +49,7 @@ export async function uploadCSV(formData) {
 
     return response.data;
   } catch (err) {
-   handleApiError(err)
+    handleApiError(err)
   }
 };
 
@@ -52,6 +58,6 @@ export async function searchUsers(query) {
     const response = await axiosInstance.get(`${paths.users}`, { params: { q: query } });
     return response.data;
   } catch (err) {
-   handleApiError(err)
+    handleApiError(err)
   }
 }

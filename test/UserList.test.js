@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-
 import { UserList } from '../src/components/UserList';
 
 jest.mock('antd', () => {
@@ -28,7 +27,7 @@ describe('UserList - Suit Test', () => {
     const cardMocks = screen.getAllByTestId('card-mock');
     expect(cardMocks).toHaveLength(10);
   })
-  
+
   test('renders user cards', () => {
     const userData = [
       { id: 1, name: 'John Doe', city: 'New York', country: 'USA', favorite_sport: 'Basketball' },
