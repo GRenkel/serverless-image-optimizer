@@ -1,7 +1,7 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/i18n";
-const MAXIMUM_FILE_SIZE = 2 //2MB
+const MAXIMUM_FILE_SIZE = 1 //1MB
 
 const { Dragger } = Upload;
 

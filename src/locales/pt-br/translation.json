@@ -1,6 +1,6 @@
 {
   "upload": {
-    "file-too-large": "Esse arquivo é muito grande! Seu arquivo deve ter no máximo 2MB!",
+    "file-too-large": "Esse arquivo é muito grande! Seu arquivo deve ter no máximo 1MB!",
     "instruction": "Clique ou arraste seu CSV aqui para envia-lo!",
     "hint": "Abaixo estão listados os dados dos CSVs importados. Use a barra de pesquisa para filtrar-los.",
     "successfully-upload": " enviado com sucesso.",

@@ -1,6 +1,6 @@
 {
   "upload": {
-    "file-too-large": "This file is too large! It must be smaller than 2MB!",
+    "file-too-large": "This file is too large! It must be smaller than 1MB!",
     "instruction": "Click or drag your csv file to this area to upload!",
     "hint": "Listed below are all your imported data. Use the search bar for searches.",
     "successfully-upload": " file uploaded successfully.",
