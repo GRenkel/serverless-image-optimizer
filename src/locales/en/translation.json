@@ -1,7 +1,10 @@
 {
   "upload": {
+    "file-too-large": "This file is too large! It must be smaller than 5MB!",
     "instruction": "Click or drag your csv file to this area to upload!",
-    "hint": "Listed below are all your imported data. Use the search bar for searches."
+    "hint": "Listed below are all your imported data. Use the search bar for searches.",
+    "successfully-upload": " file uploaded successfully.",
+    "failure-upload": " file upload failed."
   },
   "search": {
     "description": "Search"

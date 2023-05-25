@@ -17,7 +17,7 @@ export function configureApiAxiosInstance() {
   }
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    timeout: 5000,
+    timeout: 30000,
     headers: {
       'session_id': sessionIdentifier
     }

@@ -1,6 +1,7 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/i18n";
+import { upload } from '@testing-library/user-event/dist/upload';
 const { Dragger } = Upload;
 
 export function UploadCard({ isLoading, handleFileUpload }) {
@@ -8,17 +9,24 @@ export function UploadCard({ isLoading, handleFileUpload }) {
   function handleUploadStatus(info) {
     const { status } = info.file;
     if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
+      message.success(`${info.file.name}${translate('upload.successfully-upload')}`);
     } else if (status === 'error') {
       const errorMessage = info?.file?.error?.message
       if (errorMessage) {
         return message.error(`${errorMessage}`);
       }
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name}${translate('upload.failure-upload')}`);
     }
   }
+  function validateSize(file) {
+    const isLt2M = file.size / 1024 / 1024 < 5;
+    if (!isLt2M) {
+      message.error(translate('upload.file-too-large'));
+    }
+    return isLt2M;
+  }
   return (
-    <Dragger data-testid="file-input" disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
+    <Dragger beforeUpload={validateSize} data-testid="file-input" disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
