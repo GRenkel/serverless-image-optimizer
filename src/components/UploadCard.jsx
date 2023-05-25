@@ -19,6 +19,7 @@ export function UploadCard({ isLoading, handleFileUpload }) {
       message.error(`${info.file.name}${translate('upload.failure-upload')}`);
     }
   }
+  
   function validateSize(file) {
     const isLt2M = file.size / 1024 / 1024 < MAXIMUM_FILE_SIZE;
     if (!isLt2M) {
@@ -26,6 +27,7 @@ export function UploadCard({ isLoading, handleFileUpload }) {
     }
     return isLt2M;
   }
+
   return (
     <Dragger beforeUpload={validateSize} data-testid="file-input" disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
       <p className="ant-upload-drag-icon">
