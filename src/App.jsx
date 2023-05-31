@@ -1,9 +1,8 @@
 import React from 'react';
-import { searchUsers, uploadCSV } from './services/api';
-import Home from './screens/Home';
+import UsersScreen from './screens/UsersScreen';
 
 const App = () => {
-  return <Home uploadCSV={uploadCSV} searchUsers={searchUsers}/>;
+  return <UsersScreen/>;
 };
 
 export default App;

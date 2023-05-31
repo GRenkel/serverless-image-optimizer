@@ -9,7 +9,7 @@ const paths = {
   users: 'api/users'
 };
 
-export function configureApiAxiosInstance() {
+function configureApiAxiosInstance() {
   let sessionIdentifier = localStorage.getItem('session-id');
   if (!sessionIdentifier) {
     const sessionId = uuidv4();
@@ -28,7 +28,7 @@ export function configureApiAxiosInstance() {
 
 const axiosInstance = configureApiAxiosInstance();
 
-export function handleApiError(err) {
+function handleApiError(err) {
   let customError = new Error(translate('api.error'))
   if (err.response && err.response?.data?.uiMessage) {
     const { data: { uiMessage, error } } = err.response;
@@ -38,7 +38,7 @@ export function handleApiError(err) {
   throw customError
 }
 
-export async function uploadCSV(formData) {
+async function uploadCSV(formData) {
   try {
     const response = await axiosInstance.post(`${paths.files}`, formData, {
       headers: {
@@ -52,11 +52,16 @@ export async function uploadCSV(formData) {
   }
 };
 
-export async function searchUsers(query) {
+async function getUsers(query) {
   try {
     const response = await axiosInstance.get(`${paths.users}`, { params: { q: query } });
     return response.data;
   } catch (err) {
     handleApiError(err)
   }
+}
+
+export default {
+  getUsers,
+  uploadCSV
 }

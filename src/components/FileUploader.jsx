@@ -1,11 +1,28 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/translator";
-const MAXIMUM_FILE_SIZE = 1 //1MB
+import { useAPIFileUpload } from '../hooks/api/useAPIFileUpload';
+import { useEffect } from 'react';
 
 const { Dragger } = Upload;
 
-export function UploadCard({ isLoading, handleFileUpload }) {
+export function FileUploader({ disabled, afterUpload }) {
+
+  const { error, isLoading, uploadResponse, uploadFileToAPI, validateFile } = useAPIFileUpload()
+
+  useEffect(() => {
+    if(uploadResponse.length){
+      afterUpload(uploadResponse)
+    }
+  }, [uploadResponse]);
+
+  function handleFileValidation(file) {
+    const { isValid, reason } = validateFile(file)
+    if (!isValid) {
+      message.error(reason);
+    }
+    return isValid
+  }
 
   function handleUploadStatus(info) {
     const { status } = info.file;
@@ -19,17 +36,18 @@ export function UploadCard({ isLoading, handleFileUpload }) {
       message.error(`${info.file.name}${translate('upload.failure-upload')}`);
     }
   }
-  
-  function validateSize(file) {
-    const isLt2M = file.size / 1024 / 1024 < MAXIMUM_FILE_SIZE;
-    if (!isLt2M) {
-      message.error(translate('upload.file-too-large'));
-    }
-    return isLt2M;
-  }
 
   return (
-    <Dragger beforeUpload={validateSize} data-testid="file-input" disabled={isLoading} showUploadList={false} accept="text/csv" customRequest={handleFileUpload} multiple={false} onChange={handleUploadStatus}>
+    <Dragger
+      multiple={false}
+      accept="text/csv"
+      disabled={isLoading || disabled}
+      showUploadList={false}
+      data-testid="file-input"
+      beforeUpload={handleFileValidation}
+      customRequest={uploadFileToAPI}
+      onChange={handleUploadStatus}
+    >
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
