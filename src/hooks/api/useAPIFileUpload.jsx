@@ -18,7 +18,6 @@ export function useAPIFileUpload() {
   }
 
   async function uploadFileToAPI({ file, onSuccess, onError }) {
-    debugger
     showLoading()
     try {
       const formData = new FormData();
