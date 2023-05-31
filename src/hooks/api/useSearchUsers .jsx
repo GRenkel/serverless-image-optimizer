@@ -3,9 +3,8 @@ import api from "../../services/api"
 import useLoading from "../useLoading";
 
 export function useSearchUsers() {
-  const [listedUsers, setListedUsers] = useState([]);
   const [error, setError] = useState(null);
-
+  const [listedUsers, setListedUsers] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
 
   const searchUsers = async (value) => {

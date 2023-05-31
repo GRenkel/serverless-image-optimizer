@@ -13,7 +13,6 @@ export function useAPIFileUpload() {
     if (exceedsMaxFileSize(file)) {
       return ({ isValid: false, reason: translate('upload.file-too-large') })
     }
-
     return { isValid: true }
   }
 
@@ -32,5 +31,6 @@ export function useAPIFileUpload() {
       hideLoading()
     }
   }
+
   return { error, isLoading, uploadResponse, uploadFileToAPI, validateFile }
 };
