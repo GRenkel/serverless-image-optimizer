@@ -29,15 +29,15 @@ describe('SearchBar  - Suit Test', () => {
   });
 
   test('renders search input', () => {
-    render(<SearchBar handleSearch={() => {}} isLoading={false} />);
+    render(<SearchBar handleOnSearch={() => {}} isLoading={false} />);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
     expect(searchInput).toHaveAttribute('placeholder', 'Search');
   });
 
-  test('calls handleSearch when search button is clicked', () => {
+  test('calls handleOnSearch when search button is clicked', () => {
     const handleSearchMock = jest.fn();
-    render(<SearchBar handleSearch={handleSearchMock} isLoading={false} />);
+    render(<SearchBar handleOnSearch={handleSearchMock} isLoading={false} />);
     const searchInput = screen.getByTestId('search-input');
     fireEvent.change(searchInput, { target: { value: 'search query' } });
     expect(handleSearchMock).toHaveBeenCalledTimes(1);
@@ -45,7 +45,7 @@ describe('SearchBar  - Suit Test', () => {
   });
 
   test('displays loading indicator when isLoading is true', () => {
-    render(<SearchBar handleSearch={() => {}} isLoading={true} />);
+    render(<SearchBar handleOnSearch={() => {}} isLoading={true} />);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toHaveClass('ant-input-search-loading');
   });
