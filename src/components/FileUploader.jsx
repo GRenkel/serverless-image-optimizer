@@ -27,13 +27,13 @@ export function FileUploader({ disabled, afterUpload }) {
   function handleUploadStatus(info) {
     const { status } = info.file;
     if (status === 'done') {
-      message.success(`${info.file.name}${translate('upload.successfully-upload')}`);
+      message.success(`${info.file.name} ${translate('upload.successfully-upload')}`);
     } else if (status === 'error') {
       const errorMessage = info?.file?.error?.message
       if (errorMessage) {
         return message.error(`${errorMessage}`);
       }
-      message.error(`${info.file.name}${translate('upload.failure-upload')}`);
+      message.error(`${info.file.name} ${translate('upload.failure-upload')}`);
     }
   }
 
