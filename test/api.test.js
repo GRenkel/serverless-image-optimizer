@@ -1,10 +1,7 @@
-import axios from 'axios';
 import {
   configureApiAxiosInstance,
-  uploadCSV,
-  searchUsers,
-  handleApiError,
-} from '../src/services/api';
+  errorHandler,
+} from '../src/services/apis/config/api';
 
 jest.mock('uuid', () => {
   const uuidOriginal = jest.requireActual('uuid');
@@ -29,10 +26,11 @@ describe('API Suit Test', () => {
     const axiosInstance = configureApiAxiosInstance();
     expect(localStorage.getItem('session-id')).toBe(sessionId);
     expect(axiosInstance.defaults.headers.session_id).toBe(sessionId);
+    expect(axiosInstance.interceptors.response.handlers.length).toBe(1)
   });
 
   
-  test('handleApiError should throw the appropriate error', () => {
+  test('errorHandler should reject a promise with the appropriate error', async () => {
     const errorResponse = {
       response: {
         data: {
@@ -42,7 +40,9 @@ describe('API Suit Test', () => {
       },
     };
 
-    expect(() => handleApiError(errorResponse)).toThrowError(errorResponse.response.data.uiMessage);
+    await expect(() => errorHandler(errorResponse)).rejects.toThrow(
+      errorResponse.response.data.uiMessage,
+    );
 
   });
 });

@@ -5,7 +5,7 @@ import { translate } from '../../../locales/translator';
 const BASE_URL = 'http://localhost:5050/'
 const AXIOS_TIMEOUT = 20000
 
-function errorHandler(error) {
+export function errorHandler(error) {
   let customError = new Error(translate('api.error'))
 
   if (error.response && error.response?.data?.uiMessage) {
@@ -16,7 +16,7 @@ function errorHandler(error) {
   return Promise.reject(customError)
 }
 
-function configureApiAxiosInstance() {
+export function configureApiAxiosInstance() {
 
   let sessionIdentifier = localStorage.getItem('session-id');
   if (!sessionIdentifier) {
