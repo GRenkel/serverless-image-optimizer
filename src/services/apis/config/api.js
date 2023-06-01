@@ -5,7 +5,7 @@ import { translate } from '../../../locales/translator';
 const BASE_URL = 'http://localhost:5050/'
 const AXIOS_TIMEOUT = 20000
 
-export function errorHandler(error) {
+export function apiErrorHandler(error) {
   let customError = new Error(translate('api.error'))
 
   if (error.response && error.response?.data?.uiMessage) {
@@ -32,9 +32,7 @@ export function configureApiAxiosInstance() {
     }
   });
 
-  axiosInstance.interceptors.response.use(undefined, (error) => {
-    return errorHandler(error)
-  })
+  axiosInstance.interceptors.response.use(undefined, apiErrorHandler)
 
   return axiosInstance;
 }
