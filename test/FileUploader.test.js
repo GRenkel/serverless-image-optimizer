@@ -56,25 +56,25 @@ describe('FileUploader  - Suit Test', () => {
     }))
   })
 
-  test('renders Dragger component', () => {
+  test('Should render Dragger component', () => {
     render(<FileUploader disabled={false} afterUpload={() => { }} />);
     const dragAndDrop = screen.getByTestId('drag-and-drop');
     expect(dragAndDrop).toBeInTheDocument();
   });
 
-  test('displays disabled class when disabled is true', () => {
+  test('Should display disabled class when disabled is true', () => {
     render(<FileUploader disabled={true} afterUpload={() => { }} />);
     const dragAndDrop = screen.getByTestId('drag-and-drop');
     expect(dragAndDrop).toHaveClass('disabled');
   });
 
-  test('be configured to accept only text/csv', () => {
+  test('Should be configured to accept only text/csv', () => {
     render(<FileUploader disabled={true} afterUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     expect(fileInput).toHaveAttribute('accept', 'text/csv')
   });
 
-  test('displays success message when status is "done"', () => {
+  test('Should display success message when status is "done"', () => {
     const successMock = jest.spyOn(message, 'success');
     const file = { name: 'test.csv', status: 'done', size: 1000 };
     const info = { file };
@@ -85,7 +85,7 @@ describe('FileUploader  - Suit Test', () => {
     expect(successMock).toHaveBeenCalledWith(`${file.name} ${translate('upload.successfully-upload')}`);
   });
 
-  test('displays error message when status is "error" with error message', () => {
+  test('Should display error message when status is "error" with error message', () => {
     const errorMock = jest.spyOn(message, 'error');
     const errorMessage = `test.csv ${translate('upload.failure-upload')}`
     const file = { name: 'test.csv', size: 1000, status: 'error', error: { message: errorMessage } };
@@ -97,7 +97,7 @@ describe('FileUploader  - Suit Test', () => {
     expect(errorMock).toHaveBeenCalledWith(errorMessage);
   });
 
-  test('displays error message when status is "error" without an internal error message', () => {
+  test('Should display error message when status is "error" without an internal error message', () => {
     const errorMock = jest.spyOn(message, 'error');
     const file = { name: 'test.csv', status: 'error', size: 1000 };
     const info = { file };
@@ -108,7 +108,7 @@ describe('FileUploader  - Suit Test', () => {
     expect(errorMock).toHaveBeenCalledWith(`${file.name} ${translate('upload.failure-upload')}`);
   });
 
-  test('displays error message when file is too large', () => {
+  test('Should display error message when file is too large', () => {
     const errorMock = jest.spyOn(message, 'error');
     const file = { name: 'test.csv', status: 'error', size: 2048576 };
     const info = { file };
@@ -124,7 +124,7 @@ describe('FileUploader  - Suit Test', () => {
     expect(errorMock).toHaveBeenCalledWith(translate('upload.file-too-large'));
   });
 
-  test('call afterUpload when there is a uploadResponse from API', async () => {
+  test('Should call afterUpload when there is a uploadResponse from API', async () => {
     const afterUploadMock = jest.fn();
 
     useAPIFileUpload.mockImplementation(() => ({
