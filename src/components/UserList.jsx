@@ -1,4 +1,4 @@
-import { Avatar, Card, Empty, Skeleton } from "antd";
+import { Avatar, Card, Empty } from "antd";
 import { UserOutlined, EnvironmentTwoTone, HeartTwoTone } from '@ant-design/icons';
 import { translate } from '../locales/translator'
 import { UserSkeletonCard } from "./UserSkeletonCard";

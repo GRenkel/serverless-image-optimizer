@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { translate } from "../../locales/translator";
 import { exceedsMaxFileSize } from '../../utils/fileUpload'
-import api from "../../services/api";
 import useLoading from "../useLoading";
+import { FileAPI } from "../../services/apis/fileAPI";
 
 export function useAPIFileUpload() {
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export function useAPIFileUpload() {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const response = await api.uploadCSV(formData);
+      const response = await FileAPI.uploadCSV(formData);
       onSuccess()
       setUploadResponse(response)
     } catch (error) {
