@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FileUploader } from '../components/FileUploader';
-import { UserSearchBar } from '../components/UserSearchBar';
+import { SearchBar } from '../components/SearchBar';
 import { UserList } from '../components/UserList';
 import { FloatButton } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
