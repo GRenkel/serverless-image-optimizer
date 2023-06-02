@@ -1,5 +1,6 @@
 import { translate } from '../src/locales/translator';
 import {
+  api,
   configureApiAxiosInstance,
   apiErrorHandler,
 } from '../src/services/apis/config/api';
@@ -13,6 +14,17 @@ jest.mock('uuid', () => {
   }
 })
 
+jest.mock('../src/services/apis/config/api', () => {
+  const apiOriginal = jest.requireActual('../src/services/apis/config/api');
+  return {
+    ...apiOriginal,
+    api: {
+      ...apiOriginal.api,
+      axiosInstance: jest.fn().mockResolvedValue({data: "OK"})
+    }
+  }
+})
+
 describe('API Suit Test', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -22,7 +34,7 @@ describe('API Suit Test', () => {
     jest.clearAllMocks();
   });
 
-  describe('Axios Instance Configuration', ()=>{
+  describe('Axios Instance Configuration', () => {
     test('Should use already existing session identifier', () => {
       const sessionId = 'already-in-use';
       localStorage.setItem('session-id', sessionId)
@@ -42,7 +54,8 @@ describe('API Suit Test', () => {
       expect(axiosInstance.interceptors.response.handlers[0].rejected.name).toBe('apiErrorHandler')
     });
   })
-  describe('Axios Error Handler', ()=> {
+
+  describe('Axios Error Handler', () => {
     test('Should reject a promise with the appropriate error', async () => {
       const errorResponse = {
         response: {
@@ -62,4 +75,82 @@ describe('API Suit Test', () => {
       await expect(() => apiErrorHandler(error)).rejects.toThrow(translate('api.error'));
     });
   })
+
+  describe('Api Helper', () => {
+    test('Should call api with the correct parameters when uploading a file', async () => {
+      const apiConfigs = {
+        endpoint: 'test-path',
+        method: "POST",
+        data: 'anything',
+        options: {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      }
+
+      const expectedAPIOptions = {
+        method: apiConfigs.method,
+        headers: {
+          ...apiConfigs.options.headers
+        },
+        params: {},
+        data: apiConfigs.data
+      };
+      await api.callApi(apiConfigs)
+      expect(api.axiosInstance).toBeCalledWith(apiConfigs.endpoint, expectedAPIOptions)
+    })
+
+    test('Should call api with the correct parameters when fetching users', async () => {
+      const apiConfigs = {
+        endpoint: 'test-path',
+        method: "GET",
+        options: {
+          params: {
+            q: 'search string'
+          }
+        }
+      }
+
+      const expectedAPIOptions = {
+        method: apiConfigs.method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        params: {
+          q: 'search string'
+        },
+      };
+      
+      await api.callApi(apiConfigs)
+      expect(api.axiosInstance).toBeCalledWith(apiConfigs.endpoint, expectedAPIOptions)
+    })
+
+    test('Should throw an error when an exception occurs on axios instance', async () => {
+      const apiConfigs = {
+        endpoint: 'test-path',
+        method: "GET",
+        options: {
+          params: {
+            q: 'search string'
+          }
+        }
+      }
+
+      const expectedAPIOptions = {
+        method: apiConfigs.method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        params: {
+          q: 'search string'
+        },
+      };
+      api.axiosInstance.mockRejectedValue(new Error('Async error message'));
+      
+      await expect(() => api.callApi(apiConfigs)).rejects.toThrow('Async error message');
+      expect(api.axiosInstance).toBeCalledWith(apiConfigs.endpoint, expectedAPIOptions)
+    })
+  })
+
 });

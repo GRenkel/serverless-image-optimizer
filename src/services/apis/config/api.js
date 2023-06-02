@@ -39,7 +39,6 @@ export function configureApiAxiosInstance() {
 
 export const api = {
   axiosInstance: configureApiAxiosInstance(),
-
   async callApi({ endpoint, method = 'GET', data = null, options: { headers = {}, params = {} } }) {
     try {
       const options = {
