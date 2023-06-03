@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { UserList } from '../src/components/UserList';
 import { translate } from '../src/locales/translator';
 

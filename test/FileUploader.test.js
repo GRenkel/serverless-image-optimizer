@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { message } from 'antd';
 import { FileUploader } from '../src/components/FileUploader';
 import { translate } from '../src/locales/translator';
