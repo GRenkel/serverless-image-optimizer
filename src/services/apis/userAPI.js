@@ -4,7 +4,7 @@ const paths = {
   users: 'api/users'
 };
 
-export const UserAPI = {
+export const userAPI = {
 
   get: async (query) => {
     return api.callApi({

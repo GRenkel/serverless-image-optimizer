@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useLoading from "../useLoading";
-import { UserAPI } from "../../services/apis/userAPI";
+import { userAPI } from "../../services/apis/userAPI";
 
 export function useSearchUsers() {
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ export function useSearchUsers() {
   const searchUsers = async (value) => {
     showLoading()
     try {
-      const response = await UserAPI.get(value);
+      const response = await userAPI.get(value);
       setListedUsers(response);
     } catch (error) {
       setError(error.message)
