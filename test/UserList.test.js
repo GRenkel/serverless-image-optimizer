@@ -53,8 +53,8 @@ describe('UserList - Suit Test', () => {
     const p2_sport = faker.person.jobTitle();
     
     const userData = [
-      { id:faker.string.uuid, name: p1_name, city: p1_city, country: p1_country, favorite_sport: p1_sport },
-      { id:faker.string.uuid, name: p2_name, city: p2_city, country: p2_country, favorite_sport: p2_sport },
+      { id:faker.string.uuid(), name: p1_name, city: p1_city, country: p1_country, favorite_sport: p1_sport },
+      { id:faker.string.uuid(), name: p2_name, city: p2_city, country: p2_country, favorite_sport: p2_sport },
     ];
 
     render(<UserList userData={userData} isLoading={false}/>);
