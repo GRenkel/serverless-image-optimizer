@@ -47,13 +47,13 @@ describe('FileUploader  - Suit Test', () => {
   });
 
   beforeEach(() => {
-    useAPIFileUpload.mockImplementation(() => ({
+    useAPIFileUpload.mockReturnValue({
       error: null,
       isLoading: false,
       uploadResponse: [],
       uploadFileToAPI: jest.fn(),
       validateFile: jest.fn(),
-    }))
+    })
   })
 
   test('Should render Dragger component', () => {
@@ -86,7 +86,6 @@ describe('FileUploader  - Suit Test', () => {
   });
 
   test('Should display error message when status is "error" with error message', () => {
-    const errorMock = jest.spyOn(message, 'error');
     const errorMessage = `test.csv ${translate('upload.failure-upload')}`
     const file = { name: 'test.csv', size: 1000, status: 'error', error: { message: errorMessage } };
     const info = { file };
@@ -94,46 +93,44 @@ describe('FileUploader  - Suit Test', () => {
     render(<FileUploader disabled={false} afterUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     fireEvent.change(fileInput, { target: { files: [info] } })
-    expect(errorMock).toHaveBeenCalledWith(errorMessage);
+    expect(message.error).toHaveBeenCalledWith(errorMessage);
   });
 
   test('Should display error message when status is "error" without an internal error message', () => {
-    const errorMock = jest.spyOn(message, 'error');
     const file = { name: 'test.csv', status: 'error', size: 1000 };
     const info = { file };
 
     render(<FileUploader disabled={false} afterUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     fireEvent.change(fileInput, { target: { files: [info] } })
-    expect(errorMock).toHaveBeenCalledWith(`${file.name} ${translate('upload.failure-upload')}`);
+    expect(message.error).toHaveBeenCalledWith(`${file.name} ${translate('upload.failure-upload')}`);
   });
 
   test('Should display error message when file is too large', () => {
-    const errorMock = jest.spyOn(message, 'error');
     const file = { name: 'test.csv', status: 'error', size: 2048576 };
     const info = { file };
 
-    useAPIFileUpload.mockImplementation(() => ({
-      validateFile: jest.fn().mockImplementation(() => ({ isValid: false, reason: translate('upload.file-too-large') })),
+    useAPIFileUpload.mockReturnValue({
+      validateFile: jest.fn().mockReturnValue({ isValid: false, reason: translate('upload.file-too-large') }),
       uploadResponse: []
-    }))
+    })
 
     render(<FileUploader disabled={false} afterUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     fireEvent.input(fileInput, { target: { files: [info] } })
-    expect(errorMock).toHaveBeenCalledWith(translate('upload.file-too-large'));
+    expect(message.error).toHaveBeenCalledWith(translate('upload.file-too-large'));
   });
 
   test('Should call afterUpload when there is a uploadResponse from API', async () => {
     const afterUploadMock = jest.fn();
 
-    useAPIFileUpload.mockImplementation(() => ({
+    useAPIFileUpload.mockReturnValue({
       error: null,
       isLoading: false,
       uploadResponse: [{ name: 'file1.csv' }, { name: 'file2.csv' }],
       uploadFileToAPI: jest.fn(),
       validateFile: jest.fn(),
-    }))
+    })
 
     render(<FileUploader afterUpload={afterUploadMock} />);
 
