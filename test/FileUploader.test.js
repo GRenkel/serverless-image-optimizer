@@ -39,7 +39,7 @@ jest.mock('../src/hooks/api/useAPIFileUpload', () => ({
 }));
 
 
-describe('FileUploader  - Suit Test', () => {
+describe('FileUploader  - Test Suit', () => {
 
   afterAll(() => {
     jest.restoreAllMocks();

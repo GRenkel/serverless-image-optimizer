@@ -25,7 +25,7 @@ jest.mock('../src/services/apis/config/api', () => {
   }
 })
 
-describe('API Suit Test', () => {
+describe('API Test Suit', () => {
   beforeEach(() => {
     localStorage.clear();
   });

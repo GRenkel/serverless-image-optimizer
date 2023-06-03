@@ -2,7 +2,7 @@ import { render, renderHook, waitFor } from "@testing-library/react";
 import useLoading from "../src/hooks/useLoading";
 import { act } from "react-test-renderer";
 
-describe("useLoading  - Suit Test", () => {
+describe("useLoading  - Test Suit", () => {
   test("Should return isLoading false as initial state", () => {
     const { result } = renderHook(useLoading)
     expect(result.current.isLoading).toBe(false)

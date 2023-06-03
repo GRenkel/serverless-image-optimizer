@@ -24,7 +24,7 @@ jest.mock('antd', () => {
   };
 });
 
-describe('UserList - Suit Test', () => {
+describe('UserList - Test Suit', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
