@@ -39,7 +39,9 @@ describe('SearchBar  - Suit Test', () => {
     const handleSearchMock = jest.fn();
     render(<SearchBar handleOnSearch={handleSearchMock} isLoading={false} />);
     const searchInput = screen.getByTestId('search-input');
+    
     fireEvent.change(searchInput, { target: { value: 'search query' } });
+    
     expect(handleSearchMock).toHaveBeenCalledTimes(1);
     expect(handleSearchMock).toHaveBeenCalledWith('search query');
   });
