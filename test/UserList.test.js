@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { UserList } from '../src/components/UserList';
@@ -42,9 +43,18 @@ describe('UserList - Suit Test', () => {
   })
 
   test('renders user cards', () => {
+    const p1_name = faker.person.firstName();
+    const p2_name = faker.person.firstName();
+    const p1_city = faker.location.city();
+    const p2_city = faker.location.city();
+    const p1_country = faker.location.country();
+    const p2_country = faker.location.country();
+    const p1_sport = faker.person.jobTitle();
+    const p2_sport = faker.person.jobTitle();
+    
     const userData = [
-      { id: 1, name: 'John Doe', city: 'New York', country: 'USA', favorite_sport: 'Basketball' },
-      { id: 2, name: 'Jane Smith', city: 'London', country: 'UK', favorite_sport: 'Football' },
+      { id:faker.string.uuid, name: p1_name, city: p1_city, country: p1_country, favorite_sport: p1_sport },
+      { id:faker.string.uuid, name: p2_name, city: p2_city, country: p2_country, favorite_sport: p2_sport },
     ];
 
     render(<UserList userData={userData} isLoading={false}/>);
@@ -58,13 +68,13 @@ describe('UserList - Suit Test', () => {
     const userNames = screen.getAllByTestId('span-name');
     expect(userNames).toHaveLength(userData.length);
 
-    expect(userNames[0].textContent).toBe(userData[0].name)
-    expect(userNames[1].textContent).toBe(userData[1].name)
+    expect(userNames[0].textContent).toBe(p1_name)
+    expect(userNames[1].textContent).toBe(p2_name)
 
-    expect(screen.getByText('New York, USA')).toBeInTheDocument();
-    expect(screen.getByText('London, UK')).toBeInTheDocument();
-    expect(screen.getByText('Basketball')).toBeInTheDocument();
-    expect(screen.getByText('Football')).toBeInTheDocument();
+    expect(screen.getByText(`${p1_city}, ${p1_country}`)).toBeInTheDocument();
+    expect(screen.getByText(`${p2_city}, ${p2_country}`)).toBeInTheDocument();
+    expect(screen.getByText(p1_sport)).toBeInTheDocument();
+    expect(screen.getByText(p2_sport)).toBeInTheDocument();
   });
 
 });
