@@ -5,7 +5,7 @@ import { UserList } from '../components/UserList';
 import { FloatButton } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { translate } from '../locales/translator';
-import { useSearchUsers } from '../hooks/api/useSearchUsers ';
+import { useSearchUsers } from '../hooks/api/useSearchUsers';
 import { useEffect } from 'react';
 
 const UsersScreen = () => {
@@ -25,7 +25,7 @@ const UsersScreen = () => {
         <FileUploader disabled={isLoading} afterUpload={handleOnUpdateListedUsers} />
       </div>
       <div style={{ flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px' }}>
-        <UserSearchBar isLoading={isLoading} handleOnSearch={searchUsers} />
+        <SearchBar isLoading={isLoading} handleOnSearch={searchUsers} />
       </div>
       <div style={{ flex: 3, overflow: 'auto', width: '100%' }}>
         <UserList isLoading={isLoading} userData={listedUsers} />
