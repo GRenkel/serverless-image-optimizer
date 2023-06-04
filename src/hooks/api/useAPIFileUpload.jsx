@@ -26,7 +26,7 @@ export function useAPIFileUpload() {
       setUploadResponse(response)
     } catch (error) {
       onError(error)
-      setError(error)
+      setError(error.message)
     } finally {
       hideLoading()
     }
