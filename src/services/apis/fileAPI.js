@@ -5,6 +5,9 @@ const paths = {
 };
 
 export const FileAPI = {
+  uploadToS3: async (file) => {
+    return ""
+  },
   uploadCSV: async (file) => {
     return api.callApi({
       endpoint: paths.fileUpload,
