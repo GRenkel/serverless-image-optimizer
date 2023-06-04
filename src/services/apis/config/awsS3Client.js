@@ -1,21 +1,27 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { getSessionConfig } from "../../../utils/session";
 
-const REGION = "us-east-1"
+const DEFAULT_REGION = "us-east-1"
+export const DEFAULT_BUCKET_NAME = "app-5g-uploader"
+
+function getBucketName() {
+  const { sessionIdentifier } = getSessionConfig()
+  return DEFAULT_BUCKET_NAME + sessionIdentifier
+
+}
 
 function getBucketConfig() {
-
-  let { sessionIdentifier } = getSessionConfig()
+  const bucketName = getBucketName()
 
   return {
-    key: sessionIdentifier
+    Bucket: bucketName
   }
 }
 
 function configureS3Client() {
-  
-  const s3Client = new S3Client({ region: REGION });
-  
+
+  const s3Client = new S3Client({ region: DEFAULT_REGION });
+
   return s3Client
 }
 
