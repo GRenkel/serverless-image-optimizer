@@ -21,7 +21,7 @@ describe("awsS3Client - Test Suit", () => {
     const mockSessionIdentifier = faker.string.uuid()
 
     const expectedConfig = {
-      Bucket: DEFAULT_BUCKET_NAME + mockSessionIdentifier
+      Bucket: DEFAULT_BUCKET_NAME + '-' + mockSessionIdentifier
     }
 
     getSessionConfig.mockReturnValueOnce({
