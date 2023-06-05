@@ -20,8 +20,8 @@ function createNewBucketCommand(bucketConfig) {
   return new CreateBucketCommand(bucketConfig);
 }
 
-function configureS3Client(region, credentials) {
-  const s3Client = new S3Client({ region: region || DEFAULT_REGION, credentials });
+function configureS3Client(configs) {
+  const s3Client = new S3Client(configs);
   return s3Client
 }
 
@@ -38,6 +38,6 @@ export const awsS3Configs = {
   getBucketConfig,
   createNewBucketCommand,
   configureS3Client,
-  initiateS3Client: ({region, crendentials}) => this.configureS3Client({region, crendentials}),
+  initiateS3Client: ({region, credentials}) => configureS3Client({region, credentials}),
   sendS3Command
 }
