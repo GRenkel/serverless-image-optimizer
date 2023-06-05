@@ -26,9 +26,15 @@ export const s3API = {
     }
   },
 
-  async listBucketObjects() {
+  async listBucketObjects(Prefix) {
     const DEFAULT_MAX_KEYS = 50
-    const listBucketObjectsCommand = awsS3Helper.getListBucketObjectsCommand({ MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig })
+    const listCommandParams = { MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig }
+    
+    if(Prefix){
+      listCommandParams.Prefix = Prefix
+    }
+
+    const listBucketObjectsCommand = awsS3Helper.getListBucketObjectsCommand(listCommandParams)
     try {
       const { Contents } = await awsS3Helper.sendS3Command(this.s3Client, listBucketObjectsCommand)
       return Contents

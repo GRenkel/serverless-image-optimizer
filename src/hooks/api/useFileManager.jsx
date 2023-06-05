@@ -5,13 +5,13 @@ import { useS3 } from "./useS3";
 export function useFileManager() {
   const [error, setError] = useState(null);
   const [listedFiles, setListedFiles] = useState([]);
-  const { listBucketFiles, removeObjectFromBucket, uploadObjectToBucket } = useS3()
+  const { listBucketObjects, removeObjectFromBucket, uploadObjectToBucket } = useS3()
   const { isLoading, showLoading, hideLoading } = useLoading();
 
   async function searchFiles(value) {
     showLoading()
     try {
-      const response = await listBucketFiles(value);
+      const response = await listBucketObjects(value);
       setListedFiles(response);
     } catch (error) {
       setError(error.message)

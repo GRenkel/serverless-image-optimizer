@@ -10,9 +10,9 @@ export function useS3() {
   const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
 
-  async function listBucketFiles(key) {
+  async function listBucketObjects(objName) {
     try {
-      const objects = await s3API.listBucketObjects()
+      const objects = await s3API.listBucketObjects(objName)
       return objects.map(({ ETag, Size, Key }) => ({ id: ETag, name: Key, ...formatFileSize(Size) }))
     } catch (error) {
       console.log(error)
@@ -36,7 +36,7 @@ export function useS3() {
   async function removeObjectFromBucket(objectKey){
     showLoading()
     try {
-      const response = await s3API.deleteObjectFromBucket(objectKey);
+      return await s3API.deleteObjectFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
     } finally {
@@ -44,5 +44,5 @@ export function useS3() {
     }
   }
 
-  return { error, isLoading, listBucketFiles, uploadResponse, removeObjectFromBucket, uploadObjectToBucket }
+  return { error, isLoading, listBucketObjects, uploadResponse, removeObjectFromBucket, uploadObjectToBucket }
 };
