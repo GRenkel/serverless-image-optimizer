@@ -1,4 +1,4 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { HeadBucketCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSessionConfig } from "../../../utils/session";
 
 const DEFAULT_REGION = "us-east-1"
@@ -20,6 +20,10 @@ function createNewBucketCommand(bucketConfig) {
   return new CreateBucketCommand(bucketConfig);
 }
 
+function bucketExistCommand(bucketParams){
+  return new HeadBucketCommand(bucketParams)
+}
+
 function configureS3Client(configs) {
   const s3Client = new S3Client(configs);
   return s3Client
@@ -36,6 +40,7 @@ async function sendS3Command(client, command){
 
 export const awsS3Helper = {
   getBucketConfig,
+  bucketExistCommand,
   createNewBucketCommand,
   configureS3Client,
   initiateS3Client: ({region, credentials}) => configureS3Client({region, credentials}),
