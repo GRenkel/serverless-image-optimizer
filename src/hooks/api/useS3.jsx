@@ -25,7 +25,7 @@ export function useS3() {
   async function listBucketFiles(key) {
     try {
       const objects = await s3API.listBucketObjects()
-      return objects.map(({ETag, Size, Key}) => ({ id: ETag, name: Key, size: Size}))
+      return objects.map(({ETag, Size, Key}) => ({ id: ETag, name: Key, size: Size/1024, sizeUnit: 'KB'}))
     } catch (error) {
       console.log(error)
     }
