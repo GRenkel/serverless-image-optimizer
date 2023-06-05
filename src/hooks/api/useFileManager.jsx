@@ -26,7 +26,7 @@ export function useFileManager() {
       debugger
       const response = await uploadObjectToBucket({file});
       onSuccess()
-      setListedFiles((current) => ([...current, response ]))
+      setListedFiles((current) => ([response, ...current ]))
     } catch (error) {
       onError(error)
       setError(error.message)
