@@ -14,13 +14,6 @@ export function useS3() {
     listBucketFiles()
   }, [])
 
-  function validateFile(file) {
-    if (exceedsMaxFileSize(file)) {
-      return ({ isValid: false, reason: translate('upload.file-too-large') })
-    }
-    return { isValid: true }
-  }
-
 
   async function listBucketFiles(key) {
     try {
