@@ -1,31 +1,10 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/translator";
-import { useAPIFileUpload } from '../hooks/api/useAPIFileUpload';
-import { useEffect } from 'react';
-import { useS3 } from '../hooks/api/useS3';
 
 const { Dragger } = Upload;
 
-export function FileUploader({ disabled, afterUpload }) {
-
-  const { error, isLoading, uploadResponse, uploadFileToAPI, validateFile } = useAPIFileUpload()
-  const teste = useS3()
-
-
-  useEffect(() => {
-    if(uploadResponse.length){
-      afterUpload(uploadResponse)
-    }
-  }, [uploadResponse]);
-
-  function handleFileValidation(file) {
-    const { isValid, reason } = validateFile(file)
-    if (!isValid) {
-      message.error(reason);
-    }
-    return isValid
-  }
+export function FileUploader({ isLoading, disabled, handleUpload }) {
 
   function handleUploadStatus(info) {
     const { status } = info.file;
@@ -43,12 +22,11 @@ export function FileUploader({ disabled, afterUpload }) {
   return (
     <Dragger
       multiple={false}
-      accept="text/csv"
       disabled={isLoading || disabled}
       showUploadList={false}
       data-testid="file-input"
-      beforeUpload={handleFileValidation}
-      customRequest={uploadFileToAPI}
+      // beforeUpload={handleFileValidation}
+      customRequest={handleUpload}
       onChange={handleUploadStatus}
     >
       <p className="ant-upload-drag-icon">

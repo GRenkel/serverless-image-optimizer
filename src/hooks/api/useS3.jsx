@@ -1,44 +1,48 @@
-import { useEffect, useState } from "react";
-import { translate } from "../../locales/translator";
-import { exceedsMaxFileSize } from '../../utils/fileUpload'
+import { useState } from "react";
 import useLoading from "../useLoading";
-import { FileAPI } from "../../services/apis/fileAPI";
 import { s3API } from "../../services/apis/s3API";
+import { formatFileSize } from "../../utils/fileUpload";
+
+const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024
 
 export function useS3() {
   const [error, setError] = useState(null);
-  const [s3UploadResponse, setS3UploadResponse] = useState([]);
+  const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
-
-  useEffect(() => {
-    listBucketFiles()
-  }, [])
-
 
   async function listBucketFiles(key) {
     try {
       const objects = await s3API.listBucketObjects()
-      return objects.map(({ETag, Size, Key}) => ({ id: ETag, name: Key, size: Size/1024, sizeUnit: 'KB'}))
+      return objects.map(({ ETag, Size, Key }) => ({ id: ETag, name: Key, ...formatFileSize(Size) }))
     } catch (error) {
       console.log(error)
     }
   }
 
-  async function uploadFileToS3({ file, onSuccess, onError }) {
-    // showLoading()
-    // try {
-    //   const formData = new FormData();
-    //   formData.append('file', file);
-    //   const response = await FileAPI.uploadToS3(formData);
-    //   onSuccess()
-    //   setS3UploadResponse(response)
-    // } catch (error) {
-    //   onError(error)
-    //   setError(error.message)
-    // } finally {
-    //   hideLoading()
-    // }
+  async function uploadObjectToBucket({ file }) {
+    showLoading()
+    try {
+      const uploadFunction = (file.size > MAX_COMMON_FILE_SIZE ? s3API.uploadLargeObjectToBucket : s3API.uploadCommonObjectToBucket).bind(s3API)
+      const response = await uploadFunction(file);
+      setUploadResponse(response)
+      return { id: response.ETag, name: file.name, ...formatFileSize(file.size)}
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      hideLoading()
+    }
   }
 
-  return { error, isLoading, listBucketFiles, s3UploadResponse, uploadFileToS3, validateFile }
+  async function removeObjectFromBucket(objectKey){
+    showLoading()
+    try {
+      const response = await s3API.deleteObjectFromBucket(objectKey);
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      hideLoading()
+    }
+  }
+
+  return { error, isLoading, listBucketFiles, uploadResponse, removeObjectFromBucket, uploadObjectToBucket }
 };

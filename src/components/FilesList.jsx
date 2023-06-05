@@ -2,10 +2,11 @@ import { Empty } from "antd";
 import { translate } from '../locales/translator'
 import { FileSkeletonCard } from "./FileSkeletonCard";
 import { FileCard } from "./FileCard";
+import { useS3 } from "../hooks/api/useS3";
 
-export function FilesList({ fileData, isLoading }) {
+export function FilesList({ fileData, handleDownload, handleRemove, isLoading }) {
 
-  if (isLoading) {
+if (isLoading) {
     return (
       <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
         {[...Array(10)].map((_, index) => <FileSkeletonCard key={index} />)}
@@ -19,7 +20,7 @@ export function FilesList({ fileData, isLoading }) {
 
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-      {fileData.map((row) => <FileCard  {...row}/>)}
+      {fileData.map((row) => <FileCard  key={row.id} handleDownload={handleDownload} handleRemove={handleRemove} {...row}/>)}
     </div>
   )
 }

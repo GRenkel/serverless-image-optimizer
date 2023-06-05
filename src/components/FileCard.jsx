@@ -1,7 +1,7 @@
 import { Avatar, Card } from "antd"
 import { FileOutlined, DeleteOutlined, CloudDownloadOutlined, ContainerTwoTone } from '@ant-design/icons';
 
-export function FileCard({ id, name, size, sizeUnit }) {
+export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUnit }) {
   return (
     <Card
       hoverable
@@ -14,8 +14,8 @@ export function FileCard({ id, name, size, sizeUnit }) {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 10 }}>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
-          <CloudDownloadOutlined style={{ fontSize: 25, color: 'red' }} />
-          <DeleteOutlined style={{ fontSize: 25, color: 'red'}} />
+          <CloudDownloadOutlined onClick={() => handleDownload({id, name})} style={{ fontSize: 25, color: 'red' }} />
+          <DeleteOutlined onClick={() => handleRemove({id, name})} style={{ fontSize: 25, color: 'red'}} />
         </div>
         <div style={{ alignSelf: 'center' }}>
           <ContainerTwoTone /> {size.toFixed(2)}{' '}{sizeUnit}
