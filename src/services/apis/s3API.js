@@ -1,21 +1,22 @@
 import { getAWSCredentials } from "./config/awsCredentials";
-import { awsS3Helper } from "./config/awsS3";
+import { awsS3Helper, MAX_CHUNCK_SIZE } from "./config/awsS3";
 
 export const s3API = {
   bucketConfig: awsS3Helper.getBucketConfig(),
+
   s3Client: (() => {
     const credentials = getAWSCredentials()
     return awsS3Helper.initiateS3Client({ credentials })
   })(),
 
   async createNewBucket() {
-    const pushBucketCommand = awsS3Helper.createNewBucketCommand(this.bucketConfig)
+    const pushBucketCommand = awsS3Helper.getCreateNewBucketCommand(this.bucketConfig)
     return awsS3Helper.sendS3Command(this.s3Client, pushBucketCommand)
   },
 
   async bucketExists() {
-    const { Bucket, rest } = this.bucketConfig
-    const bucketExistsCommand = awsS3Helper.bucketExistCommand({ Bucket })
+    const { Bucket } = this.bucketConfig
+    const bucketExistsCommand = awsS3Helper.getBucketExistCommand({ Bucket })
     try {
       const response = await awsS3Helper.sendS3Command(this.s3Client, bucketExistsCommand)
       debugger
@@ -27,7 +28,7 @@ export const s3API = {
 
   async listBucketObjects() {
     const DEFAULT_MAX_KEYS = 50
-    const listBucketObjectsCommand = awsS3Helper.listBucketObjectsCommand({ MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig })
+    const listBucketObjectsCommand = awsS3Helper.getListBucketObjectsCommand({ MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig })
     try {
       const { Contents } = await awsS3Helper.sendS3Command(this.s3Client, listBucketObjectsCommand)
       return Contents
@@ -35,8 +36,77 @@ export const s3API = {
       console.log(error)
     }
   },
-  uploadFileToBucket: async () => {
 
+  async uploadCommonObjectToBucket(s3object) {
+    try {
+      const uploadParams = { Key: s3object.name, ...this.bucketConfig, Body: s3object }
+      const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
+      return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
+    } catch (error) {
+      debugger
+      console.log('error', error)
+    }
+  },
+
+  async deleteObjectFromBucket(objectKey) {
+    try {
+      const deleteParams = { Key: objectKey, ...this.bucketConfig }
+      const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
+      return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)
+    } catch (error) {
+      debugger
+      console.log('error', error)
+    }
+  },
+
+  async uploadLargeObjectToBucket(s3object) {
+
+    const bucketParams = { Key: s3object.name, ...this.bucketConfig }
+
+    try {
+      let uploadPromises = []
+      const numberOfFragments = Math.ceil(s3object.size / MAX_CHUNCK_SIZE);
+
+      const initiateMultipartUploadCommand = awsS3Helper.getCreateMultipartUploadCommand(bucketParams)
+      const multipartUpload = await awsS3Helper.sendS3Command(this.s3Client, initiateMultipartUploadCommand)
+      bucketParams.UploadId = multipartUpload.UploadId
+
+      for (let idx = 0; idx < numberOfFragments; idx++) {
+        const fragmentStart = idx * MAX_CHUNCK_SIZE;
+        const fragmentEnd = fragmentStart + MAX_CHUNCK_SIZE;
+
+        const fragmentUploadParams = {
+          ...bucketParams,
+          Body: s3object.slice(fragmentStart, fragmentEnd),
+          PartNumber: idx + 1,
+        }
+        const partialUploadCommand = awsS3Helper.getUploadPartCommand(fragmentUploadParams);
+        uploadPromises.push(awsS3Helper.sendS3Command(this.s3Client, partialUploadCommand))
+      }
+
+      const uploadResults = await Promise.all(uploadPromises);
+
+      const completedUploadParams = {
+        ...bucketParams,
+        MultipartUpload: {
+          Parts: uploadResults.map(({ ETag }, i) => ({
+            ETag,
+            PartNumber: i + 1,
+          })),
+        },
+      }
+
+      const completeMultipartUploadCommand = awsS3Helper.getCompleteMultipartUploadCommand(completedUploadParams)
+      return await awsS3Helper.sendS3Command(this.s3Client, completeMultipartUploadCommand)
+
+    } catch (error) {
+
+      if (bucketParams.UploadId) {
+        const abortCommand = awsS3Helper.getAbortMultipartUploadCommand(bucketParams)
+        await awsS3Helper.sendS3Command(this.s3Client, abortCommand);
+      }
+      console.log(error)
+    }
   },
 
 }
