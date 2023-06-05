@@ -1,4 +1,4 @@
-import { DEFAULT_BUCKET_NAME, awsS3Configs } from "../src/services/apis/config/awsS3Configs";
+import { DEFAULT_BUCKET_NAME, awsS3Helper } from "../src/services/apis/config/awsS3";
 import { getSessionConfig } from "../src/utils/session";
 import { faker } from '@faker-js/faker';
 import { S3Client } from "@aws-sdk/client-s3";
@@ -28,7 +28,7 @@ describe("awsS3Client - Test Suit", () => {
       sessionIdentifier: mockSessionIdentifier
     })
 
-    const bucketConfig = awsS3Configs.getBucketConfig()
+    const bucketConfig = awsS3Helper.getBucketConfig()
 
     expect(bucketConfig).toEqual(expectedConfig)
   })
@@ -45,14 +45,14 @@ describe("awsS3Client - Test Suit", () => {
       region: mockRegion,
       credentials: mockCredentials
     }
-    awsS3Configs.initiateS3Client(mockConfig)
+    awsS3Helper.initiateS3Client(mockConfig)
     expect(S3Client).toHaveBeenCalledWith(mockConfig)
   })
 
   test("Should call send the command on the given client", async () => {
     const client = { send: jest.fn() }
     const command = "testing command"
-    await awsS3Configs.sendS3Command(client, command)
+    await awsS3Helper.sendS3Command(client, command)
     expect(client.send).toHaveBeenCalledWith(command)
   })
 
