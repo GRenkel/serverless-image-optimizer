@@ -1,6 +1,6 @@
 import { Card, Skeleton } from "antd";
 
-export function UserSkeletonCard() {
+export function FileSkeletonCard() {
 
   return (
     <Card

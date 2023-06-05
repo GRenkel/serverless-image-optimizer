@@ -3,12 +3,15 @@ import { InboxOutlined } from '@ant-design/icons';
 import { translate } from "../locales/translator";
 import { useAPIFileUpload } from '../hooks/api/useAPIFileUpload';
 import { useEffect } from 'react';
+import { useS3 } from '../hooks/api/useS3';
 
 const { Dragger } = Upload;
 
 export function FileUploader({ disabled, afterUpload }) {
 
   const { error, isLoading, uploadResponse, uploadFileToAPI, validateFile } = useAPIFileUpload()
+  const teste = useS3()
+
 
   useEffect(() => {
     if(uploadResponse.length){

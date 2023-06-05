@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FileUploader } from '../components/FileUploader';
 import { SearchBar } from '../components/SearchBar';
-import { UserList } from '../components/UserList';
+import { FilesList } from '../components/FilesList';
 import { FloatButton } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { translate } from '../locales/translator';
-import { useSearchUsers } from '../hooks/api/useSearchUsers';
+import { useSearchFiles } from '../hooks/api/useSearchFiles';
 import { useEffect } from 'react';
 
-const UsersScreen = () => {
-  const { error, isLoading, listedUsers, updatedUsersList, searchUsers } = useSearchUsers()
+const FilesScreen = () => {
+  const { error, isLoading, listedFiles, updateFilesList, searchFiles } = useSearchFiles()
 
   useEffect(() => {
-    searchUsers()
+    searchFiles()
   }, [])
 
-  const handleOnUpdateListedUsers = (users) => {
-    updatedUsersList(users)
+  const handleUpdateListedFiles = (files) => {
+    updateFilesList(files)
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center' }}>
       <div style={{ flex: 1, width: '100%', maxWidth: '600px' }}>
-        <FileUploader disabled={isLoading} afterUpload={handleOnUpdateListedUsers} />
+        <FileUploader disabled={isLoading} afterUpload={handleUpdateListedFiles} />
       </div>
       <div style={{ flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px' }}>
-        <SearchBar isLoading={isLoading} handleOnSearch={searchUsers} />
+        <SearchBar isLoading={isLoading} handleOnSearch={searchFiles} />
       </div>
       <div style={{ flex: 3, overflow: 'auto', width: '100%' }}>
-        <UserList isLoading={isLoading} userData={listedUsers} />
+        <FilesList isLoading={isLoading} fileData={listedFiles} />
       </div>
       <FloatButton
         icon={<QuestionCircleOutlined />}
@@ -42,4 +42,4 @@ const UsersScreen = () => {
   );
 };
 
-export default UsersScreen;
+export default FilesScreen;

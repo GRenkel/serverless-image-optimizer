@@ -1,8 +1,8 @@
 import React from 'react';
-import UsersScreen from './screens/UsersScreen';
+import FilesScreen from './screens/FilesScreen';
 
 const App = () => {
-  return <UsersScreen/>;
+  return <FilesScreen/>;
 };
 
 export default App;

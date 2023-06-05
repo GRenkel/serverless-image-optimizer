@@ -1,25 +1,25 @@
 import { Avatar, Card, Empty } from "antd";
 import { UserOutlined, EnvironmentTwoTone, HeartTwoTone } from '@ant-design/icons';
 import { translate } from '../locales/translator'
-import { UserSkeletonCard } from "./UserSkeletonCard";
+import { FileSkeletonCard } from "./FileSkeletonCard";
 
-export function UserList({ userData, isLoading }) {
+export function FilesList({ fileData, isLoading }) {
 
   if (isLoading) {
     return (
       <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {[...Array(10)].map((_, index) => <UserSkeletonCard key={index} />)}
+        {[...Array(10)].map((_, index) => <FileSkeletonCard key={index} />)}
       </div>
     );
   }
 
-  if (userData.length === 0) {
+  if (fileData.length === 0) {
     return <Empty description={translate('usersList.empty')} />
   }
 
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-      {userData.map((row) => (
+      {fileData.map((row) => (
         <Card
           hoverable
           style={{ width: 250, margin: '10px' }}
