@@ -34,7 +34,7 @@ async function sendS3Command(client, command){
   }
 }
 
-export default {
+export const awsS3Configs = {
   getBucketConfig,
   createNewBucketCommand,
   configureS3Client,
