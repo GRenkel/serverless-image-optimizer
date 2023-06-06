@@ -6,7 +6,7 @@ import { formatFileSize } from "../../utils/fileUpload";
 const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024
 
 export function useS3() {
-  
+
   const [error, setError] = useState(null);
   const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
@@ -16,7 +16,8 @@ export function useS3() {
       const objects = await s3API.listBucketObjects(objName)
       return objects.map(({ ETag, Size, Key }) => ({ id: ETag, name: Key, ...formatFileSize(Size) }))
     } catch (error) {
-      console.log(error)
+      setError(error.message)
+      throw error
     }
   }
 
@@ -29,6 +30,7 @@ export function useS3() {
       return { id: response.ETag, name: file.name, ...formatFileSize(file.size) }
     } catch (error) {
       setError(error.message)
+      throw error
     } finally {
       hideLoading()
     }
@@ -39,6 +41,7 @@ export function useS3() {
       return await s3API.deleteObjectFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
+      throw error
     }
   }
 
@@ -47,8 +50,17 @@ export function useS3() {
       return await s3API.getDownloadObjectURLFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
+      throw error
     }
   }
 
-  return { error, isLoading, uploadResponse, listBucketObjects, uploadObjectToBucket, getDownloadObjectURLFromBucket, removeObjectFromBucket }
+  return {
+    error,
+    isLoading,
+    uploadResponse,
+    listBucketObjects,
+    uploadObjectToBucket,
+    getDownloadObjectURLFromBucket,
+    removeObjectFromBucket
+  }
 };

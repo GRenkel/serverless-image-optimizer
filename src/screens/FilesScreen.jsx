@@ -2,7 +2,7 @@ import React from 'react';
 import { FileUploader } from '../components/FileUploader';
 import { SearchBar } from '../components/SearchBar';
 import { FilesList } from '../components/FilesList';
-import { FloatButton } from 'antd';
+import { FloatButton, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { translate } from '../locales/translator';
 import { useFileManager } from '../hooks/api/useFileManager';
@@ -10,10 +10,19 @@ import { useEffect } from 'react';
 
 const FilesScreen = () => {
   const { error, isLoading, listedFiles, uploadFile, downloadFile, searchFiles, removeFile } = useFileManager()
+
   useEffect(() => {
     searchFiles()
   }, [])
 
+  useEffect(() => {
+    if (error) {
+      message.error(error)
+    }
+  }, [error])
+
+
+  console.log('renderizando')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center' }}>
       <div style={{ flex: 1, width: '100%', maxWidth: '600px' }}>

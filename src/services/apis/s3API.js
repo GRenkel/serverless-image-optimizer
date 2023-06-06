@@ -27,7 +27,7 @@ export const s3API = {
       const { Contents } = await awsS3Helper.sendS3Command(this.s3Client, listBucketObjectsCommand)
       return Contents
     } catch (error) {
-      console.log(error)
+      throw error
     }
   },
 
@@ -36,7 +36,7 @@ export const s3API = {
       const downloadParams = { Key: objectKey, ...this.bucketConfig }
       return awsS3Helper.createPresignedGetUrl(this.s3Client,downloadParams)
     } catch (error) {
-      console.log('error', error)
+      throw error
     }
   },
 
@@ -46,7 +46,7 @@ export const s3API = {
       const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
       return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)
     } catch (error) {
-      console.log('error', error)
+      throw error
     }
   },
   
@@ -56,8 +56,7 @@ export const s3API = {
       const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
       return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
     } catch (error) {
-      debugger
-      console.log('error', error)
+      throw error
     }
   },
 
@@ -107,7 +106,7 @@ export const s3API = {
         const abortCommand = awsS3Helper.getAbortMultipartUploadCommand(bucketParams)
         await awsS3Helper.sendS3Command(this.s3Client, abortCommand);
       }
-      console.log(error)
+      throw error
     }
   },
 

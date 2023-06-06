@@ -21,19 +21,24 @@ export function useFileManager() {
   };
 
   function updateAndRemoveTemporaryUploadingFromFileList(newFile) {
-    setListedFiles((current) => ([newFile, ...current.filter(f => !f.isUploading)]))
+    if(Object.keys(newFile).length > 0){
+      return setListedFiles((current) => ([newFile, ...current.filter(f => !f.isUploading)]))
+    }
+    return setListedFiles((current) => ([...current.filter(f => !f.isUploading)]))
   }
 
   async function uploadFile({ file, onSuccess, onError }) {
+    const resultFileUploaded = {}
     try {
       const uploadingFile = { ...file, id: 'uploading', isUploading: true }
       setListedFiles((current) => ([uploadingFile, ...current]))
       const response = await uploadObjectToBucket({ file });
+      resultFileUploaded = response
       onSuccess()
-      setTimeout(() => updateAndRemoveTemporaryUploadingFromFileList(response), 500)
     } catch (error) {
       onError(error)
-      setError(error.message)
+    } finally {
+      setTimeout(() => updateAndRemoveTemporaryUploadingFromFileList(resultFileUploaded), 500)
     }
   }
 
@@ -52,7 +57,6 @@ export function useFileManager() {
       console.log(URL)
       window.location.href = URL;
     } catch (error) {
-      debugger
       setError(error.message)
     }
   }
