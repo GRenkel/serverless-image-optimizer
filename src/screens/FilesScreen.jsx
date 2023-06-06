@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 
 const FilesScreen = () => {
   const { error, isLoading, listedFiles, uploadFile, searchFiles, removeFile } = useFileManager()
-
   useEffect(() => {
     searchFiles()
   }, [])
@@ -24,7 +23,11 @@ const FilesScreen = () => {
         <SearchBar isLoading={isLoading} handleOnSearch={searchFiles} />
       </div>
       <div style={{ flex: 3, overflow: 'auto', width: '100%' }}>
-        <FilesList handleRemove={removeFile} isLoading={isLoading} fileData={listedFiles} />
+        <FilesList
+          isLoading={isLoading}
+          fileData={listedFiles}
+          handleRemove={removeFile}
+        />
       </div>
       <FloatButton
         icon={<QuestionCircleOutlined />}

@@ -6,10 +6,10 @@ import { useS3 } from "../hooks/api/useS3";
 
 export function FilesList({ fileData, handleDownload, handleRemove, isLoading }) {
 
-if (isLoading) {
+  if (isLoading) {
     return (
       <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {[...Array(10)].map((_, index) => <FileSkeletonCard key={index} />)}
+        {[...Array(3)].map((_, index) => <FileSkeletonCard key={index} />)}
       </div>
     );
   }
@@ -20,7 +20,7 @@ if (isLoading) {
 
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-      {fileData.map((row) => <FileCard  key={row.id} handleDownload={handleDownload} handleRemove={handleRemove} {...row}/>)}
+      {fileData.map((row) => <FileCard key={row.id} handleDownload={handleDownload} handleRemove={handleRemove} {...row} />)}
     </div>
   )
 }

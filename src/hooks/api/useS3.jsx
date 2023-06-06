@@ -34,14 +34,11 @@ export function useS3() {
   }
 
   async function removeObjectFromBucket(objectKey){
-    showLoading()
     try {
       return await s3API.deleteObjectFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
-    } finally {
-      hideLoading()
-    }
+    } 
   }
 
   return { error, isLoading, listBucketObjects, uploadResponse, removeObjectFromBucket, uploadObjectToBucket }

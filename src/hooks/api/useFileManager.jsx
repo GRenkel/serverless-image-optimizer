@@ -20,30 +20,29 @@ export function useFileManager() {
     }
   };
 
+  function updateAndRemoveTemporaryUploadingFromFileList(newFile) {
+    setListedFiles((current) => ([newFile, ...current.filter(f => !f.isUploading)]))
+  }
+
   async function uploadFile({ file, onSuccess, onError }) {
-    showLoading()
     try {
-      debugger
-      const response = await uploadObjectToBucket({file});
+      const uploadingFile = { ...file, id: 'uploading', isUploading: true }
+      setListedFiles((current) => ([uploadingFile, ...current]))
+      const response = await uploadObjectToBucket({ file });
       onSuccess()
-      setListedFiles((current) => ([response, ...current ]))
+      setTimeout(() => updateAndRemoveTemporaryUploadingFromFileList(response), 500)
     } catch (error) {
       onError(error)
       setError(error.message)
-    } finally {
-      hideLoading()
     }
   }
 
   async function removeFile({ id, name }) {
-    showLoading()
     try {
       await removeObjectFromBucket(name);
       setListedFiles((current) => (current.filter(obj => id !== obj.id)))
     } catch (error) {
       setError(error.message)
-    } finally {
-      hideLoading()
     }
   }
 

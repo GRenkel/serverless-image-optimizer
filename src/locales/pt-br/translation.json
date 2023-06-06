@@ -4,7 +4,8 @@
     "instruction": "Clique ou arraste seu arquivo aqui para envia-lo!",
     "hint": "Abaixo estão listados os dados dos arquivos importados. Use a barra de pesquisa para filtrar-los.",
     "successfully-upload": " enviado com sucesso.",
-    "failure-upload": " falhou ao ser enviado."
+    "failure-upload": " falhou ao ser enviado.",
+    "uploading": "Uploading"
   },
   "search": {
     "description": "Pesquisar"
