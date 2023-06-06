@@ -6,6 +6,7 @@ import { formatFileSize } from "../../utils/fileUpload";
 const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024
 
 export function useS3() {
+  
   const [error, setError] = useState(null);
   const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
@@ -25,7 +26,7 @@ export function useS3() {
       const uploadFunction = (file.size > MAX_COMMON_FILE_SIZE ? s3API.uploadLargeObjectToBucket : s3API.uploadCommonObjectToBucket).bind(s3API)
       const response = await uploadFunction(file);
       setUploadResponse(response)
-      return { id: response.ETag, name: file.name, ...formatFileSize(file.size)}
+      return { id: response.ETag, name: file.name, ...formatFileSize(file.size) }
     } catch (error) {
       setError(error.message)
     } finally {
@@ -33,13 +34,21 @@ export function useS3() {
     }
   }
 
-  async function removeObjectFromBucket(objectKey){
+  async function removeObjectFromBucket(objectKey) {
     try {
       return await s3API.deleteObjectFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
-    } 
+    }
   }
 
-  return { error, isLoading, listBucketObjects, uploadResponse, removeObjectFromBucket, uploadObjectToBucket }
+  async function getDownloadObjectURLFromBucket(objectKey) {
+    try {
+      return await s3API.getDownloadObjectURLFromBucket(objectKey);
+    } catch (error) {
+      setError(error.message)
+    }
+  }
+
+  return { error, isLoading, uploadResponse, listBucketObjects, uploadObjectToBucket, getDownloadObjectURLFromBucket, removeObjectFromBucket }
 };

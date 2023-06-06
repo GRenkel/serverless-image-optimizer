@@ -5,13 +5,13 @@ import { useS3 } from "./useS3";
 export function useFileManager() {
   const [error, setError] = useState(null);
   const [listedFiles, setListedFiles] = useState([]);
-  const { listBucketObjects, removeObjectFromBucket, uploadObjectToBucket } = useS3()
+  const { listBucketObjects, getDownloadObjectURLFromBucket, removeObjectFromBucket, uploadObjectToBucket } = useS3()
   const { isLoading, showLoading, hideLoading } = useLoading();
 
-  async function searchFiles(value) {
+  async function searchFiles(fileName) {
     showLoading()
     try {
-      const response = await listBucketObjects(value);
+      const response = await listBucketObjects(fileName);
       setListedFiles(response);
     } catch (error) {
       setError(error.message)
@@ -46,6 +46,16 @@ export function useFileManager() {
     }
   }
 
+  async function downloadFile(fileName) {
+    try {
+      const URL = await getDownloadObjectURLFromBucket(fileName);
+      console.log(URL)
+      window.location.href = URL;
+    } catch (error) {
+      debugger
+      setError(error.message)
+    }
+  }
 
-  return { error, isLoading, listedFiles, removeFile, uploadFile, searchFiles }
+  return { error, isLoading, listedFiles, downloadFile, removeFile, uploadFile, searchFiles }
 }

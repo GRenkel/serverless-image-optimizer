@@ -14,18 +14,6 @@ export const s3API = {
     return awsS3Helper.sendS3Command(this.s3Client, pushBucketCommand)
   },
 
-  async bucketExists() {
-    const { Bucket } = this.bucketConfig
-    const bucketExistsCommand = awsS3Helper.getBucketExistCommand({ Bucket })
-    try {
-      const response = await awsS3Helper.sendS3Command(this.s3Client, bucketExistsCommand)
-      debugger
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  },
-
   async listBucketObjects(Prefix) {
     const DEFAULT_MAX_KEYS = 50
     const listCommandParams = { MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig }
@@ -43,13 +31,11 @@ export const s3API = {
     }
   },
 
-  async uploadCommonObjectToBucket(s3object) {
+  async getDownloadObjectURLFromBucket(objectKey){
     try {
-      const uploadParams = { Key: s3object.name, ...this.bucketConfig, Body: s3object }
-      const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
-      return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
+      const downloadParams = { Key: objectKey, ...this.bucketConfig }
+      return awsS3Helper.createPresignedGetUrl(this.s3Client,downloadParams)
     } catch (error) {
-      debugger
       console.log('error', error)
     }
   },
@@ -59,6 +45,16 @@ export const s3API = {
       const deleteParams = { Key: objectKey, ...this.bucketConfig }
       const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
       return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)
+    } catch (error) {
+      console.log('error', error)
+    }
+  },
+  
+  async uploadCommonObjectToBucket(s3object) {
+    try {
+      const uploadParams = { Key: s3object.name, ...this.bucketConfig, Body: s3object }
+      const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
+      return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
     } catch (error) {
       debugger
       console.log('error', error)

@@ -1,5 +1,6 @@
-import { AbortMultipartUploadCommand, CompleteMultipartUploadCommand, CreateBucketCommand, CreateMultipartUploadCommand, DeleteObjectCommand, HeadBucketCommand, ListObjectsCommand, PutObjectCommand, S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
+import { AbortMultipartUploadCommand, CompleteMultipartUploadCommand, CreateBucketCommand, CreateMultipartUploadCommand, DeleteObjectCommand, GetObjectCommand, HeadBucketCommand, ListObjectsCommand, PutObjectCommand, S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
 import { getSessionConfig } from "../../../utils/session";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const DEFAULT_REGION = "us-east-1"
 export const MAX_CHUNCK_SIZE = 5 * 1024 * 1024
@@ -21,7 +22,7 @@ function getCreateNewBucketCommand(bucketConfig) {
   return new CreateBucketCommand(bucketConfig);
 }
 
-function getListBucketObjectsCommand(listParams){
+function getListBucketObjectsCommand(listParams) {
   return new ListObjectsCommand(listParams)
 }
 
@@ -29,29 +30,34 @@ function getBucketExistCommand(bucketParams) {
   return new HeadBucketCommand(bucketParams)
 }
 
-function getAbortMultipartUploadCommand(abortParams){
+function getAbortMultipartUploadCommand(abortParams) {
   return new AbortMultipartUploadCommand(abortParams)
-} 
+}
 
-function getCreateMultipartUploadCommand(uploadParams){
+function getCreateMultipartUploadCommand(uploadParams) {
   return new CreateMultipartUploadCommand(uploadParams)
 }
 
-function getUploadPartCommand(uploadParams){
+function getUploadPartCommand(uploadParams) {
   return new UploadPartCommand(uploadParams)
 }
 
-function getCompleteMultipartUploadCommand(completedUploadParams){
+function getCompleteMultipartUploadCommand(completedUploadParams) {
   return new CompleteMultipartUploadCommand(completedUploadParams)
 }
 
-function getPutObjectCommand(uploadParams){
+function getPutObjectCommand(uploadParams) {
   return new PutObjectCommand(uploadParams)
 }
 
-function getDeleteObjectCommand(deleteParams){
+function getDeleteObjectCommand(deleteParams) {
   return new DeleteObjectCommand(deleteParams)
 }
+
+function createPresignedGetUrl(client, getParams) {
+  const command = new GetObjectCommand(getParams)
+  return getSignedUrl(client, command, { expiresIn: 3600 });
+};
 
 function configureS3Client(configs) {
   if (!configs.region) {
@@ -78,6 +84,7 @@ export const awsS3Helper = {
   getUploadPartCommand,
   getAbortMultipartUploadCommand,
   getPutObjectCommand,
+  createPresignedGetUrl,
   getCreateMultipartUploadCommand,
   getCompleteMultipartUploadCommand,
   getDeleteObjectCommand,

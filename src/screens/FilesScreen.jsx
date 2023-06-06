@@ -9,7 +9,7 @@ import { useFileManager } from '../hooks/api/useFileManager';
 import { useEffect } from 'react';
 
 const FilesScreen = () => {
-  const { error, isLoading, listedFiles, uploadFile, searchFiles, removeFile } = useFileManager()
+  const { error, isLoading, listedFiles, uploadFile, downloadFile, searchFiles, removeFile } = useFileManager()
   useEffect(() => {
     searchFiles()
   }, [])
@@ -27,6 +27,7 @@ const FilesScreen = () => {
           isLoading={isLoading}
           fileData={listedFiles}
           handleRemove={removeFile}
+          handleDownload={downloadFile}
         />
       </div>
       <FloatButton

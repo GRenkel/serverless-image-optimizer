@@ -3,6 +3,7 @@ import { FileOutlined, DeleteOutlined, CloudDownloadOutlined, ContainerTwoTone }
 import { translate } from "../locales/translator";
 
 export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUnit, isUploading = false }) {
+  
   if (isUploading) {
     return (
       <Spin tip={translate("upload.uploading")} size="small">
@@ -26,7 +27,7 @@ export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUni
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 10 }}>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
-          <CloudDownloadOutlined onClick={() => handleDownload({ id, name })} style={{ fontSize: 25, color: 'red' }} />
+          <CloudDownloadOutlined onClick={() => handleDownload(name)} style={{ fontSize: 25, color: 'red' }} />
           <DeleteOutlined onClick={() => handleRemove({ id, name })} style={{ fontSize: 25, color: 'red' }} />
         </div>
         <div style={{ alignSelf: 'center' }}>
