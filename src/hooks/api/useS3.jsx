@@ -30,7 +30,6 @@ export function useS3() {
     } catch (error) {
       setError(error.message)
     } finally {
-
       hideLoading()
     }
   }
