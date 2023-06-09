@@ -37,7 +37,7 @@ describe("useSearchUsers  - Test Suit", () => {
   test("Should return an updated users list", async () => {
     const { result } = renderHook(useSearchUsers)
     expect(result.current.listedUsers).toEqual([])
-    await act(async () => result.current.updatedUsersList(mockUserData))
+    await act(async () => result.current.updatedfilesList(mockUserData))
     expect(result.current.listedUsers).toEqual(mockUserData)
   })
 

@@ -6,7 +6,7 @@ export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUni
 
   if (isUploading) {
     return (
-      <Spin tip={translate("upload.uploading")} size="small">
+      <Spin data-testid='spin-comp' tip={translate("upload.uploading")} size="small">
         <Card
           hoverable
           style={{ width: 250, margin: '10px', minHeight: 150 }}
@@ -25,7 +25,7 @@ export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUni
         <Avatar size={"large"} icon={<FileOutlined />} />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <span data-testid="span-name" style={{ fontWeight: 'bold' }}>{name}</span>
-          <span data-testid="span-name" style={{ fontWeight: 'lighter', fontSize: '10px' }}>{size.toFixed(2)}{' '}{sizeUnit}</span>
+          <span data-testid="span-size" style={{ fontWeight: 'lighter', fontSize: '10px' }}>{size.toFixed(2)}{' '}{sizeUnit}</span>
         </div>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
 
