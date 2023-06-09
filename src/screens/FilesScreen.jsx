@@ -31,7 +31,7 @@ const FilesScreen = () => {
       <div style={{ flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px' }}>
         <SearchBar isLoading={isLoading} handleOnSearch={searchFiles} />
       </div>
-      <div style={{ flex: 3, overflow: 'auto', width: '100%' }}>
+      <div style={{ flex: 3, overflow: 'auto', width: '100%', padding: 5 }}>
         <FilesList
           isLoading={isLoading}
           fileData={listedFiles}
