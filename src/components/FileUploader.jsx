@@ -25,7 +25,6 @@ export function FileUploader({ isLoading, disabled, handleUpload }) {
       disabled={isLoading || disabled}
       showUploadList={false}
       data-testid="file-input"
-      // beforeUpload={handleFileValidation}
       customRequest={handleUpload}
       onChange={handleUploadStatus}
     >
