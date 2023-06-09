@@ -54,7 +54,6 @@ export function useFileManager() {
   async function downloadFile(fileName) {
     try {
       const URL = await getDownloadObjectURLFromBucket(fileName);
-      console.log(URL)
       window.location.href = URL;
     } catch (error) {
       setError(error.message)
