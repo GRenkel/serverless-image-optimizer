@@ -33,6 +33,12 @@ export const smallFile = {
   }
 }
 
+export const smallFileUploadResponse = {
+  id: faker.string.uuid() + smallFile.file.name,
+  name: smallFile.file.name,
+  ...formatFileSize(smallFile.file.size)
+}
+
 export const largeFile = {
   file: {
     size: 2 * MAX_COMMON_FILE_SIZE,
