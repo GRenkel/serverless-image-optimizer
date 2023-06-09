@@ -13,7 +13,7 @@ export function FilesList({ fileData, handleDownload, handleRemove, isLoading })
   }
 
   if (fileData.length === 0) {
-    return <Empty description={translate('usersList.empty')} />
+    return <Empty description={translate('filesList.empty')} />
   }
 
   return (
