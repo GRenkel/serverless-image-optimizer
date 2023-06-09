@@ -17,7 +17,7 @@ jest.mock('../src/services/apis/s3API', () => ({
 }))
 
 describe("useS3 - Test Suit", () => {
-  
+
   const mockedAPIErrorResponse = translate('api.error')
   const mockError = new Error(mockedAPIErrorResponse)
 
@@ -55,8 +55,14 @@ describe("useS3 - Test Suit", () => {
     const { result } = renderHook(useS3)
 
     s3API.uploadCommonObjectToBucket.mockRejectedValueOnce(mockError)
-
-    await act(async () => result.current.uploadObjectToBucket(smallFile))
+    await act(async () => {
+      try {
+        await result.current.uploadObjectToBucket(smallFile);
+      } catch (error) {
+        expect(error.message).toBe(mockedAPIErrorResponse);
+      }
+    });
+    
     expect(result.current.error).toBe(mockedAPIErrorResponse)
   })
 
@@ -78,7 +84,7 @@ describe("useS3 - Test Suit", () => {
     const { result } = renderHook(useS3)
     const mockObjectKey = faker.system.commonFileName;
     s3API.listBucketObjects.mockRejectedValueOnce(mockError)
-    
+
     await act(async () => result.current.listBucketObjects(mockObjectKey))
 
     expect(result.current.error).toBe(mockError.message)
@@ -99,7 +105,7 @@ describe("useS3 - Test Suit", () => {
     const { result } = renderHook(useS3)
     const mockObjectKey = faker.system.commonFileName;
     s3API.deleteObjectFromBucket.mockRejectedValueOnce(mockError)
-    
+
     await act(async () => result.current.removeObjectFromBucket(mockObjectKey))
 
     expect(result.current.error).toBe(mockError.message)

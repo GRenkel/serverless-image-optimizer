@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useLoading from "../useLoading";
 import { useS3 } from "./useS3";
 
 export function useFileManager() {
   const [error, setError] = useState(null);
   const [listedFiles, setListedFiles] = useState([]);
-  const { listBucketObjects, getDownloadObjectURLFromBucket, removeObjectFromBucket, uploadObjectToBucket } = useS3()
+  const { error: s3Error, listBucketObjects, getDownloadObjectURLFromBucket, removeObjectFromBucket, uploadObjectToBucket } = useS3()
   const { isLoading, showLoading, hideLoading } = useLoading();
 
+  useEffect(()=> {
+    setError(s3Error)
+  }, [s3Error])
+  
   async function searchFiles(fileName) {
     showLoading()
     try {

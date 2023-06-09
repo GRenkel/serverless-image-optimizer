@@ -29,6 +29,7 @@ export function useS3() {
       return { id: response.ETag+file.name, name: file.name, ...formatFileSize(file.size) }
     } catch (error) {
       setError(error.message)
+      throw error
     } finally {
       hideLoading()
     }
