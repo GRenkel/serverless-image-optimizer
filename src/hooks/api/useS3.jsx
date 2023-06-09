@@ -14,7 +14,7 @@ export function useS3() {
   async function listBucketObjects(objName) {
     try {
       const objects = await s3API.listBucketObjects(objName)
-      return objects.map(({ ETag, Size, Key }) => ({ id: ETag, name: Key, ...formatFileSize(Size) }))
+      return objects.map(({ ETag, Size, Key }) => ({ id: ETag+Key, name: Key, ...formatFileSize(Size) }))
     } catch (error) {
       setError(error.message)
       throw error
@@ -27,11 +27,12 @@ export function useS3() {
       const uploadFunction = (file.size > MAX_COMMON_FILE_SIZE ? s3API.uploadLargeObjectToBucket : s3API.uploadCommonObjectToBucket).bind(s3API)
       const response = await uploadFunction(file);
       setUploadResponse(response)
-      return { id: response.ETag, name: file.name, ...formatFileSize(file.size) }
+      return { id: response.ETag+file.name, name: file.name, ...formatFileSize(file.size) }
     } catch (error) {
       setError(error.message)
       throw error
     } finally {
+
       hideLoading()
     }
   }

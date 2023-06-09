@@ -28,7 +28,7 @@ export function useFileManager() {
   }
 
   async function uploadFile({ file, onSuccess, onError }) {
-    const resultFileUploaded = {}
+    let resultFileUploaded = {}
     try {
       const uploadingFile = { ...file, id: 'uploading', isUploading: true }
       setListedFiles((current) => ([uploadingFile, ...current]))

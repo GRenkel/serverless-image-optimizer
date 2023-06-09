@@ -5,7 +5,6 @@ import { FileCard } from "./FileCard";
 import { useS3 } from "../hooks/api/useS3";
 
 export function FilesList({ fileData, handleDownload, handleRemove, isLoading }) {
-
   if (isLoading) {
     return (
       <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
