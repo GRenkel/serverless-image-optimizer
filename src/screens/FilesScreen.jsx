@@ -13,7 +13,7 @@ const FilesScreen = () => {
 
   useEffect(() => {
     searchFiles()
-  }, [])
+  }, [searchFiles])
 
   useEffect(() => {
     if (error) {
@@ -21,8 +21,6 @@ const FilesScreen = () => {
     }
   }, [error])
 
-
-  console.log('renderizando')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center' }}>
       <div style={{ flex: 1, width: '100%', maxWidth: '600px' }}>

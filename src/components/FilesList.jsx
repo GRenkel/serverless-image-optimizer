@@ -2,7 +2,6 @@ import { Empty } from "antd";
 import { translate } from '../locales/translator'
 import { FileSkeletonCard } from "./FileSkeletonCard";
 import { FileCard } from "./FileCard";
-import { useS3 } from "../hooks/api/useS3";
 
 export function FilesList({ fileData, handleDownload, handleRemove, isLoading }) {
   if (isLoading) {
