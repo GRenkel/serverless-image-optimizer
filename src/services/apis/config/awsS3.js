@@ -1,5 +1,4 @@
 import { AbortMultipartUploadCommand, CompleteMultipartUploadCommand, CreateBucketCommand, CreateMultipartUploadCommand, DeleteObjectCommand, GetObjectCommand, HeadBucketCommand, ListObjectsCommand, PutObjectCommand, S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
-import { getSessionConfig } from "../../../utils/session";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const DEFAULT_REGION = "us-east-1"
@@ -7,8 +6,7 @@ export const MAX_CHUNCK_SIZE = 5 * 1024 * 1024
 export const DEFAULT_BUCKET_NAME = "app-5g-uploader"
 
 function getBucketName() {
-  const { sessionIdentifier } = getSessionConfig()
-  return DEFAULT_BUCKET_NAME + '-' + sessionIdentifier
+  return DEFAULT_BUCKET_NAME
 }
 
 function getBucketConfig() {
