@@ -25,7 +25,7 @@ Before running the application, you need to provide your AWS S3 credentials and 
 
 1. Open the `src/services/apis/config/awsS3.js` file.
 2. Replace `DEFAULT_BUCKET_NAME` with the name of your S3 bucket.
-3. Create and `.env` file.
+3. Create a `.env` file.
 4. Add on `.env` the variable `REACT_APP_AWS_ACCESS_KEY_ID` with your AWS access key.
 5. Add on `.env` the variable `REACT_APP_AWS_SECRET_ACCESS_KEY` with your AWS secret access key.
 
