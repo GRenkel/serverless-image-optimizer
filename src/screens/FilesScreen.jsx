@@ -13,7 +13,7 @@ const FilesScreen = () => {
 
   useEffect(() => {
     searchFiles()
-  }, [searchFiles])
+  }, [])
 
   useEffect(() => {
     if (error) {
