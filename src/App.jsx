@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './screens/Authentication/LoginForm';
-import SignUp from './screens/Authentication/SignUpForm';
 import AuthContextProvider from './contexts/auth/AuthContextProvider';
 import PrivateRoute from './router/PrivateRoute';
 import Home from './screens/Home/Home';
+import SignUp from './screens/signup/SignUp';
+import Login from './screens/login/Login';
 
 function App() {
   return (

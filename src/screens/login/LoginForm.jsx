@@ -1,23 +1,13 @@
-import { Form, Input, Button, Modal, Divider } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 
-const LoginForm = (handleOnAuthentication) => {
-  const [errorLogin, setErrorLogin] = useState(null);
-
-  const onFinish = async (values) => {
-    try {
-
-    } catch (e) {
-      setErrorLogin(e?.response?.data?.error ? e?.response?.data?.error : "Login inválido")
-    }
-  }
+const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
 
   return (
     <Form
       name="login"
       initialValues={{ remember: false }}
-      onFinish={onFinish}
+      onFinish={handleOnAuthentication}
     >
       <Form.Item
         name="email"
@@ -39,7 +29,7 @@ const LoginForm = (handleOnAuthentication) => {
           style={{ maxWidth: '225px' }}
         />
       </Form.Item>
-      {errorLogin && <label style={{ color: 'red' }}>{errorLogin}</label>}
+      {authenticationError && <label style={{ color: 'red' }}>{authenticationError}</label>}
 
       <Form.Item
         hasFeedback
@@ -49,6 +39,7 @@ const LoginForm = (handleOnAuthentication) => {
           htmlType="submit">
           Entrar
         </Button>
+        Or <a href='signup'>Register</a>
       </Form.Item>
     </Form>
   )
