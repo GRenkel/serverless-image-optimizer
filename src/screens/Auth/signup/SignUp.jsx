@@ -1,4 +1,4 @@
-import { CognitoAPIHelper } from '../../services/aws/cognito/CognitoAPIHelper';
+import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper';
 import SignUpForm from './SignUpForm'
 
 function SignUp(props) {

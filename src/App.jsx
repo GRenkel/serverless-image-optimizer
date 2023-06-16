@@ -2,8 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthContextProvider from './contexts/auth/AuthContextProvider';
 import PrivateRoute from './router/PrivateRoute';
 import Home from './screens/Home/Home';
-import SignUp from './screens/signup/SignUp';
-import Login from './screens/login/Login';
+import SignUp from './screens/Auth/signup/SignUp';
+import Login from './screens/Auth/login/Login';
+import AuthContainer from './screens/Auth/AuthContainer';
 
 function App() {
   return (
@@ -14,8 +15,10 @@ function App() {
             <Route exact path='/' element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />
             </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path='/auth' element={<AuthContainer />}>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>
