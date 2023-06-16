@@ -5,17 +5,18 @@ function SignUp(props) {
 
   const handleSignUp = async (values) => {
     try {
-      let { email, password, confirmation_password, ...allowedAttributes } = values
+      let { email, password, ...allowedAttributes } = values
       const attributes = CognitoAPIHelper.getCognitoAttributesArrayFromObject(allowedAttributes)
       await CognitoAPIHelper.userSignUp(email, password, attributes)
-
     } catch (e) {
       console.log('Erro ao cadastrar usuário: ', e)
     }
   }
 
   return (
-    <SignUpForm handleSignUp={handleSignUp}/>
+    <div style={{width: '350px'}}>
+      <SignUpForm handleSignUp={handleSignUp} />
+    </div>
   )
 }
 export default SignUp;

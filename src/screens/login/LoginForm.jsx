@@ -1,6 +1,5 @@
 import { Form, Input, Button } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-
 const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
 
   return (
@@ -9,15 +8,17 @@ const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
       initialValues={{ remember: false }}
       onFinish={handleOnAuthentication}
     >
+
       <Form.Item
         name="email"
         rules={[{ required: true, message: 'Informe seu email!' }, { type: 'email', message: 'Informe um e-mail válido!' }]}
       >
         <Input
-          style={{ width: '100%', maxWidth: '225px' }}
           prefix={<MailOutlined className="site-form-item-icon" />}
-          placeholder="Email" />
+          placeholder="Email"
+        />
       </Form.Item>
+
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Informe sua senha!' }]}
@@ -26,9 +27,9 @@ const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Senha"
-          style={{ maxWidth: '225px' }}
         />
       </Form.Item>
+
       {authenticationError && <label style={{ color: 'red' }}>{authenticationError}</label>}
 
       <Form.Item
@@ -39,8 +40,9 @@ const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
           htmlType="submit">
           Entrar
         </Button>
-        Or <a href='signup'>Register</a>
+        Or <a href='signup'>Sign Up</a>
       </Form.Item>
+
     </Form>
   )
 }
