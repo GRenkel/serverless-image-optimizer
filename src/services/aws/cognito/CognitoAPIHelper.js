@@ -21,6 +21,13 @@ export const CognitoAPIHelper = {
     return cognitoAttributes
   },
 
+  getUserAttributesFromCognitoAttributesArray: function (attributesArray = []) {
+    debugger
+    let cognitoAttributes = {}
+    attributesArray.forEach(attribute => cognitoAttributes[attribute.Name] = attribute.Value)
+    return cognitoAttributes
+  },
+
   userSignUp: async function (email, password, attributes) {
     return new Promise((resolve, reject) => {
       CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
@@ -32,6 +39,24 @@ export const CognitoAPIHelper = {
       });
     });
   },
+
+  getCurrentUserAttributes: async function () {
+    const currentUser = CognitoUserPool.getCurrentUser()
+    return new Promise((resolve, reject) => currentUser.getSession((error, session) => {
+      if (error) {
+        reject(error)
+      }
+      currentUser.getUserAttributes((error, attributes) => {
+        if (error) {
+          reject(error)
+        } else {
+          const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes)
+          resolve(attributesObject)
+        }
+      })
+    }))
+  },
+
   userLogin: async function (email, password) {
     const authData = {
       Username: email,
@@ -48,9 +73,8 @@ export const CognitoAPIHelper = {
 
     return new Promise((resolve, reject) => {
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (result) => {
-          debugger
-          const jwtToken = result.getAccessToken().getJwtToken()
+        onSuccess: async (result) => {
+          const jwtToken = result.accessToken.jwtToken
           console.log('success authenticating', result);
           resolve({ authStatus: EAuthStatus.isLogged, jwtToken })
         },
@@ -65,7 +89,7 @@ export const CognitoAPIHelper = {
 
           // the api doesn't accept this field back
           delete userAttributes.email_verified;
-          resolve({ authStatus: EAuthStatus.mustChangePassword, userAttributes })
+          resolve({ authStatus: EAuthStatus.mustChangePassword, userData: userAttributes })
 
           // store userAttributes on global variable
           // sessionUserAttributes = userAttributes;
