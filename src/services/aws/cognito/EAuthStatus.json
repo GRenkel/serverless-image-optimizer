@@ -1,0 +1,6 @@
+{
+  "isLogged": 1,
+  "NotAuthorizedException": 2,
+  "failedToLogin": 3,
+  "mustChangePassword": 4
+}
