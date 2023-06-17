@@ -1,13 +1,14 @@
 import { Form, Input, Button } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
+const LoginForm = ({ handleOnAuthentication, authenticationError, formRef }) => {
 
   return (
     <Form
+      form={formRef}
       name="login"
       initialValues={{ remember: false }}
       onFinish={handleOnAuthentication}
-      style={{textAlign: 'center'}}
+      style={{ textAlign: 'center' }}
     >
 
       <Form.Item

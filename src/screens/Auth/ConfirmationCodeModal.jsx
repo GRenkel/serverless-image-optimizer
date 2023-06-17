@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
+import { CognitoAPIHelper } from '../../services/aws/cognito/CognitoAPIHelper';
 
-const ConfirmationCodeModal = ({ isOpen, handleConfirmation }) => {
+const ConfirmationCodeModal = ({ isOpen, afterConfirmation }) => {
+  const [uiFeedback, setUIFeedBack] = useState({ message: '', isError: false })
 
-  const handleCodeResend = () => {
+  const handleConfirmation = async ({ confirmationCode }) => {
+    try {
+      await CognitoAPIHelper.confirmUserSignUp(confirmationCode)
+      afterConfirmation()
+    } catch (error) {
+      setUIFeedBack({ isError: true, message: error.message })
+    }
+  };
 
+
+  const handleCodeResend = async () => {
+    try {
+      const { CodeDeliveryDetails: { Destination } } = await CognitoAPIHelper.resendConfirmationCode()
+      setUIFeedBack({ isError: false, message: `A new code was sent to ${Destination}`})
+
+    } catch (error) {
+      setUIFeedBack({ isError: true, message: error.message })
+    }
   }
+
   return (
     <Modal
       title={<label style={{ display: 'flex', justifyContent: 'center' }}>Confirmation Code</label>}
@@ -28,6 +47,8 @@ const ConfirmationCodeModal = ({ isOpen, handleConfirmation }) => {
         >
           <Input placeholder="Enter confirmation code" />
         </Form.Item>
+        {uiFeedback.message && <label style={{ color: uiFeedback.isError ? 'red' : 'green' }}>{uiFeedback.message}</label>}
+
         <Form.Item>
           <Button
             type="primary"

@@ -55,9 +55,9 @@ export const CognitoAPIHelper = {
 
   confirmUserSignUp: async function (confirmationCode) {
     return new Promise((resolve, reject) => {
-      this.cognitoUser.confirmRegistration(confirmationCode, true, function (err, result) {
-        if (err) {
-          reject(err.message || JSON.stringify(err))
+      this.cognitoUser.confirmRegistration(confirmationCode, true, function (error, result) {
+        if (error) {
+          reject(error)
         }
         resolve(result)
       })
@@ -66,9 +66,9 @@ export const CognitoAPIHelper = {
 
   resendConfirmationCode: async function () {
     return new Promise((resolve, reject) => {
-      this.cognitoUser.resendConfirmationCode(function (err, result) {
-        if (err) {
-          reject(err.message || JSON.stringify(err));
+      this.cognitoUser.resendConfirmationCode(function (error, result) {
+        if (error) {
+          reject(error);
           return;
         }
         debugger
@@ -81,7 +81,7 @@ export const CognitoAPIHelper = {
     const currentUser = CognitoUserPool.getCurrentUser()
 
     if (currentUser === null) {
-      return {}
+      throw new Error('User is not authenticated!')
     }
 
     return new Promise((resolve, reject) => currentUser.getSession((error, session) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper';
 import SignUpForm from './SignUpForm'
 import ConfirmationCodeModal from '../ConfirmationCodeModal';
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUp(props) {
   const navigate = useNavigate();
+
   const [signupError, setSignupErrorError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -20,22 +21,21 @@ function SignUp(props) {
     }
   }
 
-  const handleConfirmation = async ({ confirmationCode }) => {
-    try {
-      await CognitoAPIHelper.confirmUserSignUp(confirmationCode)
-      navigate('/auth/login')
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const handleAfterConfirmation = () => {
+    navigate('/auth/login')
+  }
+
 
   return (
     <div style={{ width: '350px' }}>
       <ConfirmationCodeModal
         isOpen={isModalVisible}
-        handleConfirmation={handleConfirmation}
+        afterConfirmation={handleAfterConfirmation}
       />
-      <SignUpForm signupError={signupError} handleSignUp={handleSignUp} />
+      <SignUpForm
+        signupError={signupError}
+        handleSignUp={handleSignUp}
+      />
     </div>
   )
 }

@@ -3,14 +3,17 @@ import LoginForm from './LoginForm';
 import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper';
 import EAuthStatus from '../../../services/aws/cognito/EAuthStatus.json'
 import AuthContext from '../../../contexts/auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import ConfirmationCodeModal from '../ConfirmationCodeModal';
+import { useNavigate } from 'react-router-dom';
+import { Form } from 'antd';
 
 const Login = ({ }) => {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+
   const { createUserSession } = useContext(AuthContext)
-  const [authenticationError, setAuthenticationError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [authenticationError, setAuthenticationError] = useState(null);
 
   const handleOnAuthentication = async (formValues) => {
     try {
@@ -29,23 +32,22 @@ const Login = ({ }) => {
     }
   }
 
-  const handleConfirmation = async ({ confirmationCode }) => {
-    try {
-      await CognitoAPIHelper.confirmUserSignUp(confirmationCode)
-      navigate('/auth/login')
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const handleAfterConfirmation = () => {
+    form.submit()
+  }
 
 
   return (
     <div style={{ width: '350px' }}>
       <ConfirmationCodeModal
         isOpen={isModalVisible}
-        handleConfirmation={handleConfirmation}
+        afterConfirmation={handleAfterConfirmation}
       />
-      <LoginForm authenticationError={authenticationError} handleOnAuthentication={handleOnAuthentication} />
+      <LoginForm
+        formRef = {form}
+        authenticationError={authenticationError}
+        handleOnAuthentication={handleOnAuthentication}
+      />
     </div>
   )
 }
