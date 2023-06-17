@@ -7,6 +7,7 @@ const LoginForm = ({ handleOnAuthentication, authenticationError }) => {
       name="login"
       initialValues={{ remember: false }}
       onFinish={handleOnAuthentication}
+      style={{textAlign: 'center'}}
     >
 
       <Form.Item

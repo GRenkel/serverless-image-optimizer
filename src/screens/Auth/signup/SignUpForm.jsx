@@ -1,7 +1,7 @@
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
-function SignUpForm({ handleSignUp }) {
+function SignUpForm({ handleSignUp, signupError }) {
 
   const passwordValidator = (_, value, callback) => {
     const errors = [];
@@ -31,6 +31,7 @@ function SignUpForm({ handleSignUp }) {
       name="sign_up"
       onFinish={handleSignUp}
       initialValues={{ remember: false }}
+      style={{textAlign: 'center'}}
     >
       <Form.Item
         name="given_name"
@@ -76,6 +77,8 @@ function SignUpForm({ handleSignUp }) {
           placeholder="Senha"
         />
       </Form.Item>
+
+      {signupError && <label style={{ color: 'red'}}>{signupError}</label>}
 
       <Form.Item>
         <Button

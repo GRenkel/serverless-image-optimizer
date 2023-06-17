@@ -5,17 +5,17 @@ import EAuthStatus from './EAuthStatus.json'
 export const CognitoAPIHelper = {
   cognitoUser: null,
 
-  setCognitoUser: (UserIdentification) => {
-   
+  setCognitoUser: function (UserIdentification) {
+
     const userData = {
       Username: UserIdentification,
       Pool: CognitoUserPool,
     }
 
-    this.cognitoUser = new CognitoUser(userData);
+    return this.cognitoUser = new CognitoUser(userData);
   },
 
-  getAuthStatus: function (code) {
+  getCognitoAuthStatus: function (code) {
     return EAuthStatus[code] !== undefined ? EAuthStatus[code] : EAuthStatus.failedToLogin
   },
 
@@ -39,6 +39,9 @@ export const CognitoAPIHelper = {
   },
 
   userSignUp: async function (email, password, attributes) {
+
+    this.setCognitoUser(email)
+
     return new Promise((resolve, reject) => {
       CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
         if (err) {
@@ -48,6 +51,30 @@ export const CognitoAPIHelper = {
         }
       });
     });
+  },
+
+  confirmUserSignUp: async function (confirmationCode) {
+    return new Promise((resolve, reject) => {
+      this.cognitoUser.confirmRegistration(confirmationCode, true, function (err, result) {
+        if (err) {
+          reject(err.message || JSON.stringify(err))
+        }
+        resolve(result)
+      })
+    })
+  },
+
+  resendConfirmationCode: async function () {
+    return new Promise((resolve, reject) => {
+      this.cognitoUser.resendConfirmationCode(function (err, result) {
+        if (err) {
+          reject(err.message || JSON.stringify(err));
+          return;
+        }
+        debugger
+        resolve(result);
+      });
+    })
   },
 
   getCurrentUserSession: async function () {
@@ -74,6 +101,9 @@ export const CognitoAPIHelper = {
 
 
   userLogin: async function (email, password) {
+
+    this.setCognitoUser(email)
+
     const authData = {
       Username: email,
       Password: password
@@ -83,13 +113,12 @@ export const CognitoAPIHelper = {
     return new Promise((resolve, reject) => {
       this.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: async (result) => {
-          const jwtToken = result.accessToken.jwtToken
           console.log('success authenticating', result);
           resolve({ authStatus: EAuthStatus.isLogged })
         },
         onFailure: (error) => {
           console.log('error authenticating', error);
-          reject({ authStatus: this.getAuthStatus(error.code), error })
+          reject({ authStatus: this.getCognitoAuthStatus(error.code), message: error.message })
         },
         newPasswordRequired: (userAttributes, requiredAttributes) => {
 
