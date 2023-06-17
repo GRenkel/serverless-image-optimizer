@@ -22,7 +22,7 @@ function SignUp(props) {
   }
 
   const handleAfterConfirmation = () => {
-    navigate('/auth/login')
+    navigate('/auth/signin')
   }
 
 

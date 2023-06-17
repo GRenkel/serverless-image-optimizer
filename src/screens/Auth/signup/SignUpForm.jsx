@@ -88,7 +88,7 @@ function SignUpForm({ handleSignUp, signupError }) {
         >
           Criar Conta
         </Button>
-        Or <a href='login'>Sign In</a>
+        Or <a href='signin'>Sign In</a>
 
       </Form.Item>
     </Form>

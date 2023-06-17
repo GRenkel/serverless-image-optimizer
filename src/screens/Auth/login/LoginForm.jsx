@@ -5,7 +5,7 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef }) => 
   return (
     <Form
       form={formRef}
-      name="login"
+      name="signin"
       initialValues={{ remember: false }}
       onFinish={handleOnAuthentication}
       style={{ textAlign: 'center' }}

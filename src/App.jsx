@@ -16,7 +16,7 @@ function App() {
               <Route path="/" element={<Home />} />
             </Route>
             <Route path='/auth' element={<AuthContainer />}>
-              <Route path="login" element={<Login />} />
+              <Route path="signin" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
             </Route>
           </Routes>

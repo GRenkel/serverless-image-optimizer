@@ -4,7 +4,7 @@ import AuthContext from "../contexts/auth/AuthContext";
 import SplashScreen from "../screens/Splash/Splash";
 import { useEffect } from "react";
 
-const PrivateRoute = ({ redirectPath = '/auth/login' }) => {
+const PrivateRoute = ({ redirectPath = '/auth/signin' }) => {
 
   const { userSession, validateUserSession } = useContext(AuthContext)
 
