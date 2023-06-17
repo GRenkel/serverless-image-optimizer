@@ -38,45 +38,6 @@ export const CognitoAPIHelper = {
     return cognitoAttributes
   },
 
-  userSignUp: async function (email, password, attributes) {
-
-    this.setCognitoUser(email)
-
-    return new Promise((resolve, reject) => {
-      CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
-  },
-
-  confirmUserSignUp: async function (confirmationCode) {
-    return new Promise((resolve, reject) => {
-      this.cognitoUser.confirmRegistration(confirmationCode, true, function (error, result) {
-        if (error) {
-          reject(error)
-        }
-        resolve(result)
-      })
-    })
-  },
-
-  resendConfirmationCode: async function () {
-    return new Promise((resolve, reject) => {
-      this.cognitoUser.resendConfirmationCode(function (error, result) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        debugger
-        resolve(result);
-      });
-    })
-  },
-
   getCurrentUserSession: async function () {
     const currentUser = CognitoUserPool.getCurrentUser()
 
@@ -99,8 +60,46 @@ export const CognitoAPIHelper = {
     }))
   },
 
+  resendConfirmationCode: async function () {
+    return new Promise((resolve, reject) => {
+      this.cognitoUser.resendConfirmationCode(function (error, result) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        debugger
+        resolve(result);
+      });
+    })
+  },
 
-  userLogin: async function (email, password) {
+  confirmUserSignUp: async function (confirmationCode) {
+    return new Promise((resolve, reject) => {
+      this.cognitoUser.confirmRegistration(confirmationCode, true, function (error, result) {
+        if (error) {
+          reject(error)
+        }
+        resolve(result)
+      })
+    })
+  },
+
+  userSignUp: async function (email, password, attributes) {
+
+    this.setCognitoUser(email)
+
+    return new Promise((resolve, reject) => {
+      CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  },
+
+  userSignIn: async function (email, password) {
 
     this.setCognitoUser(email)
 
@@ -127,5 +126,9 @@ export const CognitoAPIHelper = {
         }
       });
     })
+  },
+
+  userSignOut: function () {
+    return this.cognitoUser.signOut();
   }
 }

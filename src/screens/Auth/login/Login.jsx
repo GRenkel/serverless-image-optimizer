@@ -18,7 +18,7 @@ const Login = ({ }) => {
   const handleOnAuthentication = async (formValues) => {
     try {
       const { email, password } = formValues
-      const { authStatus } = await CognitoAPIHelper.userLogin(email, password)
+      const { authStatus } = await CognitoAPIHelper.userSignIn(email, password)
 
       if (authStatus == EAuthStatus.isLogged) {
         createUserSession()
