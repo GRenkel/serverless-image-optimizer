@@ -5,7 +5,7 @@ import EAuthStatus from './EAuthStatus.json'
 export const CognitoAPIHelper = {
   currentCognitoUser: null,
 
-  setCurrentCognitoUser: function(cognitoUser){
+  setCurrentCognitoUser: function (cognitoUser) {
     return this.currentCognitoUser = cognitoUser
   },
 
@@ -15,7 +15,6 @@ export const CognitoAPIHelper = {
       Username: UserIdentification,
       Pool: CognitoUserPool,
     }
-
     return this.currentCognitoUser = new CognitoUser(userData);
   },
 
@@ -49,8 +48,8 @@ export const CognitoAPIHelper = {
     if (this.currentCognitoUser === null) {
       throw new Error('User is not authenticated!')
     }
-    
-    
+
+
     return new Promise((resolve, reject) => this.currentCognitoUser.getSession((error, session) => {
       if (error) {
         reject(error)
@@ -92,13 +91,12 @@ export const CognitoAPIHelper = {
 
   userSignUp: async function (email, password, attributes) {
 
-    this.setCurrentCognitoUserByEmail(email)
-
     return new Promise((resolve, reject) => {
       CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
         if (err) {
           reject(err);
         } else {
+          this.setCurrentCognitoUserByEmail(email)
           resolve(result);
         }
       });
@@ -108,7 +106,6 @@ export const CognitoAPIHelper = {
   userSignIn: async function (email, password) {
 
     this.setCurrentCognitoUserByEmail(email)
-
     const authData = {
       Username: email,
       Password: password
