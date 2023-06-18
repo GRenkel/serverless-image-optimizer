@@ -1,6 +1,6 @@
 # AWS Cognito UI
 
-This repository contains a user interface (UI) implementation for user management features using AWS Cognito. The project utilizes the antd library as a component library for building the UI. The implemented functionalities include user creation, login, session control, and password recovery using AWS Cognito.
+This repository contains a user interface (UI) implementation for user management features using AWS Cognito. The project utilizes the antd library as a component library for building the UI. The implemented functionalities include user creation, login, session control, and password recovery using AWS Cognito. The project also includes route control using the react-router-dom library, ensuring that private routes are only accessible upon user authentication.
 
 ## Prerequisites
 
@@ -59,7 +59,9 @@ Once the project is running, you can access the user management features through
 - Session control: Manage user sessions and implement session-based authentication.
 - Password recovery: Enable users to request a new password if forgotten.
 
-Feel free to explore the project's code to understand how the AWS Cognito functionalities are implemented using the antd component library.
+Private routes are implemented using the react-router-dom library, ensuring that certain routes are only accessible upon user authentication.
+
+Feel free to explore the project's code to understand how the AWS Cognito functionalities, antd component library, and route control are implemented.
 
 ## Contributing
 
@@ -79,3 +81,4 @@ The project is licensed under the [MIT License](LICENSE).
 
 - [AWS Cognito](https://aws.amazon.com/cognito/)
 - [antd](https://ant.design/)
+- [react-router-dom](https://reactrouter.com/en/6.13.0/start/overview)
