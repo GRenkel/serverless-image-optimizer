@@ -5,16 +5,24 @@ import EAuthStatus from '../../../services/aws/cognito/EAuthStatus.json'
 import AuthContext from '../../../contexts/auth/AuthContext';
 import ConfirmationCodeModal from '../ConfirmationCodeModal';
 import { useNavigate } from 'react-router-dom';
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 
 const Login = ({ }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
+  const [messageApi, contextHolder] = message.useMessage()
   const [isLoading, setIsLoading] = useState(false)
   const { createUserSession } = useContext(AuthContext)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [authenticationError, setAuthenticationError] = useState(null);
+
+
+  const handleNewPasswordRequest = () => {
+    messageApi.open({
+      type: 'warning',
+      content: 'Please, contact your system admin :)',
+    });
+  }
 
   const handleOnAuthentication = async (formValues) => {
     try {
@@ -41,6 +49,7 @@ const Login = ({ }) => {
 
   return (
     <div style={{ width: '350px' }}>
+       {contextHolder}
       <ConfirmationCodeModal
         isOpen={isModalVisible}
         afterConfirmation={handleAfterConfirmation}
@@ -50,6 +59,7 @@ const Login = ({ }) => {
         isLoading={isLoading}
         authenticationError={authenticationError}
         handleOnAuthentication={handleOnAuthentication}
+        handleNewPasswordRequest={handleNewPasswordRequest}
       />
     </div>
   )

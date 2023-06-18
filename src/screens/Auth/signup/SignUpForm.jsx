@@ -56,8 +56,8 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
       <Form.Item
         name="email"
         rules={[
-          { required: true, message: 'Informe seu email!' },
-          { type: 'email', message: 'Informe um e-mail válido!' }
+          { required: true, message: 'Provide your email!' },
+          { type: 'email', message: 'Provide a valid email!' }
         ]}
       >
         <Input
@@ -74,7 +74,7 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="Senha"
+          placeholder="Password"
         />
       </Form.Item>
 
@@ -87,7 +87,7 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
           loading={isLoading}
           style={{ width: "100%"}}
         >
-          Criar Conta
+          Create Account
         </Button>
         Or <a href='signin'>Sign In</a>
 

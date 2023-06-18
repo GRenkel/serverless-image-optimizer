@@ -1,6 +1,7 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Alert } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoading }) => {
+
+const LoginForm = ({ handleOnAuthentication, handleNewPasswordRequest, authenticationError, formRef, isLoading }) => {
 
   return (
     <Form
@@ -13,7 +14,7 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
 
       <Form.Item
         name="email"
-        rules={[{ required: true, message: 'Informe seu email!' }, { type: 'email', message: 'Informe um e-mail válido!' }]}
+        rules={[{ required: true, message: 'Provide your email!' }, { type: 'email', message: 'Provide a valid email!' }]}
       >
         <Input
           prefix={<MailOutlined className="site-form-item-icon" />}
@@ -23,14 +24,14 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Informe sua senha!' }]}
+        rules={[{ required: true, message: 'Provide your password!' }]}
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           placeholder="Senha"
         />
-        <span style={{ fontSize: 12, display:'flex', justifyContent: 'flex-end' }}>
-          <a href='signup'>Forgot your password?</a>
+        <span style={{ fontSize: 12, display: 'flex', justifyContent: 'flex-end' }}>
+          <a onClick={handleNewPasswordRequest}>Forgot your password?</a>
         </span>
       </Form.Item>
 
@@ -45,7 +46,7 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
           loading={isLoading}
           style={{ width: "100%" }}
         >
-          Entrar
+          Sign In
         </Button>
         <span style={{ fontSize: 12 }}>
           Or <a href='signup'>Sign Up</a>
