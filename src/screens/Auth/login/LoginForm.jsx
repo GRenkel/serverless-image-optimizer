@@ -29,6 +29,9 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
           prefix={<LockOutlined className="site-form-item-icon" />}
           placeholder="Senha"
         />
+        <span style={{ fontSize: 12, display:'flex', justifyContent: 'flex-end' }}>
+          <a href='signup'>Forgot your password?</a>
+        </span>
       </Form.Item>
 
       {authenticationError && <label style={{ color: 'red' }}>{authenticationError}</label>}
@@ -44,7 +47,9 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
         >
           Entrar
         </Button>
-        Or <a href='signup'>Sign Up</a>
+        <span style={{ fontSize: 12 }}>
+          Or <a href='signup'>Sign Up</a>
+        </span>
       </Form.Item>
 
     </Form>
