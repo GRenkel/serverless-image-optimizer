@@ -25,9 +25,8 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoa
         name="password"
         rules={[{ required: true, message: 'Informe sua senha!' }]}
       >
-        <Input
+        <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
           placeholder="Senha"
         />
       </Form.Item>
