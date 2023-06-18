@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# AWS Cognito UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains a user interface (UI) implementation for user management features using AWS Cognito. The project utilizes the antd library as a component library for building the UI. The implemented functionalities include user creation, login, session control, and password recovery using AWS Cognito.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before running the project, make sure you have completed the following steps:
 
-### `npm start`
+1. Set up an AWS Cognito user pool in your AWS account.
+2. Obtain the User Pool ID and the Client ID for your Cognito user pool.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+To run this project locally, follow these steps:
 
-### `npm test`
+1. Clone the repository:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```
+   git clone https://github.com/GRenkel/aws-cognito-ui.git
+   ```
 
-### `npm run build`
+2. Navigate to the project directory:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```
+   cd aws-cognito-ui
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Create a `.env` file in the root directory of the project.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Open the `.env` file and add the following environment variables:
 
-### `npm run eject`
+   ```
+   REACT_APP_USERPOOL_ID=<your-userpool-id>
+   REACT_APP_CLIENT_ID=<your-client-id>
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   Replace `<your-userpool-id>` and `<your-client-id>` with the actual values for your AWS Cognito user pool.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Install the dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+6. Start the development server:
 
-## Learn More
+   ```
+   npm start
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   The project will be running at [http://localhost:3000](http://localhost:3000).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Usage
 
-### Code Splitting
+Once the project is running, you can access the user management features through the provided UI. The implemented functionalities include:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- User creation: Register new users by providing the required information.
+- Login: Allow existing users to log in using their credentials.
+- Session control: Manage user sessions and implement session-based authentication.
+- Password recovery: Enable users to request a new password if forgotten.
 
-### Analyzing the Bundle Size
+Feel free to explore the project's code to understand how the AWS Cognito functionalities are implemented using the antd component library.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Contributing
 
-### Making a Progressive Web App
+Contributions to this project are welcome. To contribute, please follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make the necessary changes and commit your code.
+4. Push your changes to your forked repository.
+5. Submit a pull request describing your changes.
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The project is licensed under the [MIT License](LICENSE).
 
-### Deployment
+## Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [AWS Cognito](https://aws.amazon.com/cognito/)
+- [antd](https://ant.design/)
