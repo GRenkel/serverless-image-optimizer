@@ -7,17 +7,21 @@ import { useNavigate } from 'react-router-dom';
 function SignUp(props) {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false)
   const [signupError, setSignupErrorError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleSignUp = async (values) => {
     try {
+      setIsLoading(true)
       let { email, password, ...allowedAttributes } = values
       const attributes = CognitoAPIHelper.getCognitoAttributesArrayFromObject(allowedAttributes)
       await CognitoAPIHelper.userSignUp(email, password, attributes)
       setIsModalVisible(true)
     } catch (error) {
       setSignupErrorError(error.message)
+    } finally {
+      setTimeout(()=>setIsLoading(false), 300)
     }
   }
 
@@ -33,6 +37,7 @@ function SignUp(props) {
         afterConfirmation={handleAfterConfirmation}
       />
       <SignUpForm
+        isLoading={isLoading}
         signupError={signupError}
         handleSignUp={handleSignUp}
       />

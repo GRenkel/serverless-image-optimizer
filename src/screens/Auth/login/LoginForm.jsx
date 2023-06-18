@@ -1,6 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-const LoginForm = ({ handleOnAuthentication, authenticationError, formRef }) => {
+const LoginForm = ({ handleOnAuthentication, authenticationError, formRef, isLoading }) => {
 
   return (
     <Form
@@ -37,9 +37,12 @@ const LoginForm = ({ handleOnAuthentication, authenticationError, formRef }) => 
       <Form.Item
         hasFeedback
       >
-        <Button type="primary"
-          style={{ width: "100%", background: "#d83018", borderColor: "#d83018" }}
-          htmlType="submit">
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={isLoading}
+          style={{ width: "100%" }}
+        >
           Entrar
         </Button>
         Or <a href='signup'>Sign Up</a>

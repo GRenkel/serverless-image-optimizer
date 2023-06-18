@@ -1,7 +1,7 @@
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
-function SignUpForm({ handleSignUp, signupError }) {
+function SignUpForm({ handleSignUp, signupError, isLoading }) {
 
   const passwordValidator = (_, value, callback) => {
     const errors = [];
@@ -31,7 +31,7 @@ function SignUpForm({ handleSignUp, signupError }) {
       name="sign_up"
       onFinish={handleSignUp}
       initialValues={{ remember: false }}
-      style={{textAlign: 'center'}}
+      style={{ textAlign: 'center' }}
     >
       <Form.Item
         name="given_name"
@@ -78,13 +78,14 @@ function SignUpForm({ handleSignUp, signupError }) {
         />
       </Form.Item>
 
-      {signupError && <label style={{ color: 'red'}}>{signupError}</label>}
+      {signupError && <label style={{ color: 'red' }}>{signupError}</label>}
 
       <Form.Item>
         <Button
           type="primary"
           htmlType="submit"
-          style={{ width: "100%", background: "#257a3b", borderColor: "#257a3b" }}
+          loading={isLoading}
+          style={{ width: "100%"}}
         >
           Criar Conta
         </Button>

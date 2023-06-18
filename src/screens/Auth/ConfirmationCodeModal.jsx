@@ -3,14 +3,18 @@ import { Modal, Form, Input, Button } from 'antd';
 import { CognitoAPIHelper } from '../../services/aws/cognito/CognitoAPIHelper';
 
 const ConfirmationCodeModal = ({ isOpen, afterConfirmation }) => {
+  const [isLoading, setIsLoading] = useState(false)
   const [uiFeedback, setUIFeedBack] = useState({ message: '', isError: false })
 
   const handleConfirmation = async ({ confirmationCode }) => {
     try {
+      setIsLoading(true)
       await CognitoAPIHelper.confirmUserSignUp(confirmationCode)
       afterConfirmation()
     } catch (error) {
       setUIFeedBack({ isError: true, message: error.message })
+    } finally {
+      setTimeout(()=>setIsLoading(false), 300)
     }
   };
 
@@ -18,7 +22,7 @@ const ConfirmationCodeModal = ({ isOpen, afterConfirmation }) => {
   const handleCodeResend = async () => {
     try {
       const { CodeDeliveryDetails: { Destination } } = await CognitoAPIHelper.resendConfirmationCode()
-      setUIFeedBack({ isError: false, message: `A new code was sent to ${Destination}`})
+      setUIFeedBack({ isError: false, message: `A new code was sent to ${Destination}` })
 
     } catch (error) {
       setUIFeedBack({ isError: true, message: error.message })
@@ -28,12 +32,13 @@ const ConfirmationCodeModal = ({ isOpen, afterConfirmation }) => {
   return (
     <Modal
       title={<label style={{ display: 'flex', justifyContent: 'center' }}>Confirmation Code</label>}
-      open={isOpen}
       centered
-      closable={false}
       width="400px"
-      maskClosable={false}
+      open={isOpen}
       footer={null}
+      closable={false}
+      maskClosable={false}
+      bodyStyle={{ height: "150px", minWidth: "350px", maxWidth: "400px" }}
     >
       <Form
         onFinish={handleConfirmation}
@@ -47,13 +52,19 @@ const ConfirmationCodeModal = ({ isOpen, afterConfirmation }) => {
         >
           <Input placeholder="Enter confirmation code" />
         </Form.Item>
-        {uiFeedback.message && <label style={{ color: uiFeedback.isError ? 'red' : 'green' }}>{uiFeedback.message}</label>}
+
+        {
+          uiFeedback.message && <div style={{ margin: 5, textAlign: 'center' }}>
+            {<label style={{ color: uiFeedback.isError ? 'red' : 'green' }}>{uiFeedback.message}</label>}
+          </div>
+        }
 
         <Form.Item>
           <Button
+            loading={isLoading}
             type="primary"
             htmlType="submit"
-            style={{ width: "100%", background: "#257a3b", borderColor: "#257a3b" }}
+            style={{ width: "100%"}}
           >
             Confirm
           </Button>

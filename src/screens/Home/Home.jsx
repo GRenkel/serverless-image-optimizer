@@ -1,5 +1,5 @@
 import { FloatButton } from "antd"
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { LogoutOutlined } from '@ant-design/icons';
 import { useContext } from "react";
 import AuthContext from "../../contexts/auth/AuthContext";
 
@@ -12,7 +12,7 @@ function Home() {
         Hello world!
       </h1>
       <FloatButton
-        icon={<QuestionCircleOutlined />}
+        icon={<LogoutOutlined />}
         type="primary"
         style={{ right: 24 }}
         onClick={finishUserSession}

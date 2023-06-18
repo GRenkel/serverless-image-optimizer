@@ -11,12 +11,14 @@ const Login = ({ }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
+  const [isLoading, setIsLoading] = useState(false)
   const { createUserSession } = useContext(AuthContext)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [authenticationError, setAuthenticationError] = useState(null);
 
   const handleOnAuthentication = async (formValues) => {
     try {
+      setIsLoading(true)
       const { email, password } = formValues
       const { authStatus } = await CognitoAPIHelper.userSignIn(email, password)
 
@@ -25,10 +27,10 @@ const Login = ({ }) => {
       }
       navigate('/')
     } catch (error) {
-      if (error.authStatus === EAuthStatus.UserNotConfirmedException) {
-        return setIsModalVisible(true)
-      }
-      setAuthenticationError(error.message)
+      error.authStatus === EAuthStatus.UserNotConfirmedException
+        ? setIsModalVisible(true) : setAuthenticationError(error.message)
+    } finally {
+      setTimeout(()=>setIsLoading(false), 300)
     }
   }
 
@@ -44,7 +46,8 @@ const Login = ({ }) => {
         afterConfirmation={handleAfterConfirmation}
       />
       <LoginForm
-        formRef = {form}
+        formRef={form}
+        isLoading={isLoading}
         authenticationError={authenticationError}
         handleOnAuthentication={handleOnAuthentication}
       />
