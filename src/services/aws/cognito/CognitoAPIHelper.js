@@ -44,7 +44,8 @@ export const CognitoAPIHelper = {
     if (currentUser === null) {
       throw new Error('User is not authenticated!')
     }
-
+    
+    
     return new Promise((resolve, reject) => currentUser.getSession((error, session) => {
       if (error) {
         reject(error)
@@ -54,6 +55,7 @@ export const CognitoAPIHelper = {
           reject(error)
         } else {
           const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes)
+          this.setCognitoUser(attributesObject.email)
           resolve({ jwtToken: session.accessToken.jwtToken, userData: attributesObject })
         }
       })
@@ -129,6 +131,7 @@ export const CognitoAPIHelper = {
   },
 
   userSignOut: function () {
-    return this.cognitoUser.signOut();
+    debugger
+    this.cognitoUser.signOut();
   }
 }

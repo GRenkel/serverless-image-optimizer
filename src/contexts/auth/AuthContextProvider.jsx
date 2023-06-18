@@ -15,19 +15,31 @@ export default function AuthContextProvider({ children }) {
         }
     };
 
+    function finishUserSession() {
+        CognitoAPIHelper.userSignOut()
+        setUserSession({ user: {}, isLogged: false })
+    }
+
     async function createUserSession(userSessionData = {}) {
-        
+
         let user = userSessionData.userData
         if (user === undefined) {
             const { jwtToken, userData } = await CognitoAPIHelper.getCurrentUserSession()
             user = userData
         }
-        
+
         setUserSession({ user, isLogged: true })
     }
 
     return (
-        <AuthContext.Provider value={{ userSession, validateUserSession, createUserSession }}>
+        <AuthContext.Provider
+            value={{
+                userSession,
+                validateUserSession,
+                createUserSession,
+                finishUserSession
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );
