@@ -3,16 +3,20 @@ import CognitoUserPool from "./CognitoUserPool";
 import EAuthStatus from './EAuthStatus.json'
 
 export const CognitoAPIHelper = {
-  cognitoUser: null,
+  currentCognitoUser: null,
 
-  setCognitoUser: function (UserIdentification) {
+  setCurrentCognitoUser: function(cognitoUser){
+    return this.currentCognitoUser = cognitoUser
+  },
+
+  setCurrentCognitoUserByEmail: function (UserIdentification) {
 
     const userData = {
       Username: UserIdentification,
       Pool: CognitoUserPool,
     }
 
-    return this.cognitoUser = new CognitoUser(userData);
+    return this.currentCognitoUser = new CognitoUser(userData);
   },
 
   getCognitoAuthStatus: function (code) {
@@ -40,22 +44,22 @@ export const CognitoAPIHelper = {
 
   getCurrentUserSession: async function () {
     const currentUser = CognitoUserPool.getCurrentUser()
+    this.setCurrentCognitoUser(currentUser)
 
-    if (currentUser === null) {
+    if (this.currentCognitoUser === null) {
       throw new Error('User is not authenticated!')
     }
     
     
-    return new Promise((resolve, reject) => currentUser.getSession((error, session) => {
+    return new Promise((resolve, reject) => this.currentCognitoUser.getSession((error, session) => {
       if (error) {
         reject(error)
       }
-      currentUser.getUserAttributes((error, attributes) => {
+      this.currentCognitoUser.getUserAttributes((error, attributes) => {
         if (error) {
           reject(error)
         } else {
           const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes)
-          this.setCognitoUser(attributesObject.email)
           resolve({ jwtToken: session.accessToken.jwtToken, userData: attributesObject })
         }
       })
@@ -64,7 +68,7 @@ export const CognitoAPIHelper = {
 
   resendConfirmationCode: async function () {
     return new Promise((resolve, reject) => {
-      this.cognitoUser.resendConfirmationCode(function (error, result) {
+      this.currentCognitoUser.resendConfirmationCode(function (error, result) {
         if (error) {
           reject(error);
           return;
@@ -77,7 +81,7 @@ export const CognitoAPIHelper = {
 
   confirmUserSignUp: async function (confirmationCode) {
     return new Promise((resolve, reject) => {
-      this.cognitoUser.confirmRegistration(confirmationCode, true, function (error, result) {
+      this.currentCognitoUser.confirmRegistration(confirmationCode, true, function (error, result) {
         if (error) {
           reject(error)
         }
@@ -88,7 +92,7 @@ export const CognitoAPIHelper = {
 
   userSignUp: async function (email, password, attributes) {
 
-    this.setCognitoUser(email)
+    this.setCurrentCognitoUserByEmail(email)
 
     return new Promise((resolve, reject) => {
       CognitoUserPool.signUp(email, password, attributes, null, (err, result) => {
@@ -103,7 +107,7 @@ export const CognitoAPIHelper = {
 
   userSignIn: async function (email, password) {
 
-    this.setCognitoUser(email)
+    this.setCurrentCognitoUserByEmail(email)
 
     const authData = {
       Username: email,
@@ -112,7 +116,7 @@ export const CognitoAPIHelper = {
     const authenticationDetails = new AuthenticationDetails(authData);
 
     return new Promise((resolve, reject) => {
-      this.cognitoUser.authenticateUser(authenticationDetails, {
+      this.currentCognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: async (result) => {
           console.log('success authenticating', result);
           resolve({ authStatus: EAuthStatus.isLogged })
@@ -132,6 +136,6 @@ export const CognitoAPIHelper = {
 
   userSignOut: function () {
     debugger
-    this.cognitoUser.signOut();
+    this.currentCognitoUser.signOut();
   }
 }
