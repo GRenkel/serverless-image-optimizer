@@ -18,13 +18,13 @@ export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUni
   return (
     <Card
       hoverable
-      style={{ width: 250, margin: '10px' }}
+      style={{ width: 250, margin: '10px', maxWidth: 250 }}
       key={id}
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, paddingTop: 10 }}>
         <Avatar size={"large"} icon={<FileOutlined />} />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span data-testid="span-name" style={{ fontWeight: 'bold' }}>{name}</span>
+          <span data-testid="span-name" style={{ maxWidth: '220px', fontWeight: 'bold', whiteSpace:'nowrap', textOverflow: 'ellipsis', overflow:'hidden' }}>{name}</span>
           <span data-testid="span-size" style={{ fontWeight: 'lighter', fontSize: '10px' }}>{size.toFixed(2)}{' '}{sizeUnit}</span>
         </div>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
