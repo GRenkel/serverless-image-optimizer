@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthContextProvider from './contexts/auth/AuthContextProvider';
 import PrivateRoute from './router/PrivateRoute';
@@ -27,3 +28,13 @@ function App() {
 }
 
 export default App;
+=======
+import React from 'react';
+import FilesScreen from './screens/FilesScreen';
+
+const App = () => {
+  return <FilesScreen/>;
+};
+
+export default App;
+>>>>>>> 88808e1d583bfc847b64aec8b27698cd756dd570

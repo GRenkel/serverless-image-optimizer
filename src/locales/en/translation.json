@@ -1,0 +1,23 @@
+{
+  "upload": {
+    "file-too-large": "This file is too large! It must be smaller than 1MB!",
+    "instruction": "Click or drag your file to this area to upload!",
+    "hint": "Listed below are all your imported data. Use the search bar for searches.",
+    "successfully-upload": "file uploaded successfully.",
+    "failure-upload": "file upload failed.",
+    "uploading": "Uploading"
+
+  },
+  "search": {
+    "description": "Search"
+  },
+  "filesList":{
+    "empty": "Files not found :("
+  },
+  "home": {
+    "tip": "A maximum number of 50 files will be shown! Use the search bar to improve your results."
+  },
+  "api": {
+    "error": "An unexpected error happened on our side! Please, try again in a few."
+  }
+}
