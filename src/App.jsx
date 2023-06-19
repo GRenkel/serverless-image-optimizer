@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthContextProvider from './contexts/auth/AuthContextProvider';
 import PrivateRoute from './router/PrivateRoute';
-import Home from './screens/Home/Home';
+import FilesScreen from './screens/FilesScreen';
 import SignUp from './screens/Auth/signup/SignUp';
 import Login from './screens/Auth/login/Login';
 import AuthContainer from './screens/Auth/AuthContainer';
@@ -14,7 +13,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path='/' element={<PrivateRoute />}>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<FilesScreen />} />
             </Route>
             <Route path='/auth' element={<AuthContainer />}>
               <Route path="signin" element={<Login />} />
@@ -28,13 +27,3 @@ function App() {
 }
 
 export default App;
-=======
-import React from 'react';
-import FilesScreen from './screens/FilesScreen';
-
-const App = () => {
-  return <FilesScreen/>;
-};
-
-export default App;
->>>>>>> 88808e1d583bfc847b64aec8b27698cd756dd570

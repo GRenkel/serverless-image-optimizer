@@ -26,13 +26,15 @@ const LoginForm = ({ handleOnAuthentication, handleNewPasswordRequest, authentic
         name="password"
         rules={[{ required: true, message: 'Provide your password!' }]}
       >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="Senha"
-        />
-        <span style={{ fontSize: 12, display: 'flex', justifyContent: 'flex-end' }}>
-          <a onClick={handleNewPasswordRequest}>Forgot your password?</a>
-        </span>
+         <div>
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            placeholder="Senha"
+          />
+          <span style={{ fontSize: 12, display: 'flex', justifyContent: 'flex-end' }}>
+            <a onClick={handleNewPasswordRequest}>Forgot your password?</a>
+          </span>
+        </div>
       </Form.Item>
 
       {authenticationError && <label style={{ color: 'red' }}>{authenticationError}</label>}
