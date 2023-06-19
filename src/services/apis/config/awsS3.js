@@ -1,9 +1,9 @@
 import { AbortMultipartUploadCommand, CompleteMultipartUploadCommand, CreateBucketCommand, CreateMultipartUploadCommand, DeleteObjectCommand, GetObjectCommand, HeadBucketCommand, ListObjectsCommand, PutObjectCommand, S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const DEFAULT_REGION = "us-east-1"
 export const MAX_CHUNCK_SIZE = 5 * 1024 * 1024
-export const DEFAULT_BUCKET_NAME = "app-5g-uploader-fa55e7de-5e9e-496a-9023-aed5e698797c"
+const DEFAULT_REGION = process.env.REACT_APP_AWS_REGION
+export const DEFAULT_BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME
 
 function getBucketName() {
   return DEFAULT_BUCKET_NAME
