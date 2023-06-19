@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthContextProvider from './contexts/auth/AuthContextProvider';
 import PrivateRoute from './router/PrivateRoute';
-import FilesScreen from './screens/FilesScreen';
 import SignUp from './screens/Auth/signup/SignUp';
 import Login from './screens/Auth/login/Login';
 import AuthContainer from './screens/Auth/AuthContainer';
+import Home from './screens/Home/Home';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path='/' element={<PrivateRoute />}>
-              <Route path="/" element={<FilesScreen />} />
+              <Route path="/" element={<Home />} />
             </Route>
             <Route path='/auth' element={<AuthContainer />}>
               <Route path="signin" element={<Login />} />
