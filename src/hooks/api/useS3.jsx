@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useLoading from "../useLoading";
-import { s3API } from "../../services/apis/s3API";
+import { s3API } from "../../services/aws/s3/s3API";
 import { formatFileSize } from "../../utils/fileUpload";
 
 export const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024

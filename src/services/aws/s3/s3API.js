@@ -1,5 +1,5 @@
-import { getAWSCredentials } from "./config/awsCredentials";
-import { awsS3Helper, MAX_CHUNCK_SIZE } from "./config/awsS3";
+import { getAWSCredentials } from "../config/awsCredentials";
+import { awsS3Helper, MAX_CHUNCK_SIZE } from "./awsS3";
 
 export const s3API = {
   bucketConfig: awsS3Helper.getBucketConfig(),
