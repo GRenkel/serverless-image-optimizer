@@ -24,6 +24,7 @@ export function FileUploader({ isLoading, disabled, handleUpload }) {
       multiple={false}
       disabled={isLoading || disabled}
       showUploadList={false}
+      accept='.jpg, .jpeg, .png'
       data-testid="file-input"
       customRequest={handleUpload}
       onChange={handleUploadStatus}
