@@ -1,13 +1,8 @@
 {
   "dependencies": {
-    "serverless": "^3.24.1",
     "sharp": "^0.31.2"
   },
   "scripts": {
-    "predeploy": "rm -rf node_modules/sharp && npm install --arch=x64 --platform=linux --libc=glibc sharp",
-    "deploy": "serverless deploy --aws-profile nodeless --verbose",
-    "postdeploy": "rm -rf node_modules/sharp && npm install sharp",
-    "remove": "serverless remove --aws-profile nodeless --verbose"
   },
   "name": "lambda-image-optimizer"
 }
