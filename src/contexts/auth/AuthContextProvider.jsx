@@ -7,8 +7,8 @@ export default function AuthContextProvider({ children }) {
 
     async function validateUserSession() {
         try {
-            const { jwtToken, userData } = await CognitoAPIHelper.getCurrentUserSession()
-            return !userSession.isLogged && createUserSession({ userData, jwtToken })
+            const { accessToken, userData } = await CognitoAPIHelper.getCurrentUserSession()
+            return !userSession.isLogged && createUserSession({ userData, accessToken })
         } catch (error) {
             localStorage.clear();
             setUserSession(current => ({ ...current, isLogged: false }))
@@ -24,7 +24,7 @@ export default function AuthContextProvider({ children }) {
 
         let user = userSessionData.userData
         if (user === undefined) {
-            const { jwtToken, userData } = await CognitoAPIHelper.getCurrentUserSession()
+            const { accessToken, userData } = await CognitoAPIHelper.getCurrentUserSession()
             user = userData
         }
 

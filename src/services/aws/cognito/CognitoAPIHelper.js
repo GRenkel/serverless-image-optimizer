@@ -1,12 +1,24 @@
 import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, } from "amazon-cognito-identity-js";
 import CognitoUserPool from "./CognitoUserPool";
 import EAuthStatus from './EAuthStatus.json'
+import { CognitoIdentityCredentials } from "aws-sdk";
 
 export const CognitoAPIHelper = {
   currentCognitoUser: null,
+  currentCognitoUserIdToken: null,
+  currentCognitoUserAcessToken: null,
+  currentCognitoIdentityPoolCredentials: null,
 
   setCurrentCognitoUser: function (cognitoUser) {
     return this.currentCognitoUser = cognitoUser
+  },
+
+  setCurrentCognitoUserAccessToken: function (token) {
+    return this.currentCognitoUserAcessToken = token
+  },
+  
+  setCurrentCognitoUserIdToken: function (token) {
+    return this.currentCognitoUserIdToken = token
   },
 
   setCurrentCognitoUserByEmail: function (UserIdentification) {
@@ -41,30 +53,79 @@ export const CognitoAPIHelper = {
     return cognitoAttributes
   },
 
-  getCurrentUserSession: async function () {
-    const currentUser = CognitoUserPool.getCurrentUser()
-    this.setCurrentCognitoUser(currentUser)
-
-    if (this.currentCognitoUser === null) {
-      throw new Error('User is not authenticated!')
-    }
-
-
-    return new Promise((resolve, reject) => this.currentCognitoUser.getSession((error, session) => {
-      if (error) {
-        reject(error)
-      }
-      this.currentCognitoUser.getUserAttributes((error, attributes) => {
-        if (error) {
-          reject(error)
-        } else {
-          const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes)
-          resolve({ jwtToken: session.accessToken.jwtToken, userData: attributesObject })
-        }
-      })
-    }))
+  getCredentialsCognitoIdentityPool: function () {
+    return this.currentCognitoIdentityPoolCredentials
   },
 
+  setCredentialsFromCognitoIdentityPool: async function () {
+    try {
+      const region = process.env.REACT_APP_AWS_REGION
+      const cognitoId = `cognito-idp.${region}.amazonaws.com/${process.env.REACT_APP_USERPOOL_ID}`
+      const cognitoIdentityCredentials = {
+        Logins: {},
+        IdentityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+      }
+      cognitoIdentityCredentials.Logins[cognitoId] = this.currentCognitoUserIdToken
+
+      const credentials = new CognitoIdentityCredentials(cognitoIdentityCredentials, { region });
+
+      return new Promise((resolve, reject) => credentials.get((err) => {
+        if (err) { reject(err) }
+        this.currentCognitoIdentityPoolCredentials = { region: region, credentials }
+        resolve()
+      }))
+    } catch (error) {
+      const errorMessage = 'Error getting Credentials from Cognito Identity Pool'
+      console.log(errorMessage, error)
+      throw new Error(errorMessage);
+    }
+  },
+
+  async getCurrentUserSession() {
+    const currentUser = CognitoUserPool.getCurrentUser();
+    this.setCurrentCognitoUser(currentUser);
+
+    if (!this.currentCognitoUser) {
+      throw new Error('User is not authenticated!');
+    }
+
+    try {
+      const session = await new Promise((resolve, reject) => {
+        this.currentCognitoUser.getSession((error, session) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(session);
+          }
+        });
+      });
+
+      const attributes = await new Promise((resolve, reject) => {
+        this.currentCognitoUser.getUserAttributes((error, attributes) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(attributes);
+          }
+        });
+      });
+
+      const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes);
+      
+      const accessToken = session.accessToken.jwtToken;
+      const idToken = session.idToken.jwtToken;
+      
+      this.setCurrentCognitoUserAccessToken(accessToken);
+      this.setCurrentCognitoUserIdToken(idToken)
+
+      await this.setCredentialsFromCognitoIdentityPool();
+      
+      return { accessToken, userData: attributesObject };
+    } catch (error) {
+      throw error;
+    }
+  },
+  
   resendConfirmationCode: async function () {
     return new Promise((resolve, reject) => {
       this.currentCognitoUser.resendConfirmationCode(function (error, result) {
@@ -72,7 +133,6 @@ export const CognitoAPIHelper = {
           reject(error);
           return;
         }
-        debugger
         resolve(result);
       });
     })
@@ -115,9 +175,9 @@ export const CognitoAPIHelper = {
     return new Promise((resolve, reject) => {
       this.currentCognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: async (result) => {
-          console.log('success authenticating', result);
           resolve({ authStatus: EAuthStatus.isLogged })
         },
+
         onFailure: (error) => {
           console.log('error authenticating', error);
           reject({ authStatus: this.getCognitoAuthStatus(error.code), message: error.message })
@@ -132,7 +192,6 @@ export const CognitoAPIHelper = {
   },
 
   userSignOut: function () {
-    debugger
     this.currentCognitoUser.signOut();
   }
 }

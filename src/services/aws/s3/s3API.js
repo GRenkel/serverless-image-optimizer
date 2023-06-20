@@ -1,13 +1,15 @@
-import { getAWSCredentials } from "../config/awsCredentials";
+import { CognitoAPIHelper } from "../cognito/CognitoAPIHelper";
 import { awsS3Helper, MAX_CHUNCK_SIZE } from "./awsS3";
 
 export const s3API = {
+  s3Client: undefined,
   bucketConfig: awsS3Helper.getBucketConfig(),
 
-  s3Client: (() => {
-    const credentials = getAWSCredentials()
-    return awsS3Helper.initiateS3Client({ credentials })
-  })(),
+  initiateS3Client: function () {
+    const credentials = CognitoAPIHelper.getCredentialsCognitoIdentityPool()
+    this.s3Client = awsS3Helper.initiateS3Client(credentials)
+  },
+
 
   async createNewBucket() {
     const pushBucketCommand = awsS3Helper.getCreateNewBucketCommand(this.bucketConfig)
@@ -17,24 +19,24 @@ export const s3API = {
   async listBucketObjects(Prefix) {
     const DEFAULT_MAX_KEYS = 50
     const listCommandParams = { MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig }
-    
-    if(Prefix){
+
+    if (Prefix) {
       listCommandParams.Prefix = Prefix
     }
 
     const listBucketObjectsCommand = awsS3Helper.getListBucketObjectsCommand(listCommandParams)
     try {
       const { Contents } = await awsS3Helper.sendS3Command(this.s3Client, listBucketObjectsCommand)
-      return Contents
+      return Contents || []
     } catch (error) {
       throw error
     }
   },
 
-  async getDownloadObjectURLFromBucket(objectKey){
+  async getDownloadObjectURLFromBucket(objectKey) {
     try {
       const downloadParams = { Key: objectKey, ...this.bucketConfig }
-      return awsS3Helper.createPresignedGetUrl(this.s3Client,downloadParams)
+      return awsS3Helper.createPresignedGetUrl(this.s3Client, downloadParams)
     } catch (error) {
       throw error
     }
@@ -49,7 +51,7 @@ export const s3API = {
       throw error
     }
   },
-  
+
   async uploadCommonObjectToBucket(s3object) {
     try {
       const uploadParams = { Key: s3object.name, ...this.bucketConfig, Body: s3object }

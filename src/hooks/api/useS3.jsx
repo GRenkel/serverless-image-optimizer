@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useLoading from "../useLoading";
 import { s3API } from "../../services/aws/s3/s3API";
 import { formatFileSize } from "../../utils/fileUpload";
@@ -10,6 +10,10 @@ export function useS3() {
   const [error, setError] = useState(null);
   const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
+
+  useEffect(() => {
+    s3API.initiateS3Client()
+  }, [])
 
   async function listBucketObjects(objName) {
     try {
