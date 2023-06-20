@@ -6,7 +6,7 @@ const {basename, extname} = require('path')
 
 const S3 = new AWS.S3()
 
-module.exports.handle = async ({ Records: records }) => {
+module.exports.handler = async ({ Records: records }) => {
   try {
     await Promise.all(records.map(async record => {
       const { key } = record.s3.object;
