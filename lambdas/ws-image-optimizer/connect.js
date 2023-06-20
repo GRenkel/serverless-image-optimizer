@@ -2,15 +2,17 @@ const AWS = require('aws-sdk');
 
 exports.handler = async (event) => {
   const connectionId = event.requestContext.connectionId;
-  console.log(connectionId)
+  const { userId } =  event.queryStringParameters
+  
   try {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
-    const params = {
+  
+    const insertParams = {
       TableName: process.env.CONNECTIONS_TABLE,
-      Item: { 'connection-id': connectionId }
+      Item: { 'connection-id': connectionId, 'user-id': userId }
     };
 
-    await dynamoDB.put(params).promise();
+    await dynamoDB.put(insertParams).promise();
 
     return {
       statusCode: 200,
