@@ -1,5 +1,5 @@
 import { Avatar, Button, Card, Spin } from "antd"
-import { FileOutlined, DeleteOutlined, DownloadOutlined, ContainerTwoTone } from '@ant-design/icons';
+import { FileOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import { translate } from "../locales/translator";
 
 export function FileCard({ handleDownload, handleRemove, id, name, size, sizeUnit, isUploading = false }) {

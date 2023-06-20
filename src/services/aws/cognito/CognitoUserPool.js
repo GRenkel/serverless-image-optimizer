@@ -5,4 +5,5 @@ const userPoolConfig = {
     ClientId: process.env.REACT_APP_CLIENT_ID, // Your client id here
   };
 
-  export default new CognitoUserPool(userPoolConfig)
+  const userPool = new CognitoUserPool(userPoolConfig)
+  export default userPool

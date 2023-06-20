@@ -30,7 +30,7 @@ const Login = ({ }) => {
       const { email, password } = formValues
       const { authStatus } = await CognitoAPIHelper.userSignIn(email, password)
 
-      if (authStatus == EAuthStatus.isLogged) {
+      if (authStatus === EAuthStatus.isLogged) {
         createUserSession()
       }
       navigate('/')

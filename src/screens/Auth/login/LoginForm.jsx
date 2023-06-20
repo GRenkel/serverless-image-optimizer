@@ -1,4 +1,4 @@
-import { Form, Input, Button, Alert } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 
 const LoginForm = ({ handleOnAuthentication, handleNewPasswordRequest, authenticationError, formRef, isLoading }) => {
