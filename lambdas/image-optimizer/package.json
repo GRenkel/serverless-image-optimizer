@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "sharp": "^0.31.2"
+    "sharp": "^0.31.3"
   },
   "scripts": {
+    "postinstall": "rm -rf node_modules/sharp && npm install --arch=x64 --platform=linux --libc=glibc sharp"
   },
   "name": "lambda-image-optimizer"
 }
