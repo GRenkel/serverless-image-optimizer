@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useLoading from "../useLoading";
 import { s3API } from "../../services/aws/s3/s3API";
 import { formatFileSize } from "../../utils/fileUpload";
+import { CognitoAPIHelper } from "../../services/aws/cognito/CognitoAPIHelper"
 
 export const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024
 
@@ -12,13 +13,18 @@ export function useS3() {
   const { isLoading, showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
-    s3API.initiateS3Client()
+    handleS3ClientInitialization()
   }, [])
+
+  function handleS3ClientInitialization() {
+    const credentials = CognitoAPIHelper.getCredentialsCognitoIdentityPool()
+    s3API.initiateS3Client(credentials)
+  }
 
   async function listBucketObjects(objName) {
     try {
       const objects = await s3API.listBucketObjects(objName)
-      return objects.map(({ ETag, Size, Key }) => ({ id: ETag+Key, name: Key, ...formatFileSize(Size) }))
+      return objects.map(({ ETag, Size, Key }) => ({ id: ETag + Key, name: Key, ...formatFileSize(Size) }))
     } catch (error) {
       setError(error.message)
     }
@@ -30,7 +36,7 @@ export function useS3() {
       const uploadFunction = (file.size > MAX_COMMON_FILE_SIZE ? s3API.uploadLargeObjectToBucket : s3API.uploadCommonObjectToBucket).bind(s3API)
       const response = await uploadFunction(file);
       setUploadResponse(response)
-      return { id: response.ETag+file.name, name: file.name, ...formatFileSize(file.size) }
+      return { id: response.ETag + file.name, name: file.name, ...formatFileSize(file.size) }
     } catch (error) {
       setError(error.message)
       throw error

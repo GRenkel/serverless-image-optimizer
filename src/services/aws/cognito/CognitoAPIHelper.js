@@ -111,7 +111,6 @@ export const CognitoAPIHelper = {
       });
 
       const attributesObject = this.getUserAttributesFromCognitoAttributesArray(attributes);
-      
       const accessToken = session.accessToken.jwtToken;
       const idToken = session.idToken.jwtToken;
       

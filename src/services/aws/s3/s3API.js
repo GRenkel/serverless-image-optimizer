@@ -1,4 +1,3 @@
-import { CognitoAPIHelper } from "../cognito/CognitoAPIHelper";
 import { awsS3Helper, MAX_CHUNCK_SIZE } from "./awsS3";
 
 export const s3API = {
@@ -6,8 +5,7 @@ export const s3API = {
   objectUploadPrefix: 'uploads/',
   bucketConfig: awsS3Helper.getBucketConfig(),
 
-  initiateS3Client: function () {
-    const credentials = CognitoAPIHelper.getCredentialsCognitoIdentityPool()
+  initiateS3Client: function (credentials) {
     this.s3Client = awsS3Helper.initiateS3Client(credentials)
   },
 
