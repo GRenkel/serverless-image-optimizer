@@ -18,7 +18,7 @@ export function FilesList({ fileData, handleDownload, handleRemove, isLoading })
 
   return (
     <div style={{ display: 'flex', flex: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-      {fileData.map((row) => <FileCard key={row.id} handleDownload={handleDownload} handleRemove={handleRemove} {...row} />)}
+      {fileData.map((row) => <FileCard key={row.id} handleDownload={handleDownload} handleRemove={handleRemove} file={row} />)}
     </div>
   )
 }
