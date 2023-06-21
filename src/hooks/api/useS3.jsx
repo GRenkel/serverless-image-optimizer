@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useLoading from "../useLoading";
 import { s3API } from "../../services/aws/s3/s3API";
 import { formatFileSize } from "../../utils/fileUpload";
 import { CognitoAPIHelper } from "../../services/aws/cognito/CognitoAPIHelper"
+import AuthContext from "../../contexts/auth/AuthContext";
 
 export const MAX_COMMON_FILE_SIZE = 25 * 1024 * 1024
 
@@ -12,13 +13,15 @@ export function useS3() {
   const [uploadResponse, setUploadResponse] = useState([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
 
+  const { userSession } = useContext(AuthContext)
+
   useEffect(() => {
     handleS3ClientInitialization()
   }, [])
 
   function handleS3ClientInitialization() {
     const credentials = CognitoAPIHelper.getCredentialsCognitoIdentityPool()
-    s3API.initiateS3Client(credentials)
+    s3API.initiateS3Client(credentials, { defaultPrefix: `uploads/${userSession.user.sub}/` })
   }
 
   async function listBucketObjects(objName) {

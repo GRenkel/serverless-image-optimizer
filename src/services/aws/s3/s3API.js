@@ -2,15 +2,16 @@ import { awsS3Helper, MAX_CHUNCK_SIZE } from "./awsS3";
 
 export const s3API = {
   s3Client: undefined,
-  objectUploadPrefix: 'uploads/',
+  objectDefaultPrefix: undefined,
   bucketConfig: awsS3Helper.getBucketConfig(),
 
-  initiateS3Client: function (credentials) {
+  initiateS3Client: function (credentials, options) {
+    this.objectDefaultPrefix = options.defaultPrefix
     this.s3Client = awsS3Helper.initiateS3Client(credentials)
   },
 
   addPrefix: function (key) {
-    return this.objectUploadPrefix + key
+    return this.objectDefaultPrefix + key
   },
 
   async createNewBucket() {
@@ -22,7 +23,7 @@ export const s3API = {
     const DEFAULT_MAX_KEYS = 50
     const listCommandParams = { MaxKeys: DEFAULT_MAX_KEYS, ...this.bucketConfig }
 
-    listCommandParams.Prefix = this.objectUploadPrefix
+    listCommandParams.Prefix = this.objectDefaultPrefix
     if (Prefix) {
       listCommandParams.Prefix += Prefix
     }
@@ -63,7 +64,7 @@ export const s3API = {
 
   async uploadCommonObjectToBucket(s3object) {
     try {
-      const uploadParams = { Key: this.objectUploadPrefix + s3object.name, ...this.bucketConfig, Body: s3object }
+      const uploadParams = { Key: this.objectDefaultPrefix + s3object.name, ...this.bucketConfig, Body: s3object }
       const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
       return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
     } catch (error) {

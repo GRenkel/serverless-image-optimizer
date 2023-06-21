@@ -2,12 +2,16 @@ import React from 'react';
 import { FileUploader } from '../components/FileUploader';
 import { SearchBar } from '../components/SearchBar';
 import { FilesList } from '../components/FilesList';
-import {  message } from 'antd';
+import { message } from 'antd';
 import { useFileManager } from '../hooks/api/useFileManager';
 import { useEffect } from 'react';
 
-const FilesScreen = () => {
-  const { error, isLoading, listedFiles, uploadFile, downloadFile, searchFiles, removeFile } = useFileManager()
+const FilesScreen = (props) => {
+  
+  const {
+    error, isLoading,
+    listedFiles, uploadFile,
+    downloadFile, searchFiles, removeFile } = useFileManager()
 
   useEffect(() => {
     searchFiles()
