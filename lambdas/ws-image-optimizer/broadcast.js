@@ -29,7 +29,8 @@ exports.handler = async ({ Records: records }) => {
         connectionId = connectionItem.Item['connection-id']
         console.log('Connection Item dynamo DB: ', connectionItem)
         console.log('Connection receiving message: ', connectionId)
-        await gatewayApi.postToConnection({ ConnectionId: connectionId, Data: objectKey }).promise();
+        const notification = JSON.stringify({objectKey, identification: userId})
+        await gatewayApi.postToConnection({ ConnectionId: connectionId, Data: notification }).promise();
 
       } catch (error) {
         console.log('Error performing notification request: ', error)
