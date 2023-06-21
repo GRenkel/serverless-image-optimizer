@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper';
 import SignUpForm from './SignUpForm'
-import ConfirmationCodeModal from '../ConfirmationCodeModal';
+import ConfirmationCodeModal from '../../../components/modals/ConfirmationCodeModal';
 import { useNavigate } from 'react-router-dom';
 
 function SignUp(props) {

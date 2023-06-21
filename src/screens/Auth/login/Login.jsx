@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper';
 import EAuthStatus from '../../../services/aws/cognito/EAuthStatus.json'
 import AuthContext from '../../../contexts/auth/AuthContext';
-import ConfirmationCodeModal from '../ConfirmationCodeModal';
+import ConfirmationCodeModal from '../../../components/modals/ConfirmationCodeModal';
 import { useNavigate } from 'react-router-dom';
 import { Form, message } from 'antd';
 
