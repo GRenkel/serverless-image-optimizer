@@ -6,7 +6,9 @@
     "successfully-upload": "file uploaded successfully.",
     "failure-upload": "file upload failed.",
     "uploading": "Uploading"
-
+  },
+  "process":{
+    "optimizing": "Optimizing image..."
   },
   "search": {
     "description": "Search"

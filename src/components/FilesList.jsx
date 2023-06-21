@@ -1,7 +1,7 @@
 import { Empty } from "antd";
 import { translate } from '../locales/translator'
-import { FileSkeletonCard } from "./FileSkeletonCard";
-import { FileCard } from "./FileCard";
+import { FileSkeletonCard } from "./Cards/FileSkeletonCard";
+import { FileCard } from "./Cards/FileCard";
 
 export function FilesList({ fileData, handleDownload, handleRemove, isLoading }) {
   if (isLoading) {
