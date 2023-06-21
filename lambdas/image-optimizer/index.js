@@ -10,7 +10,7 @@ module.exports.handler = async ({ Records: records }) => {
   try {
     await Promise.all(records.map(async record => {
       const { key } = record.s3.object;
-
+      const userSub = key.split("/")[1]
       const image = await S3.getObject({
         Bucket: process.env.bucket,
         Key: key
@@ -25,7 +25,7 @@ module.exports.handler = async ({ Records: records }) => {
         Body: optimized,
         Bucket: process.env.bucket,
         ContentType: 'image/jpeg',
-        Key: `optimized/${basename(key, extname(key))}.jpeg`
+        Key: `optimized/${userSub}/${basename(key, extname(key))}.jpeg`
       }).promise()
 
     }))
