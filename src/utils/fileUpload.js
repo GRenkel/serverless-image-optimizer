@@ -5,6 +5,9 @@ export function exceedsMaxFileSize(file) {
   return isGtDefined;
 }
 
+export function removesWhiteSpaces(string){
+  return string.replace(/\s/g,'')
+}
 export function formatFileSize(size) {
   let sizeUnit = 'B';
 

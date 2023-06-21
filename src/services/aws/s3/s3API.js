@@ -1,3 +1,4 @@
+import { removesWhiteSpaces } from "../../../utils/fileUpload";
 import { awsS3Helper, MAX_CHUNCK_SIZE } from "./awsS3";
 
 export const s3API = {
@@ -10,10 +11,13 @@ export const s3API = {
     this.s3Client = awsS3Helper.initiateS3Client(credentials)
   },
 
-  addPrefix: function (key) {
-    return this.objectDefaultPrefix + key
+  addDefaultPrefixAndRemoveEmptySpaces: function (key) {
+    return this.objectDefaultPrefix + removesWhiteSpaces(key)
   },
-
+  removeDefaultPrefix: function(key){
+    const [prefixUpload, prefixUserSub, ...rest] = key.split('/')
+    return rest.join('/')
+  },
   async createNewBucket() {
     const pushBucketCommand = awsS3Helper.getCreateNewBucketCommand(this.bucketConfig)
     return awsS3Helper.sendS3Command(this.s3Client, pushBucketCommand)
@@ -33,8 +37,8 @@ export const s3API = {
       const { Contents } = await awsS3Helper.sendS3Command(this.s3Client, listBucketObjectsCommand)
       if (Contents) {
         return Contents.map((object) => {
-          const [prefix, ...rest] = object.Key.split('/')
-          return { ...object, Key: rest.join('/') }
+          const keyWithoutDefaultPrefix = this.removeDefaultPrefix(object.Key)
+          return { ...object, Key: keyWithoutDefaultPrefix }
         })
       }
       return []
@@ -45,7 +49,7 @@ export const s3API = {
 
   async getDownloadObjectURLFromBucket(objectKey) {
     try {
-      const downloadParams = { Key: this.addPrefix(objectKey), ...this.bucketConfig }
+      const downloadParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(objectKey), ...this.bucketConfig }
       return awsS3Helper.createPresignedGetUrl(this.s3Client, downloadParams)
     } catch (error) {
       throw error
@@ -54,7 +58,7 @@ export const s3API = {
 
   async deleteObjectFromBucket(objectKey) {
     try {
-      const deleteParams = { Key: this.addPrefix(objectKey), ...this.bucketConfig }
+      const deleteParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(objectKey), ...this.bucketConfig }
       const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
       return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)
     } catch (error) {
@@ -64,7 +68,7 @@ export const s3API = {
 
   async uploadCommonObjectToBucket(s3object) {
     try {
-      const uploadParams = { Key: this.objectDefaultPrefix + s3object.name, ...this.bucketConfig, Body: s3object }
+      const uploadParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(s3object.name), ...this.bucketConfig, Body: s3object }
       const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
       return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
     } catch (error) {
@@ -74,7 +78,7 @@ export const s3API = {
 
   async uploadLargeObjectToBucket(s3object) {
 
-    const bucketParams = { Key: this.addPrefix(s3object.name), ...this.bucketConfig }
+    const bucketParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(s3object.name), ...this.bucketConfig }
 
     try {
       let uploadPromises = []
