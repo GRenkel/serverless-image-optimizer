@@ -38,7 +38,7 @@ export const s3API = {
       if (Contents) {
         return Contents.map((object) => {
           const keyWithoutDefaultPrefix = this.removeDefaultPrefix(object.Key)
-          return { ...object, Key: keyWithoutDefaultPrefix }
+          return { ...object, key: object.Key, shortObjectKey: keyWithoutDefaultPrefix}
         })
       }
       return []
@@ -49,7 +49,7 @@ export const s3API = {
 
   async getDownloadObjectURLFromBucket(objectKey) {
     try {
-      const downloadParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(objectKey), ...this.bucketConfig }
+      const downloadParams = { Key: objectKey, ...this.bucketConfig }
       return awsS3Helper.createPresignedGetUrl(this.s3Client, downloadParams)
     } catch (error) {
       throw error
@@ -58,7 +58,8 @@ export const s3API = {
 
   async deleteObjectFromBucket(objectKey) {
     try {
-      const deleteParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(objectKey), ...this.bucketConfig }
+      console.log(objectKey)
+      const deleteParams = { Key: objectKey, ...this.bucketConfig }
       const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
       return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)
     } catch (error) {
@@ -70,7 +71,9 @@ export const s3API = {
     try {
       const uploadParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(s3object.name), ...this.bucketConfig, Body: s3object }
       const uploadCommand = awsS3Helper.getPutObjectCommand(uploadParams)
-      return await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
+      const response = await awsS3Helper.sendS3Command(this.s3Client, uploadCommand)
+      response.key = uploadParams.Key
+      return response
     } catch (error) {
       throw error
     }
@@ -78,22 +81,22 @@ export const s3API = {
 
   async uploadLargeObjectToBucket(s3object) {
 
-    const bucketParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(s3object.name), ...this.bucketConfig }
+    const uploadParams = { Key: this.addDefaultPrefixAndRemoveEmptySpaces(s3object.name), ...this.bucketConfig }
 
     try {
       let uploadPromises = []
       const numberOfFragments = Math.ceil(s3object.size / MAX_CHUNCK_SIZE);
 
-      const initiateMultipartUploadCommand = awsS3Helper.getCreateMultipartUploadCommand(bucketParams)
+      const initiateMultipartUploadCommand = awsS3Helper.getCreateMultipartUploadCommand(uploadParams)
       const multipartUpload = await awsS3Helper.sendS3Command(this.s3Client, initiateMultipartUploadCommand)
-      bucketParams.UploadId = multipartUpload.UploadId
+      uploadParams.UploadId = multipartUpload.UploadId
 
       for (let idx = 0; idx < numberOfFragments; idx++) {
         const fragmentStart = idx * MAX_CHUNCK_SIZE;
         const fragmentEnd = fragmentStart + MAX_CHUNCK_SIZE;
 
         const fragmentUploadParams = {
-          ...bucketParams,
+          ...uploadParams,
           Body: s3object.slice(fragmentStart, fragmentEnd),
           PartNumber: idx + 1,
         }
@@ -104,7 +107,7 @@ export const s3API = {
       const uploadResults = await Promise.all(uploadPromises);
 
       const completedUploadParams = {
-        ...bucketParams,
+        ...uploadParams,
         MultipartUpload: {
           Parts: uploadResults.map(({ ETag }, i) => ({
             ETag,
@@ -114,12 +117,14 @@ export const s3API = {
       }
 
       const completeMultipartUploadCommand = awsS3Helper.getCompleteMultipartUploadCommand(completedUploadParams)
-      return await awsS3Helper.sendS3Command(this.s3Client, completeMultipartUploadCommand)
+      const response = await awsS3Helper.sendS3Command(this.s3Client, completeMultipartUploadCommand)
+      response.key = uploadParams.Key
+      return response
 
     } catch (error) {
 
-      if (bucketParams.UploadId) {
-        const abortCommand = awsS3Helper.getAbortMultipartUploadCommand(bucketParams)
+      if (uploadParams.UploadId) {
+        const abortCommand = awsS3Helper.getAbortMultipartUploadCommand(uploadParams)
         await awsS3Helper.sendS3Command(this.s3Client, abortCommand);
       }
       throw error

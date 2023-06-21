@@ -43,7 +43,7 @@ export function useFileManager() {
 
   function updateAndRemoveTemporaryUploadingFromFileList(newFile) {
     if (Object.keys(newFile).length > 0) {
-      return setListedFiles((current) => ([newFile, ...current.filter(f => !f.isUploading)]))
+      return setListedFiles((current) => ([{...newFile, isProcessing: true}, ...current.filter(f => !f.isUploading)]))
     }
     return setListedFiles((current) => ([...current.filter(f => !f.isUploading)]))
   }
@@ -51,7 +51,7 @@ export function useFileManager() {
   async function uploadFile({ file, onSuccess, onError }) {
     let resultFileUploaded = {}
     try {
-      const uploadingFile = { ...file, id: 'uploading', isUploading: true, isProcessing: true }
+      const uploadingFile = { ...file, id: 'uploading', isUploading: true }
       setListedFiles((current) => ([uploadingFile, ...current]))
       const response = await uploadObjectToBucket({ file });
       resultFileUploaded = response
@@ -63,18 +63,18 @@ export function useFileManager() {
     }
   }
 
-  async function removeFile({ id, name }) {
+  async function removeFile({ id, objectKey }) {
     try {
-      await removeObjectFromBucket(name);
+      await removeObjectFromBucket(objectKey);
       setListedFiles((current) => (current.filter(obj => id !== obj.id)))
     } catch (error) {
       setError(error.message)
     }
   }
 
-  async function downloadFile(fileName) {
+  async function downloadFile(objectKey) {
     try {
-      const URL = await getDownloadObjectURLFromBucket(fileName);
+      const URL = await getDownloadObjectURLFromBucket(objectKey);
       window.location.href = URL;
     } catch (error) {
       setError(error.message)
