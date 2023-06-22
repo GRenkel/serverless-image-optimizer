@@ -55,7 +55,6 @@ export function useFileManager() {
 
   function processSocketImageOptimizedNotification({ optimizedObjectKey, originalObjectKey, presignedURL }) {
     setListedFiles(current => {
-      console.log(current)
       return current.map(file => {
         if (file.key === originalObjectKey) {
           return { ...file, isProcessing: false, optimizedObjectKey, publicObjectURL: presignedURL }
@@ -67,7 +66,6 @@ export function useFileManager() {
 
   }
   function handleSocketImageOptimizedNotification(notification) {
-    console.log('Websocket Notification: ', notification)
     processSocketImageOptimizedNotification(notification)
   }
 
@@ -95,7 +93,9 @@ export function useFileManager() {
 
   async function removeFile({ id, objectKey }) {
     try {
+      const optimizedObjectKey = replacesKeyParamsWithOptimizedObjectParams(objectKey)
       await removeObjectFromBucket(objectKey);
+      await removeObjectFromBucket(optimizedObjectKey);
       setListedFiles((current) => (current.filter(obj => id !== obj.id)))
     } catch (error) {
       setError(error.message)
