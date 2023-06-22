@@ -47,7 +47,7 @@ export const s3API = {
     }
   },
 
-  async getDownloadObjectURLFromBucket(objectKey) {
+  async getObjectPressignedURLFromBucket(objectKey) {
     try {
       const downloadParams = { Key: objectKey, ...this.bucketConfig }
       return awsS3Helper.createPresignedGetUrl(this.s3Client, downloadParams)

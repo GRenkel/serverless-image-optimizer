@@ -6,7 +6,7 @@ import { ProcessingCard } from "./ProcessingCard";
 
 export function FileCard({ handleDownload, handleRemove, file }) {
 
-  const { id, objectKey, name, size, sizeUnit, isProcessing, isUploading = false } = file
+  const { id, objectKey, name, size, sizeUnit, isProcessing, isUploading = false, publicObjectURL } = file
 
   if (isUploading) {
     return (
@@ -24,7 +24,10 @@ export function FileCard({ handleDownload, handleRemove, file }) {
       key={id}
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, paddingTop: 10 }}>
-        {<FileThumbnailCard isProcessing={isProcessing} />}
+        {<FileThumbnailCard
+          isProcessing={isProcessing}
+          thumbnailURL={publicObjectURL}
+        />}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <span data-testid="span-name" style={{ maxWidth: '220px', fontWeight: 'bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{name}</span>
           <span data-testid="span-size" style={{ fontWeight: 'lighter', fontSize: '10px' }}>{size.toFixed(2)}{' '}{sizeUnit}</span>
@@ -38,12 +41,19 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             icon={<DeleteOutlined />}
             onClick={() => handleRemove({ id, objectKey })}
           />
-
           <Button
             size={'large'}
             type="primary"
+            title={translate("upload.download-original")}
             icon={<DownloadOutlined />}
-            onClick={() => handleDownload(objectKey)}
+            onClick={() => handleDownload({objectKey})}
+          />
+          <Button
+            size={'large'}
+            type="primary"
+            title={translate("upload.download-thumbnail")}
+            icon={<DownloadOutlined />}
+            onClick={() => handleDownload({objectKey, url: publicObjectURL})}
           />
         </div>
       </div>

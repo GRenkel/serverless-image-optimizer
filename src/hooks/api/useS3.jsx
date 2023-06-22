@@ -55,7 +55,7 @@ export function useS3({ defaultPrefix }) {
 
   async function getDownloadObjectURLFromBucket(objectKey) {
     try {
-      return await s3API.getDownloadObjectURLFromBucket(objectKey);
+      return await s3API.getObjectPressignedURLFromBucket(objectKey);
     } catch (error) {
       setError(error.message)
     }

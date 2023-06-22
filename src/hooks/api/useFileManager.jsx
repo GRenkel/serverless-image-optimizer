@@ -18,7 +18,7 @@ export function useFileManager() {
     getDownloadObjectURLFromBucket,
     removeObjectFromBucket, uploadObjectToBucket } = useS3({ defaultPrefix: `${UPLOAD_OBJECT_PREFIX}/${userIdentifier}/` })
 
-    const { isLoading, showLoading, hideLoading } = useLoading();
+  const { isLoading, showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     awsWebSocket.establishSocketConnection({ userIdentifier })
@@ -42,13 +42,12 @@ export function useFileManager() {
     }
   };
 
-  function processSocketImageOptimizedNotification({optimizedObjectKey, originalObjectKey}) {
-    debugger
+  function processSocketImageOptimizedNotification({ optimizedObjectKey, originalObjectKey, presignedURL }) {
     setListedFiles(current => {
       console.log(current)
       return current.map(file => {
         if (file.key === originalObjectKey) {
-          return { ...file, isProcessing: false, optimizedObjectKey }
+          return { ...file, isProcessing: false, optimizedObjectKey, publicObjectURL: presignedURL }
         }
 
         return file
@@ -93,10 +92,14 @@ export function useFileManager() {
     }
   }
 
-  async function downloadFile(objectKey) {
+  async function downloadFile({ objectKey, url }) {
     try {
-      const URL = await getDownloadObjectURLFromBucket(objectKey);
-      window.location.href = URL;
+      const URL = url ? url : await getDownloadObjectURLFromBucket(objectKey);
+      debugger
+      window.open(
+        URL,
+        '_blank'
+      );
     } catch (error) {
       setError(error.message)
     }
