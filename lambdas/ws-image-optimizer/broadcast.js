@@ -13,13 +13,12 @@ exports.handler = async ({ Records: records }) => {
     await Promise.all(records.map(async record => {
       
       const bucketName = record.s3.bucket.name
-      const optimizedObjectKey = record.s3.object.key
+      const optimizedObjectKey = decodeURI(record.s3.object.key)
       const userId = optimizedObjectKey.split('/')[1]
 
       let head = null
       try {
         head = await S3.headObject({
-          /* code */
           Bucket: bucketName,
           Key: optimizedObjectKey
         }).promise();
@@ -29,7 +28,7 @@ exports.handler = async ({ Records: records }) => {
       }
 
       const meta = head['Metadata']
-      const originalObjectKey = meta['originalobjectkey']
+      const originalObjectKey = decodeURI(meta['originalobjectkey'])
 
       console.log('Object being processed: ', optimizedObjectKey)
       console.log('Original object name:', originalObjectKey)
@@ -37,19 +36,17 @@ exports.handler = async ({ Records: records }) => {
 
       let presignedURL = null
       try {
-        presignedURL = await S3.getSignedUrl('getObject', {
+        presignedURL = await S3.getSignedUrlPromise('getObject', {
         Bucket: bucketName,
         Key: optimizedObjectKey
-      }).promise();
+      })
       
       } catch (error) {
         console.log('Error getting presigned URL:', error)  
       }
 
       let connectionId = null
-
       try {
-
         const connectionItem = await new AWS.DynamoDB.DocumentClient().get(
           {
             TableName: process.env.CONNECTIONS_TABLE,
