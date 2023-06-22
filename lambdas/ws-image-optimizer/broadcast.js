@@ -11,29 +11,41 @@ exports.handler = async ({ Records: records }) => {
 
   try {
     await Promise.all(records.map(async record => {
+      
       const bucketName = record.s3.bucket.name
       const optimizedObjectKey = record.s3.object.key
       const userId = optimizedObjectKey.split('/')[1]
+
       let head = null
       try {
         head = await S3.headObject({
-        /* code */
+          /* code */
+          Bucket: bucketName,
+          Key: optimizedObjectKey
+        }).promise();
+
+      } catch (error) {
+        console.log('Error getting object head:', error)
+      }
+
+      const meta = head['Metadata']
+      const originalObjectKey = meta['originalobjectkey']
+
+      console.log('Object being processed: ', optimizedObjectKey)
+      console.log('Original object name:', originalObjectKey)
+      console.log('User receiving notification: ', userId)
+
+      let presignedURL = null
+      try {
+        presignedURL = await S3.getSignedUrl('getObject', {
         Bucket: bucketName,
         Key: optimizedObjectKey
       }).promise();
       
       } catch (error) {
-        console.log('Error getting object head:', error)  
+        console.log('Error getting presigned URL:', error)  
       }
-      
-      const meta = head['Metadata']
-      const originalObjectKey = meta['originalobjectkey']
-      
-      
-      console.log('Object being processed: ', optimizedObjectKey)
-      console.log('Original object name:', originalObjectKey)
-      console.log('User receiving notification: ', userId)
-      
+
       let connectionId = null
 
       try {
@@ -46,12 +58,12 @@ exports.handler = async ({ Records: records }) => {
             }
           }
         ).promise();
-        
+
         connectionId = connectionItem.Item['connection-id']
         console.log('Connection Item from Dynamo DB: ', connectionItem)
         console.log('Connection receiving message: ', connectionId)
 
-        const notification = JSON.stringify({ optimizedObjectKey, originalObjectKey, identification: userId })
+        const notification = JSON.stringify({ optimizedObjectKey, originalObjectKey, identification: userId, presignedURL })
         await gatewayApi.postToConnection({ ConnectionId: connectionId, Data: notification }).promise();
 
       } catch (error) {
