@@ -1,23 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import useLoading from "../useLoading";
 import { useS3 } from "./useS3";
+import useLoading from "../useLoading";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/auth/AuthContext";
 import { awsWebSocket } from "../../services/aws/apiGateway/webSocket";
+import { awsConstants } from "../../services/aws/constants/awsConstants";
+const { UPLOAD_OBJECT_PREFIX } = awsConstants
 
 export function useFileManager() {
-  const [error, setError] = useState(null);
   const { userSession: { user: { sub: userIdentifier } } } = useContext(AuthContext)
+
+  const [error, setError] = useState(null);
   const [listedFiles, setListedFiles] = useState([]);
+
   const {
     error: s3Error,
     listBucketObjects,
     getDownloadObjectURLFromBucket,
-    removeObjectFromBucket, uploadObjectToBucket } = useS3({ defaultPrefix: `uploads/${userIdentifier}/` })
-  const { isLoading, showLoading, hideLoading } = useLoading();
+    removeObjectFromBucket, uploadObjectToBucket } = useS3({ defaultPrefix: `${UPLOAD_OBJECT_PREFIX}/${userIdentifier}/` })
+
+    const { isLoading, showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     awsWebSocket.establishSocketConnection({ userIdentifier })
-    awsWebSocket.addEventListener(processSocketImageOtimizedNotification, userIdentifier)
+    awsWebSocket.addEventListener(handleSocketImageOptimizedNotification, userIdentifier)
     // return awsWebSocket.webSocket.close()
   }, [])
 
@@ -37,13 +42,29 @@ export function useFileManager() {
     }
   };
 
-  function processSocketImageOtimizedNotification(notification) {
-    console.log('Notification: ', notification)
+  function processSocketImageOptimizedNotification({optimizedObjectKey, originalObjectKey}) {
+    debugger
+    setListedFiles(current => {
+      console.log(current)
+      return current.map(file => {
+        if (file.key === originalObjectKey) {
+          return { ...file, isProcessing: false, optimizedObjectKey }
+        }
+
+        return file
+      })
+    }
+    )
+
+  }
+  function handleSocketImageOptimizedNotification(notification) {
+    console.log('Websocket Notification: ', notification)
+    processSocketImageOptimizedNotification(notification)
   }
 
   function updateAndRemoveTemporaryUploadingFromFileList(newFile) {
     if (Object.keys(newFile).length > 0) {
-      return setListedFiles((current) => ([{...newFile, isProcessing: true}, ...current.filter(f => !f.isUploading)]))
+      return setListedFiles((current) => ([{ ...newFile, isProcessing: true }, ...current.filter(f => !f.isUploading)]))
     }
     return setListedFiles((current) => ([...current.filter(f => !f.isUploading)]))
   }
