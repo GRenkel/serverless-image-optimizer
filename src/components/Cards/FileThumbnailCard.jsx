@@ -15,6 +15,8 @@ export function FileThumbnailCard({ isProcessing, thumbnailURL }) {
   console.log(thumbnailURL)
   return (
     <Image
+      // width={'100%'}
+      height={200}
       src={thumbnailURL}
     >
     </Image>
