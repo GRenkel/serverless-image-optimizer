@@ -4,6 +4,8 @@
     "instruction": "Click or drag your file to this area to upload!",
     "hint": "Listed below are all your imported data. Use the search bar for searches.",
     "successfully-upload": "file uploaded successfully.",
+    "download-thumbnail": "Download thumbnail",
+    "download-original": "Download original image",
     "failure-upload": "file upload failed.",
     "uploading": "Uploading"
   },
