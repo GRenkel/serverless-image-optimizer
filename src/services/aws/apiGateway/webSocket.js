@@ -22,7 +22,6 @@ export const awsWebSocket = {
   },
 
   onNotificationReceived ({ data }) {
-    console.log(data)
     const notification = JSON.parse(data);
     const { listener } = this.notificationListeners.find(event => event.identification === notification.identification)
     listener(notification)

@@ -58,7 +58,6 @@ export const s3API = {
 
   async deleteObjectFromBucket(objectKey) {
     try {
-      console.log(objectKey)
       const deleteParams = { Key: objectKey, ...this.bucketConfig }
       const deleteCommand = awsS3Helper.getDeleteObjectCommand(deleteParams)
       return await awsS3Helper.sendS3Command(this.s3Client, deleteCommand)

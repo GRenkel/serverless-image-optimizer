@@ -5,7 +5,7 @@ export function FileSkeletonCard() {
   return (
     <Card
       hoverable
-      style={{ width: 300, margin: '10px', maxWidth: 300, height: 320, maxHeight: 320 }}
+      style={{ width: 320, margin: '10px',  height: 320, maxHeight: 320 }}
       bodyStyle={{ height: '100%', width: '100%' }}
     >
       <div style={{

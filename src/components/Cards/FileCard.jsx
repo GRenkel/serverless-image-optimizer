@@ -11,7 +11,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
   if (isUploading) {
     return (
       <div
-        style={{ width: 300, margin: '10px', maxWidth: 300, height: 320, maxHeight: 320 }}
+        style={{ width: 320, margin: '10px', maxWidth: 300, height: 320, maxHeight: 320 }}
       >
         <ProcessingCard
           key={id}
@@ -24,7 +24,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
   return (
     <Card
       hoverable
-      style={{ width: 300, margin: '10px', maxWidth: 300, height: 320, maxHeight: 320 }}
+      style={{ width: 320, margin: '10px', height: 320, maxHeight: 320 }}
       key={id}
       bodyStyle={{ height: '100%', width: '100%' }}
     >
@@ -41,7 +41,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
           isProcessing={isProcessing}
           thumbnailURL={publicObjectURL}
         />
-        
+
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 10, maxHeight: 70 }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <span
@@ -66,26 +66,31 @@ export function FileCard({ handleDownload, handleRemove, file }) {
           </div>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
             <Button
-              size={'large'}
+              size={'middle'}
               type="default"
+              title={translate("upload.delete-files")}
               danger
               icon={<DeleteOutlined />}
               onClick={() => handleRemove({ id, objectKey })}
             />
             <Button
-              size={'large'}
+              size={'middle'}
               type="primary"
               title={translate("upload.download-original")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey })}
-            />
+            >
+              {translate("upload.button-original")}
+            </Button>
             <Button
-              size={'large'}
+              size={'middle'}
               type="primary"
               title={translate("upload.download-thumbnail")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey, url: publicObjectURL })}
-            />
+            >
+              {translate("upload.button-optimized")}
+            </Button>
           </div>
         </div>
       </div>

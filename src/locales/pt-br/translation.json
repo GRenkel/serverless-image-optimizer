@@ -4,8 +4,11 @@
     "instruction": "Clique ou arraste seu arquivo aqui para envia-lo!",
     "hint": "Abaixo estão listados os dados dos arquivos importados. Use a barra de pesquisa para filtrar-los.",
     "successfully-upload": " enviado com sucesso.",
-    "download-thumbnail": "",
-    "download-original": "",
+    "button-original": "Original",
+    "button-optimized": "Otimizada",
+    "download-optimized": "Download optimized image",
+    "download-original": "Download original image",
+    "delete-files": "Delete images",
     "failure-upload": " falhou ao ser enviado.",
     "uploading": "Uploading"
   },

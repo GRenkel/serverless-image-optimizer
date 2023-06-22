@@ -11,8 +11,6 @@ export function FileThumbnailCard({ isProcessing, thumbnailURL }) {
 
     )
   }
-  debugger
-  console.log(thumbnailURL)
   return (
     <Image
       // width={'100%'}
