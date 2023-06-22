@@ -1,8 +1,13 @@
-const MAXIMUM_FILE_SIZE = 1 //1MB
+import { awsConstants } from "../services/aws/constants/awsConstants";
 
 export function exceedsMaxFileSize(file) {
-  const isGtDefined = file.size / 1024 / 1024 > MAXIMUM_FILE_SIZE;
+  const isGtDefined = file.size / 1024 / 1024 > awsConstants.MAXIMUM_FILE_SIZE;
   return isGtDefined;
+}
+export function replacesKeyParamsWithOptimizedObjectParams(string){
+  return string
+  .replace(awsConstants.UPLOAD_OBJECT_PREFIX,awsConstants.OPTIMIZED_OBJECT_PREFIX)
+  .replace(/(?:\.([^.]+))?$/,awsConstants.DEFAULT_OPTIMIZED_EXTENSION)
 }
 
 export function removesWhiteSpaces(string){

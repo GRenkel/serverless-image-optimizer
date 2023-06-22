@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/auth/AuthContext";
 import { awsWebSocket } from "../../services/aws/apiGateway/webSocket";
 import { awsConstants } from "../../services/aws/constants/awsConstants";
+import {replacesKeyParamsWithOptimizedObjectParams } from "../../utils/fileUpload";
 const { UPLOAD_OBJECT_PREFIX } = awsConstants
 
 export function useFileManager() {
@@ -33,8 +34,18 @@ export function useFileManager() {
   async function searchFiles(fileName) {
     showLoading()
     try {
-      const response = await listBucketObjects(fileName);
-      setListedFiles(response);
+      const bucketFiles = await listBucketObjects(fileName);
+      const updatedBucketFiles = await Promise.all(
+        bucketFiles.map(async (file) => {
+          const optimizedKey = replacesKeyParamsWithOptimizedObjectParams(file.objectKey)
+          const presignedURL = await getDownloadObjectURLFromBucket(optimizedKey);
+          return {
+            ...file,
+            publicObjectURL: presignedURL
+          };
+        })
+      );
+      setListedFiles(updatedBucketFiles);
     } catch (error) {
       setError(error.message)
     } finally {
@@ -49,7 +60,6 @@ export function useFileManager() {
         if (file.key === originalObjectKey) {
           return { ...file, isProcessing: false, optimizedObjectKey, publicObjectURL: presignedURL }
         }
-
         return file
       })
     }
