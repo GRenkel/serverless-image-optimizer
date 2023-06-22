@@ -25,6 +25,9 @@ module.exports.handler = async ({ Records: records }) => {
         Body: optimized,
         Bucket: process.env.bucket,
         ContentType: 'image/jpeg',
+        Metadata:{
+          originalObjectKey:key
+        },
         Key: `optimized/${userSub}/${basename(key, extname(key))}.jpeg`
       }).promise()
 
