@@ -26,5 +26,8 @@
   },
   "api": {
     "error": "An unexpected error happened on our side! Please, try again in a few."
+  },
+  "splash": {
+    "developer": "Developed by "
   }
 }

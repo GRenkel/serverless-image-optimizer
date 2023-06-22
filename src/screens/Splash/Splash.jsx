@@ -1,4 +1,5 @@
 import { Spin } from 'antd';
+import { translate } from "../../locales/translator";
 
 function SplashScreen() {
 
@@ -13,7 +14,7 @@ function SplashScreen() {
       alignItems: 'center'
     }}>
       <Spin size="default" />
-      <span>Desenvolvido por <span style={{ fontWeight: 'bold' }}>@Renkel</span> </span>
+      <span>{translate('splash.developer')} <span style={{ fontWeight: 'bold' }}>@Renkel</span> </span>
 
     </div>
   );

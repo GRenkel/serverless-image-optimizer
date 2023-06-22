@@ -26,5 +26,8 @@
   },
   "api": {
     "error": "Um erro inesperado aconteceu em nossos servidores! Por favor, tente novamente em breve"
+  },
+  "splash": {
+    "developer": "Desenvolvido por "
   }
 }
