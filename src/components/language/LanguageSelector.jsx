@@ -16,7 +16,7 @@ function LanguageSelector() {
       <FloatButton
         icon={<GlobalOutlined />}
         type="primary"
-        style={{ right: 24, top: 24 }}
+        style={{ right: 24, bottom: 24 }}
         onClick={handleLanguageSelection}
         tooltip={translator.translate('language.change')}
       />

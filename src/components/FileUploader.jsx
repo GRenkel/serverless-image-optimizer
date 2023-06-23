@@ -28,6 +28,7 @@ export function FileUploader({ isLoading, disabled, handleUpload }) {
       data-testid="file-input"
       customRequest={handleUpload}
       onChange={handleUploadStatus}
+      style={{ maxWidth: 500 }}
     >
       <p className="ant-upload-drag-icon">
         <InboxOutlined />

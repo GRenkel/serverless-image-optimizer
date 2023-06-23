@@ -7,7 +7,7 @@ import { useFileManager } from '../hooks/api/useFileManager';
 import { useEffect } from 'react';
 
 const FilesScreen = (props) => {
-  
+
   const {
     error, isLoading,
     listedFiles, uploadFile,
@@ -24,8 +24,15 @@ const FilesScreen = (props) => {
   }, [error])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: 16, gap: 10, alignItems: 'center' }}>
-      <div style={{ flex: 1, width: '100%', maxWidth: '600px' }}>
+    <div style={{
+      height: '100%',
+      maxWidth: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+      padding: 16, gap: 10
+    }}>
+      <div style={{ flex: 1, width: '100%', maxWidth: '500px' }}>
         <FileUploader disabled={isLoading} handleUpload={uploadFile} />
       </div>
       <div style={{ flex: 1, maxHeight: '35px', width: '100%', maxWidth: '500px' }}>

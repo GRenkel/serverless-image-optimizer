@@ -9,7 +9,7 @@ import LanguageSelector from './components/language/LanguageSelector'
 
 function App() {
   return (
-    <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ width: '100vw', maxWidth: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <AuthContextProvider>
         <LanguageSelector/>
           <BrowserRouter>

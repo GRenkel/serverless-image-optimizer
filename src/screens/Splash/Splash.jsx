@@ -8,7 +8,7 @@ function SplashScreen() {
       display: 'flex',
       flexDirection: 'column',
       height: '100vh',
-      width: '100wh',
+      width: '100%',
       gap: 20,
       justifyContent: 'center',
       alignItems: 'center'

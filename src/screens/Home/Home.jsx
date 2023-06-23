@@ -9,12 +9,19 @@ function Home() {
   const { finishUserSession } = useContext(AuthContext)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', padding: 16, gap: 10, alignItems: 'center' }}>
+    <div style={{
+      height: '100vh',
+      maxWidth: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: 16, gap: 10,
+    }}>
       <FilesScreen />
       <FloatButton
         icon={<LogoutOutlined />}
         type="primary"
-        style={{ right: 24, top: 72 }}
+        style={{ right: 24, bottom: 72 }}
         onClick={finishUserSession}
         tooltip={translator.translate('home.tip-logout')}
       />
