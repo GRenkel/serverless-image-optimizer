@@ -1,7 +1,6 @@
 import { FloatButton } from "antd"
 import { GlobalOutlined } from '@ant-design/icons';
 import { translator} from '../../locales/translator'
-import { useState } from "react";
 
 function LanguageSelector() {
 
