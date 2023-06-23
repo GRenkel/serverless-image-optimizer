@@ -68,6 +68,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             <Button
               size={'middle'}
               type="default"
+              disabled={isProcessing}
               title={translator.translate("upload.delete-files")}
               danger
               icon={<DeleteOutlined />}
@@ -76,6 +77,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             <Button
               size={'middle'}
               type="primary"
+              disabled={isProcessing}
               title={translator.translate("upload.download-original")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey })}
@@ -85,6 +87,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             <Button
               size={'middle'}
               type="primary"
+              disabled={isProcessing}
               title={translator.translate("upload.download-thumbnail")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey, url: publicObjectURL })}
