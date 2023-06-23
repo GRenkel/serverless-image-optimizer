@@ -1,57 +1,9 @@
 # Serverless Image Optimizater
 
-This repository contains a serverless architecture for image optimization using AWS S3, AWS Cognito, and AWS Lambda functions. The project provides functionalities for user management, including user creation, login, session control, and password recovery using AWS Cognito. Additionally, it implements image optimization by leveraging Lambda functions to automatically optimize and save images in an S3 bucket.
+This repository contains a serverless architecture for image optimization using AWS S3, AWS Cognito, AWS API Gateway and AWS Lambda functions. The project provides functionalities for user management, including user creation, login, session control, and password recovery using AWS Cognito. Additionally, it implements image optimization by leveraging Lambda functions to automatically optimize and save images in an S3 bucket.
 
-## Prerequisites
-
-Before running the project, make sure you have completed the following steps:
-
-1. Set up an AWS Cognito user pool in your AWS account.
-2. Obtain the User Pool ID and the Client ID for your Cognito user pool.
-3. Create an S3 bucket in your AWS account.
-
-## Getting Started
-
-To run this project locally, follow these steps:
-
-1. Clone the repository:
-
-   ```
-   git clone https://github.com/GRenkel/serverless-image-optimizer.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```
-   cd serverless-image-optimizer
-   ```
-
-3. Create a `.env` file in the root directory of the project.
-
-4. Open the `.env` file and add the following environment variables:
-
-   ```
-   REACT_APP_USERPOOL_ID=<your-userpool-id>
-   REACT_APP_CLIENT_ID=<your-client-id>
-   REACT_APP_S3_BUCKET_NAME=<your-s3-bucket-name>
-   ```
-
-   Replace `<your-userpool-id>`, `<your-client-id>`, and `<your-s3-bucket-name>` with the actual values for your AWS Cognito user pool and S3 bucket.
-
-5. Install the dependencies:
-
-   ```
-   npm install
-   ```
-
-6. Start the development server:
-
-   ```
-   npm start
-   ```
-
-   The project will be running at [http://localhost:3000](http://localhost:3000).
-
+## AWS Architecture
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/c18368cf8abd08fe52341ac244fb889d15ced640/application-diagram.png)
 ## Usage
 
 Once the project is running, you can access the user management features through the provided UI. The implemented functionalities include:
