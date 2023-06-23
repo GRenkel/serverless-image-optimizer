@@ -35,11 +35,10 @@ const Login = (props) => {
       }
       navigate('/')
     } catch (error) {
+      setIsLoading(false)
       error.authStatus === EAuthStatus.UserNotConfirmedException
         ? setIsModalVisible(true) : setAuthenticationError(error.message)
-    } finally {
-      setTimeout(()=>setIsLoading(false), 300)
-    }
+    } 
   }
 
   const handleAfterConfirmation = () => {
@@ -49,7 +48,7 @@ const Login = (props) => {
 
   return (
     <div style={{ width: '350px' }}>
-       {contextHolder}
+      {contextHolder}
       <ConfirmationCodeModal
         isOpen={isModalVisible}
         afterConfirmation={handleAfterConfirmation}

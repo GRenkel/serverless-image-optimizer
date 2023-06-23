@@ -20,9 +20,8 @@ function SignUp(props) {
       setIsModalVisible(true)
     } catch (error) {
       setSignupErrorError(error.message)
-    } finally {
-      setTimeout(()=>setIsLoading(false), 300)
-    }
+      setIsLoading(false)
+    } 
   }
 
   const handleAfterConfirmation = () => {
