@@ -3,6 +3,7 @@ import { CognitoAPIHelper } from '../../../services/aws/cognito/CognitoAPIHelper
 import SignUpForm from './SignUpForm'
 import ConfirmationCodeModal from '../../../components/modals/ConfirmationCodeModal';
 import { useNavigate } from 'react-router-dom';
+import { translator } from '../../../locales/translator';
 
 function SignUp(props) {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function SignUp(props) {
     } catch (error) {
       setSignupErrorError(error.message)
       setIsLoading(false)
-    } 
+    }
   }
 
   const handleAfterConfirmation = () => {
@@ -34,6 +35,7 @@ function SignUp(props) {
       <ConfirmationCodeModal
         isOpen={isModalVisible}
         afterConfirmation={handleAfterConfirmation}
+        successMessage={translator.translate('signup.confirmation-sucess')}
       />
       <SignUpForm
         isLoading={isLoading}

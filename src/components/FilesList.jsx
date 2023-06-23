@@ -1,5 +1,5 @@
 import { Empty } from "antd";
-import { translate } from '../locales/translator'
+import { translator } from '../locales/translator'
 import { FileSkeletonCard } from "./cards/FileSkeletonCard";
 import { FileCard } from "./cards/FileCard";
 
@@ -13,7 +13,7 @@ export function FilesList({ fileData, handleDownload, handleRemove, isLoading })
   }
 
   if (fileData.length === 0) {
-    return <Empty description={translate('filesList.empty')} />
+    return <Empty description={translator.translate('filesList.empty')} />
   }
 
   return (

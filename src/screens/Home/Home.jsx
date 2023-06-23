@@ -3,6 +3,7 @@ import { LogoutOutlined } from '@ant-design/icons';
 import { useContext } from "react";
 import AuthContext from "../../contexts/auth/AuthContext";
 import FilesScreen from "../FilesScreen";
+import { translator } from '../../locales/translator'
 
 function Home() {
   const { finishUserSession } = useContext(AuthContext)
@@ -13,9 +14,9 @@ function Home() {
       <FloatButton
         icon={<LogoutOutlined />}
         type="primary"
-        style={{ right: 24, top: 24 }}
+        style={{ right: 24, top: 72 }}
         onClick={finishUserSession}
-        tooltip={'Press to Sign Out'}
+        tooltip={translator.translate('home.tip-logout')}
       />
     </div>
   )

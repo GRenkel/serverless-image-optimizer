@@ -1,4 +1,4 @@
-import { translate } from '../src/locales/translator';
+import { translator } from '../src/locales/translator';
 import {
   api,
   configureApiAxiosInstance,
@@ -72,7 +72,7 @@ describe('API Test Suit', () => {
 
     test('Should reject a promise with a generic error when the uiMessage is missing', async () => {
       const error = new Error('Just an error')
-      await expect(() => apiErrorHandler(error)).rejects.toThrow(translate('api.error'));
+      await expect(() => apiErrorHandler(error)).rejects.toThrow(translator.translate('api.error'));
     });
   })
 

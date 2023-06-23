@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { message } from 'antd';
-import { translate } from '../src/locales/translator';
+import { translator } from '../src/locales/translator';
 import { FileUploader } from '../src/components/FileUploader';
 
 jest.mock('antd', () => {
@@ -63,11 +63,11 @@ describe('FileUploader  - Test Suit', () => {
     render(<FileUploader disabled={false} handleUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     fireEvent.change(fileInput, { target: { files: [info] } });
-    expect(successMock).toHaveBeenCalledWith(`${file.name} ${translate('upload.successfully-upload')}`);
+    expect(successMock).toHaveBeenCalledWith(`${file.name} ${translator.translate('upload.successfully-upload')}`);
   });
 
   test('Should display error message when status is "error" with error message', () => {
-    const errorMessage = `test.csv ${translate('upload.failure-upload')}`
+    const errorMessage = `test.csv ${translator.translate('upload.failure-upload')}`
     const file = { name: 'test.csv', size: 1000, status: 'error', error: { message: errorMessage } };
     const info = { file };
 
@@ -84,7 +84,7 @@ describe('FileUploader  - Test Suit', () => {
     render(<FileUploader disabled={false} handleUpload={() => { }} />);
     const fileInput = screen.getByTestId('file-input');
     fireEvent.change(fileInput, { target: { files: [info] } })
-    expect(message.error).toHaveBeenCalledWith(`${file.name} ${translate('upload.failure-upload')}`);
+    expect(message.error).toHaveBeenCalledWith(`${file.name} ${translator.translate('upload.failure-upload')}`);
   });
 
 

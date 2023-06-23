@@ -1,7 +1,7 @@
 import { s3API } from "../src/services/apis/s3API"
 import { useS3 } from "../src/hooks/api/useS3"
 import { renderHook } from "@testing-library/react"
-import { translate } from "../src/locales/translator"
+import { translator } from "../src/locales/translator"
 import { act } from "react-test-renderer"
 import { largeFile, mockS3ListBucketObjects, mockS3ListResponse, mockS3UploadResponse, mockUseS3ListBucketObjects, smallFile } from "./mocks/fileData"
 import { faker } from "@faker-js/faker"
@@ -18,7 +18,7 @@ jest.mock('../src/services/apis/s3API', () => ({
 
 describe("useS3 - Test Suit", () => {
 
-  const mockedAPIErrorResponse = translate('api.error')
+  const mockedAPIErrorResponse = translator.translate('api.error')
   const mockError = new Error(mockedAPIErrorResponse)
 
   test("Should return isLoading false when first called", () => {

@@ -1,12 +1,12 @@
 import { Image } from "antd";
-import { translate } from "../../locales/translator";
+import { translator } from "../../locales/translator";
 import { ProcessingCard } from "./ProcessingCard";
 
 export function FileThumbnailCard({ isProcessing, thumbnailURL }) {
   if (isProcessing) {
     return (
       <ProcessingCard
-        processingLabel={translate("process.optimizing")}
+        processingLabel={translator.translate("process.optimizing")}
       />
 
     )

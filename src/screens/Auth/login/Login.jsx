@@ -6,6 +6,7 @@ import AuthContext from '../../../contexts/auth/AuthContext';
 import ConfirmationCodeModal from '../../../components/modals/ConfirmationCodeModal';
 import { useNavigate } from 'react-router-dom';
 import { Form, message } from 'antd';
+import { translator } from '../../../locales/translator';
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = (props) => {
   const handleNewPasswordRequest = () => {
     messageApi.open({
       type: 'warning',
-      content: 'Please, contact your system admin :)',
+      content: translator.translate('login.password-reset'),
     });
   }
 
@@ -38,7 +39,7 @@ const Login = (props) => {
       setIsLoading(false)
       error.authStatus === EAuthStatus.UserNotConfirmedException
         ? setIsModalVisible(true) : setAuthenticationError(error.message)
-    } 
+    }
   }
 
   const handleAfterConfirmation = () => {
@@ -52,6 +53,7 @@ const Login = (props) => {
       <ConfirmationCodeModal
         isOpen={isModalVisible}
         afterConfirmation={handleAfterConfirmation}
+        successMessage={translator.translate('login.confirmation-sucess')}
       />
       <LoginForm
         formRef={form}

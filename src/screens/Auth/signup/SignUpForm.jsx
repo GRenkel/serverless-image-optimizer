@@ -1,27 +1,29 @@
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { translator } from '../../../locales/translator';
 
 function SignUpForm({ handleSignUp, signupError, isLoading }) {
 
   const passwordValidator = (_, value, callback) => {
     const errors = [];
     if (value.length < 8) {
-      errors.push('Password must be at least 8 characters long');
+      errors.push(translator.translate("signup.password-error-length"));
+      
     }
     if (!/\d/.test(value)) {
-      errors.push('Password must contain at least 1 number');
+      errors.push(translator.translate("signup.password-error-number"));
     }
 
     if (!/[!@#$%^&*]/.test(value)) {
-      errors.push('Password must contain at least 1 special character');
+      errors.push(translator.translate("signup.password-error-special-char"));
     }
 
     if (!/[A-Z]/.test(value)) {
-      errors.push('Password must contain at least 1 uppercase letter');
+      errors.push(translator.translate("signup.password-error-uppercase"));
     }
 
     if (!/[a-z]/.test(value)) {
-      errors.push('Password must contain at least 1 lowercase letter');
+      errors.push(translator.translate("signup.password-error-lowercase"));
     }
     errors.length > 0 ? callback(errors) : callback()
   };
@@ -35,20 +37,20 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
     >
       <Form.Item
         name="given_name"
-        rules={[{ required: true, message: 'Your first name!' }]}
+        rules={[{ required: true, message: translator.translate("signup.firstName-required") }]}
       >
         <Input
-          placeholder="First Name"
+          placeholder={translator.translate("signup.firstName-label")}
           prefix={<UserOutlined className="site-form-item-icon" />}
         />
       </Form.Item>
 
       <Form.Item
         name="middle_name"
-        rules={[{ required: true, message: 'Your last name!' }]}
+        rules={[{ required: true, message: translator.translate("signup.lastName-required") }]}
       >
         <Input
-          placeholder="Last Name"
+          placeholder={translator.translate("signup.lastName-label")}
           prefix={<UserOutlined className="site-form-item-icon" />}
         />
       </Form.Item>
@@ -56,12 +58,12 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
       <Form.Item
         name="email"
         rules={[
-          { required: true, message: 'Provide your email!' },
-          { type: 'email', message: 'Provide a valid email!' }
+          { required: true, message: translator.translate("signup.email-required") },
+          { type: 'email', message:  translator.translate("signup.valid-email-required")  }
         ]}
       >
         <Input
-          placeholder="Email"
+          placeholder={translator.translate("signup.email-label")}
           prefix={<MailOutlined className="site-form-item-icon" />}
 
         />
@@ -74,7 +76,7 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="Password"
+          placeholder={translator.translate("signup.password-label")}
         />
       </Form.Item>
 
@@ -87,9 +89,9 @@ function SignUpForm({ handleSignUp, signupError, isLoading }) {
           loading={isLoading}
           style={{ width: "100%"}}
         >
-          Create Account
+          {translator.translate("signup.button-submit")}
         </Button>
-        Or <a href='signin'>Sign In</a>
+        {translator.translate("general.or")} <a href='signin'>{translator.translate("signup.redirect-signin")}</a>
 
       </Form.Item>
     </Form>

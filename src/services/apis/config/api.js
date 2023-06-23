@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { translate } from '../../../locales/translator';
+import { translator } from '../../../locales/translator';
 
 const BASE_URL = 'http://localhost:5050/'
 const AXIOS_TIMEOUT = 20000
 
 export function apiErrorHandler(error) {
-  let customError = new Error(translate('api.error'))
+  let customError = new Error(translator.translate('api.error'))
 
   if (error.response && error.response?.data?.uiMessage) {
     const { data: { uiMessage } } = error.response;

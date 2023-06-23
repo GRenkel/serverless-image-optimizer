@@ -1,6 +1,6 @@
 import { getAllByText, render, screen } from '@testing-library/react';
 import { FilesList } from '../src/components/FilesList';
-import { translate } from '../src/locales/translator';
+import { translator } from '../src/locales/translator';
 import { fileData, fileDataWithUpload } from './mocks/fileData';
 
 jest.mock('antd', () => {
@@ -44,13 +44,13 @@ describe('FilesList - Test Suit', () => {
     render(<FilesList fileData={[]} isLoading={false} />);
     const emptyList = screen.getAllByTestId('empty-mock');
     expect(emptyList).toHaveLength(1);
-    expect(emptyList[0]).toHaveAttribute('title', translate('filesList.empty'));
+    expect(emptyList[0]).toHaveAttribute('title', translator.translate('filesList.empty'));
   })
 
   test('Should render an uploading card if it has a file being uploaded', () => {
     const { getAllByTestId, getAllByText } = render(<FilesList fileData={fileDataWithUpload} isLoading={false} />);
     const uploadingSpinByTestId = getAllByTestId('spin-comp')
-    const uploadingSpinByText = getAllByText(translate("upload.uploading"))
+    const uploadingSpinByText = getAllByText(translator.translate("upload.uploading"))
 
     expect(uploadingSpinByTestId.length).toBe(1)
     expect(uploadingSpinByText.length).toBe(1)

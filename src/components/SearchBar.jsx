@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import { translate } from "../locales/translator";
+import { translator } from "../locales/translator";
 const { Search } = Input;
 
 export function SearchBar({ handleOnSearch, isLoading }) {
@@ -8,7 +8,7 @@ export function SearchBar({ handleOnSearch, isLoading }) {
       loading={isLoading}
       data-testid="search-input"
       onSearch={handleOnSearch}
-      placeholder={translate('search.description')}
+      placeholder={translator.translate('search.description')}
     />
   )
 }

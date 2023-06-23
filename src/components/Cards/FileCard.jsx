@@ -1,6 +1,6 @@
 import { Button, Card } from "antd"
 import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
-import { translate } from "../../locales/translator";
+import { translator } from "../../locales/translator";
 import { FileThumbnailCard } from "./FileThumbnailCard";
 import { ProcessingCard } from "./ProcessingCard";
 
@@ -15,7 +15,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
       >
         <ProcessingCard
           key={id}
-          processingLabel={translate("upload.uploading")}
+          processingLabel={translator.translate("upload.uploading")}
         />
       </div>
     )
@@ -68,7 +68,7 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             <Button
               size={'middle'}
               type="default"
-              title={translate("upload.delete-files")}
+              title={translator.translate("upload.delete-files")}
               danger
               icon={<DeleteOutlined />}
               onClick={() => handleRemove({ id, objectKey })}
@@ -76,20 +76,20 @@ export function FileCard({ handleDownload, handleRemove, file }) {
             <Button
               size={'middle'}
               type="primary"
-              title={translate("upload.download-original")}
+              title={translator.translate("upload.download-original")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey })}
             >
-              {translate("upload.button-original")}
+              {translator.translate("upload.button-original")}
             </Button>
             <Button
               size={'middle'}
               type="primary"
-              title={translate("upload.download-thumbnail")}
+              title={translator.translate("upload.download-thumbnail")}
               icon={<DownloadOutlined />}
               onClick={() => handleDownload({ objectKey, url: publicObjectURL })}
             >
-              {translate("upload.button-optimized")}
+              {translator.translate("upload.button-optimized")}
             </Button>
           </div>
         </div>

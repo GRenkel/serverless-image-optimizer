@@ -12,22 +12,65 @@
     "failure-upload": "file upload failed.",
     "uploading": "Uploading"
   },
-  "process":{
+  "process": {
     "optimizing": "Optimizing image..."
   },
   "search": {
     "description": "Search"
   },
-  "filesList":{
+  "filesList": {
     "empty": "Files not found :("
   },
   "home": {
-    "tip": "A maximum number of 50 images will be shown! Use the search bar to improve your results."
+    "tip": "A maximum number of 50 images will be shown! Use the search bar to improve your results.",
+    "tip-logout": "Press to Sign Out"
+  },
+  "language": {
+    "change": "Change language to portuguese"
   },
   "api": {
     "error": "An unexpected error happened on our side! Please, try again in a few."
   },
   "splash": {
     "developer": "Developed by "
+  },
+  "login": {
+    "email-required": "Provide your email!",
+    "email-label": "Email",
+    "forgot-password": "Forgot your password?",
+    "password-required": "Provide your email!",
+    "redirect-signup": "Sign Up",
+    "button-submit": "Sign In",
+    "password-reset": "Please, contact your system admin :)",
+    "confirmation-sucess": "Your code was successfully confirmed!"
+  },
+  "signup": {
+    "button-submit": "Create Account",
+    "firstName-required": "Your first name!",
+    "firstName-label": "First Name",
+    "lastName-required": "Your last name!",
+    "lastName-label": "Last Name",
+    "email-required": "Provide your email!",
+    "valid-email-required": "Provide a valid email!",
+    "email-label": "Email",
+    "password-label": "Password",
+    "redirect-signin": "Sign In",
+    "confirmation-sucess": "Success! Now you can sign in!",
+    "password-error-length": "Password must be at least 8 characters long",
+    "password-error-number": "Password must contain at least 1 number",
+    "password-error-special-char": "Password must contain at least 1 special character",
+    "password-error-uppercase": "Password must contain at least 1 uppercase letter",
+    "password-error-lowercase": "Password must contain at least 1 lowercase letter"
+  },
+  "confirmation": {
+    "modal-title": "Confirmation Code",
+    "button-submit": "Confirm",
+    "send-again": "Send again",
+    "input-label": "Enter confirmation code",
+    "code-receiver": "A new code was sent to ",
+    "code-required": "Please enter the confirmation code"
+  },
+  "general": {
+    "or": "Or"
   }
 }
