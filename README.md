@@ -3,7 +3,21 @@
 This repository contains a serverless architecture for image optimization using AWS S3, AWS Cognito, AWS API Gateway and AWS Lambda functions. The project provides functionalities for user management, including user creation, login, session control, and password recovery using AWS Cognito. Additionally, it implements image optimization by leveraging Lambda functions to automatically optimize and save images in an S3 bucket.
 
 ## AWS Architecture
-![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/c18368cf8abd08fe52341ac244fb889d15ced640/application-diagram.png)
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-diagram.png)
+
+## Application Images
+
+#### Upload Screen
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-ui.png)
+#### Optimizing Image
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-ui-optimizing.png)
+#### Loading Skeletons
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-ui-skeleton.png)
+#### Login Screen
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-login.png)
+#### Sign Up Screen
+![Alt Text](https://github.com/GRenkel/serverless-image-optimizer/blob/f332b40c27f316f87962d07e6ff7e3c9c926e24f/app-showcase/application-signup.png)
+
 ## Usage
 
 Once the project is running, you can access the user management features through the provided UI. The implemented functionalities include:
