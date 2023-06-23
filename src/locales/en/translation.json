@@ -10,7 +10,8 @@
     "download-original": "Download original image",
     "delete-files": "Delete images",
     "failure-upload": "file upload failed.",
-    "uploading": "Uploading"
+    "uploading": "Uploading",
+    "invalid-file": "Invalid file format! It must be a PNG, JPG or a JPEG"
   },
   "process": {
     "optimizing": "Optimizing image..."

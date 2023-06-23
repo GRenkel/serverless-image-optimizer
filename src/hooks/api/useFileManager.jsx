@@ -105,7 +105,6 @@ export function useFileManager() {
   async function downloadFile({ objectKey, url }) {
     try {
       const URL = url ? url : await getDownloadObjectURLFromBucket(objectKey);
-      debugger
       window.open(
         URL,
         '_blank'

@@ -2,5 +2,6 @@ export const awsConstants = {
   MAXIMUM_FILE_SIZE: 1,
   UPLOAD_OBJECT_PREFIX: 'uploads',
   OPTIMIZED_OBJECT_PREFIX: 'optimized',
-  DEFAULT_OPTIMIZED_EXTENSION: '.jpeg'
+  DEFAULT_OPTIMIZED_EXTENSION: '.jpeg',
+  ALLOWED_FILES:['image/png', 'image/jpg', 'image/jpeg']
 }

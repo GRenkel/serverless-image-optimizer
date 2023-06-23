@@ -1,7 +1,7 @@
 import { message, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { translator } from "../locales/translator";
-
+import { awsConstants } from '../services/aws/constants/awsConstants';
 const { Dragger } = Upload;
 
 export function FileUploader({ isLoading, disabled, handleUpload }) {
@@ -19,6 +19,14 @@ export function FileUploader({ isLoading, disabled, handleUpload }) {
     }
   }
 
+  function validateFileType(file) {
+    const isValid = awsConstants.ALLOWED_FILES.includes(file.type);
+    if (!isValid) {
+      message.error(translator.translate('upload.invalid-file'));
+    }
+    return isValid;
+  }
+
   return (
     <Dragger
       multiple={false}
@@ -27,6 +35,7 @@ export function FileUploader({ isLoading, disabled, handleUpload }) {
       accept='.jpg, .jpeg, .png'
       data-testid="file-input"
       customRequest={handleUpload}
+      beforeUpload={validateFileType}
       onChange={handleUploadStatus}
       style={{ maxWidth: 500 }}
     >

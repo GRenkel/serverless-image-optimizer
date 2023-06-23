@@ -10,7 +10,8 @@
     "download-original": "Baixar imagem original",
     "delete-files": "Excluir imagens",
     "failure-upload": "Falha no envio do arquivo.",
-    "uploading": "Enviando"
+    "uploading": "Enviando",
+    "invalid-file": "Formato de arquivo inválido! Deve ser um arquivo PNG, JPG ou JPEG"
   },
   "process": {
     "optimizing": "Otimizando imagem..."
