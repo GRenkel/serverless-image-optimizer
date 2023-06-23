@@ -1,5 +1,5 @@
 {
-  "name": "aws-cognito-ui",
+  "name": "image-optimizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
